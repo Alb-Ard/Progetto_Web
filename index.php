@@ -1,7 +1,8 @@
 <?php
 
 include("./database.php");
+include("./session.php");
 
-database : $db_conn = new database("localhost", "root", "");
+include("./templates/dev_test_login.php");
 
 ?>
