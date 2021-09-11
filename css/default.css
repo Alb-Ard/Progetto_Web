@@ -1,0 +1,26 @@
+:root {
+    --color-primary: #FDA979;
+    --color-secondary: #78FAD6;
+    --color-secondary-dark: #00815D;
+}
+
+.home-category {
+    list-style-type: none;
+    list-style-position: inside;
+    background-color: var(--color-secondary);
+    color: black;
+}
+.home-category:hover {
+    background-color: var(--color-secondary-dark);
+}
+
+.home-category-text {
+    color: black;
+}
+.home-category-text:hover {
+    color: black;
+}
+
+.top-bar {
+    background-color: var(--color-primary);
+};

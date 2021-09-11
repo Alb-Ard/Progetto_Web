@@ -1,6 +1,5 @@
 <?php include("./users_consts.php"); ?>
-
-<!DOCTYPE=html>
+<!DOCTYPE html>
 <html>
     <head>
         <title>Login/Register development test</title>

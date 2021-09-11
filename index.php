@@ -1,8 +1,10 @@
 <?php
 
-include("./database.php");
-include("./session.php");
+include_once("./pages_commons.php");
 
-include("./templates/dev_test_login.php");
+$template_args[PAGE_TITLE] = "Categories";
+$template_args[PAGE_BODY] = "./templates/categories.php";
+
+include_once("./templates/page_base.php");
 
 ?>
