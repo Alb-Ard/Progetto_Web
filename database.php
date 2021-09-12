@@ -7,23 +7,35 @@ function create_statement(mysqli $conn, string $query) : mysqli_stmt {
 }
 
 class database {
+    private bool $connected;
     private mysqli $conn;
-    private users_table $usersTable;
+    private users_table $users_table;
+    private books_table $books_table;
 
     public function __construct() {
+        $this->connected = false;
     }
 
     public function connect(string $ip, string $user, string $psw) : bool {
+        if ($this->connected)
+            return true;
+
         $this->conn = new mysqli($ip, $user, $psw, "bookshelf");
-        if($this->conn->connect_error)
-            return False;
+        $this->connected = !$this->conn->connect_error;
+        if(!$this->connected)
+            return false;
         
-        $this->usersTable = new users_table($this->conn);
-        return True;
+        $this->users_table = new users_table($this->conn);
+        $this->books_table = new books_table($this->conn);
+        return true;
     }
 
     public function get_users() : users_table {
-        return $this->usersTable;
+        return $this->users_table;
+    }
+
+    public function get_books() : books_table {
+        return $this->books_table;
     }
 }
 
@@ -44,6 +56,63 @@ class users_table {
         mysqli_stmt : $query = create_statement($this->conn, "SELECT email FROM users WHERE email = ? AND password = ?");
         $query->bind_param("ss", $email, $hashed_psw);
         return $query->execute() && $query->get_result()->num_rows > 0;
+    }
+
+    public function get_infos(string $email) : array {
+        mysqli_stmt : $query = create_statement($this->conn, "SELECT * FROM users WHERE email = ? ");
+        $query->bind_param("s", $email);
+        return $query->execute() ? $query->get_result()->fetch_all(MYSQLI_ASSOC)[0] : [];
+    }
+
+    public function remove_user(string $email) : bool {
+        mysqli_stmt : $query = create_statement($this->conn, "DELETE FROM users WHERE email = ?");
+        $query->bind_param("s", $email);
+        return $query->execute() && $query->affected_rows > 0;
+    }
+}
+
+class book_data {
+    public int $id;
+    public string $title;
+    public string $author;
+    public int $category;
+    public string $state;
+    public string $price;
+    public string $user_email;
+}
+
+class books_table {
+    private mysqli $conn;
+
+    public function __construct(mysqli $conn) {
+        $this->conn = $conn;
+    }
+
+    public function add_book(book_data $book) : bool {
+        mysqli : $query = create_statement($this->conn, "INSERT INTO books (title, author, category, state, price, owner) VALUES (?, ?, ?, ?, ?, ?)");
+        $query->bind_param("ssisss", $book->title, $book->author, $book->category, $book->state, $book->price, $book->user_email);
+        return $query->execute() && $query->affected_rows > 0;
+    }
+
+    public function get_user_books(string $user_email) : array {
+        mysqli : $query = create_statement($this->conn, "SELECT * FROM books WHERE owner = ?");
+        $query->bind_param("s", $user_email);
+        if(!$query->execute())
+            return [];
+        
+        $results = $query->get_result()->fetch_all(MYSQLI_ASSOC);
+        $books = [];
+        foreach ($results as $result) {
+            book_data : $book = new book_data();
+            $book->id = $result["id"];
+            $book->title = $result["title"];
+            $book->author = $result["author"];
+            $book->category = $result["category"];
+            $book->state = $result["state"];
+            $book->owner = $result["owner"];
+            array_push($books, $book);
+        }
+        return $books;
     }
 }
 

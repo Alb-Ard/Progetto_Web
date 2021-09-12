@@ -5,8 +5,9 @@ const Result = {
     Internal: "internal"
 }
 
-const LoginApiUrl = "./login_api.php";
-const RegisterApiUrl = "./register_api.php";
+const LoginApiUrl = "./apis/login_api.php";
+const RegisterApiUrl = "./apis/register_api.php";
+const UnregisterApiUrl = "./apis/unregister_api.php";
 
 function tryLogin(email, psw, onComplete) {
     const hashedPsw = sha256(psw);
@@ -22,4 +23,8 @@ function tryRegister(email, psw, firstName, lastName, onComplete) {
 
 function logout(onComplete) {
     $.post(LoginApiUrl, "", onComplete);
+}
+
+function unregister(email, onComplete) {
+    $.post(UnregisterApiUrl, { "email": email }, onComplete);
 }

@@ -1,5 +1,6 @@
 :root {
     --color-primary: #FDA979;
+    --color-primary-dark: #BE8E74;
     --color-secondary: #78FAD6;
     --color-secondary-dark: #00815D;
 }
@@ -7,20 +8,55 @@
 .home-category {
     list-style-type: none;
     list-style-position: inside;
+    text-align: center;
+    margin: 10pt;
+    padding: 30pt;
     background-color: var(--color-secondary);
-    color: black;
-}
-.home-category:hover {
-    background-color: var(--color-secondary-dark);
+    border-radius: 10pt;
 }
 
 .home-category-text {
-    color: black;
-}
-.home-category-text:hover {
-    color: black;
+    margin: 0;
+    padding: 0;
 }
 
 .top-bar {
     background-color: var(--color-primary);
-};
+}
+
+.top-bar-user-menu {
+    background-color: var(--color-primary-dark);
+    display: none;
+}
+
+.top-bar-user-menu-item {
+    margin: 10pt;
+    padding: 0;
+    display: inline;
+}
+
+.top-bar-logo {
+    padding: 0 0 0 10pt;
+}
+
+.button-primary {
+    background-color: var(--color-primary);
+}
+
+.button-primary:hover {
+    background-color: var(--color-primary-dark);
+}
+
+.login-alert {
+    display: none;
+}
+
+.black-link {
+    color: black;
+    text-decoration: none;
+}
+
+.black-link:hover {
+    color: black;
+    text-decoration: none;
+}
