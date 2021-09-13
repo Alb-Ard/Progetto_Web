@@ -17,12 +17,16 @@
         <p class="text-wrap"><?php echo $book->state; ?></p>
     </section>
     <aside class="col-12 col-md-3">
-        <!-- TODO: disable if already in cart or if not available -->
-        <input class="btn button-secondary w-100 mb-3" type="button" value="Add to cart"></input>
         <?php
         
         if (is_user_logged() && $book->user_email == get_client_info()["email"]) { ?>
             <input class="btn button-primary w-100" type="button" value="Edit listing"></input>
+        <?php } else {
+            $book_available = $book->available != BOOK_SOLD;
+            $add_to_cart_value = is_user_logged() ? ($book_available ? "Add to cart" : "Unavailable") : "Login to add to your cart"; 
+            $add_to_cart_onclick = !is_user_logged() ? "$('#user-menu').slideDown();" : ""; ?>
+            <!-- TODO: disable if already in cart -->
+            <input class="btn button-secondary w-100 mb-3" type="button" value="<?php echo $add_to_cart_value; ?>" onclick="<?php echo $add_to_cart_onclick; ?>"<?php if(!$book_available) echo ' disabled="true"'; ?>></input>
         <?php }
         
         ?>
