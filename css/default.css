@@ -58,9 +58,10 @@
 }
 
 .top-bar-user-menu-item {
-    margin: 10pt;
+    list-style-type: none;
+    list-style-position: inside;
+    margin: 10pt 0;
     padding: 0;
-    display: inline;
 }
 
 .top-bar-logo {

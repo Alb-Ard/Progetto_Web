@@ -32,19 +32,18 @@ if (count($user_info) == 0)
 </script>
 
 <!-- USER INFO & MANAGMENT -->
-<section>
-    <header class="row col mb-3 text-center">
+<section>    
+    <div class="row col-12 mb-3">
+        <p class="alert alert-danger login-alert" id="error-internal" role="alert">Something went wrong! Please try again.</p>
+    </div>
+</section>
+<section class="row">
+    <header class="col mb-3">
         <h2><?php echo $user_info["first_name"] . " " . $user_info["last_name"]; ?></h2>
     </header>
-    <section>
-        <header class="row mb-3">
-            <p id="error-internal" class="col-12 alert alert-danger login-alert" role="alert">Something went wrong! Please try again.</p>
-        </header>
-        <section class="row justify-content-center">
-            <input class="col-md btn button-primary mb-3 mx-1" type="button" value="Queued orders"></input>
-            <input class="col-md btn btn-danger mb-3 mx-1" type="button" value="Delete account" data-bs-toggle="modal" data-bs-target="#delete-modal"></input>
-        </section>
-    </section>
+    <div class="col-12 col-md-2">
+        <input class="btn btn-danger mb-3 mx-1 w-100" type="button" value="Delete account" data-bs-toggle="modal" data-bs-target="#delete-modal"/>
+    </div>
 </section>
 
 <!-- USER BOOKS -->
