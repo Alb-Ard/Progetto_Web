@@ -2,10 +2,6 @@
 
 define("SESSION_EMAIL", "email");
 
-define("SESSION_TYPE", "user_type");
-define("SESSION_TYPE_CLIENT", "user");
-define("SESSION_TYPE_SELLER", "seller");
-
 database : $db_conn = new database();
 
 try {
@@ -17,12 +13,11 @@ try {
 
 session_start();
 
-function login_user(string $email, string $type) : bool {
+function login_user(string $email) : bool {
     if (is_user_logged())
         return false;
     
     $_SESSION[SESSION_EMAIL] = $email;
-    $_SESSION[SESSION_TYPE] = $type;
     return true;
 }
 
