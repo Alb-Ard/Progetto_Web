@@ -28,7 +28,7 @@ try {
 
     // TODO: Add seller functionality
     if ($result)
-        $result |= login_user($_POST[USER_EMAIL], SESSION_TYPE_CLIENT);
+        $result |= login_user($_POST[USER_EMAIL]);
 
     echo $result ? RESULT_OK : RESULT_KO;
 } catch(exception $e) {

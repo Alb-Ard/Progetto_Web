@@ -20,7 +20,7 @@
         <?php
         
         if (is_user_logged() && $book->user_email == get_client_info()["email"]) { ?>
-            <input class="btn button-primary w-100" type="button" value="Edit listing"></input>
+            <input class="btn button-primary w-100" type="button" value="Edit listing" onclick="window.document.href = './seller/edit.php?id=<?php echo $book->id; ?>';"></input>
         <?php } else {
             $book_available = $book->available != BOOK_SOLD;
             $add_to_cart_value = is_user_logged() ? ($book_available ? "Add to cart" : "Unavailable") : "Login to add to your cart"; 

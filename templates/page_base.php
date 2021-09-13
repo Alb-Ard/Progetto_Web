@@ -27,7 +27,7 @@
             <section class="row m-0 p-3 align-items-center">
                 <header class="col"><h1><a class="top-bar-logo black-link" href="./">Bookshelf</a></h1></header>
                 <!-- TODO: add search bar -->
-                <section class="col-2">
+                <section class="col-2 col-md-1">
                     <a class="black-link" href="#" onclick="$('#user-menu').slideToggle();">
                         <img class="w-100" src="./imgs/user_icon.png" alt=""></img>
                         <?php if (is_user_logged()) { ?>
@@ -46,7 +46,7 @@
                     <li class="top-bar-user-menu-item"><a class="col black-link" href="./cart.php">Cart</a></li>
                     <li class="top-bar-user-menu-item"><a class="col black-link" href="./orders.php">Orders</a></li>
                     <li class="top-bar-user-menu-item"><a class="col black-link" href="./user.php">Profile</a></li>
-                    <li class="top-bar-user-menu-item"><a class="col black-link" href="./add_book.php">List new book</a></li>
+                    <li class="top-bar-user-menu-item"><a class="col black-link" href="./seller_dashboard.php">Go to seller dashboard</a></li>
                     <li class="top-bar-user-menu-item"><a class="col black-link" href="#" onclick="onLogout();">Logout</a></li>
                 <?php }
             ?></ul>
