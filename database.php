@@ -11,6 +11,7 @@ class database {
     private mysqli $conn;
     private users_table $users_table;
     private books_table $books_table;
+    private categories_table $categories_table;
 
     public function __construct() {
         $this->connected = false;
@@ -27,6 +28,7 @@ class database {
         
         $this->users_table = new users_table($this->conn);
         $this->books_table = new books_table($this->conn);
+        $this->categories_table = new categories_table($this->conn);
         return true;
     }
 
@@ -36,6 +38,10 @@ class database {
 
     public function get_books() : books_table {
         return $this->books_table;
+    }
+
+    public function get_categories() : categories_table {
+        return $this->categories_table;
     }
 }
 
@@ -102,17 +108,52 @@ class books_table {
         
         $results = $query->get_result()->fetch_all(MYSQLI_ASSOC);
         $books = [];
-        foreach ($results as $result) {
-            book_data : $book = new book_data();
-            $book->id = $result["id"];
-            $book->title = $result["title"];
-            $book->author = $result["author"];
-            $book->category = $result["category"];
-            $book->state = $result["state"];
-            $book->owner = $result["owner"];
-            array_push($books, $book);
-        }
+        foreach ($results as $result)
+            array_push($books, map_result_to_book($result));
         return $books;
+    }
+
+    public function get_books_in_category(int $category) : array {
+        mysqli : $query = create_statement($this->conn, "SELECT * FROM books WHERE category = ?");
+        $query->bind_param("i", $category);
+        if(!$query->execute())
+            return [];
+        
+        $results = $query->get_result()->fetch_all(MYSQLI_ASSOC);
+        $books = [];
+        foreach ($results as $result)
+            array_push($books, map_result_to_book($result));
+        return $books;
+    }
+
+    private function map_result_to_book(array $result) : book_data {
+        book_data : $book = new book_data();
+        $book->id = $result["id"];
+        $book->title = $result["title"];
+        $book->author = $result["author"];
+        $book->category = $result["category"];
+        $book->state = $result["state"];
+        $book->owner = $result["owner"];
+        return $book;
+    }
+}
+
+class categories_table {
+    private mysqli $conn;
+
+    public function __construct(mysqli $conn) {
+        $this->conn = $conn;
+    }
+
+    public function get_categories() : array {
+        mysqli : $query = create_statement($this->conn, "SELECT * FROM categories");
+        return $query->execute() ? $query->get_result()->fetch_all(MYSQLI_ASSOC) : [];
+    }
+
+    public function get_category_name(int $id) : string {
+        mysqli : $query = create_statement($this->conn, "SELECT name FROM categories WHERE id = ?");
+        $query->bind_param("i", $id);
+        return $query->execute() ? $query->get_result()->fetch_all(MYSQLI_NUM)[0] : [];
     }
 }
 

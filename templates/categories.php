@@ -11,9 +11,11 @@
 <ul class="row p-0 m-0 justify-content-around">
     <?php
 
-    for ($i = 0; $i < 10; $i++) { ?>
+    $categories = $db_conn->get_categories()->get_categories();
+
+    foreach ($categories as $category) { ?>
         <li class="col position-relative home-category">
-            <a class="black-link stretched-link" href="./category?id=<?php echo $i; ?>">Category <?php echo $i + 1; ?></a>
+            <a class="black-link stretched-link" href='./category?id=<?php echo $category["id"]; ?>'><?php echo $category["name"]; ?></a>
         </li>
     <?php }
 
