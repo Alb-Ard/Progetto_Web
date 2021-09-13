@@ -37,7 +37,7 @@ $user_info = get_client_info();
 
             <!-- NAVBAR -->
             <ul class="row align-items-center justify-content-right mb-3 pt-3 pb-3 top-bar-seller-menu">
-                <li class="col top-bar-user-menu-item"><a class="black-link" href="../">Back to home</a></li>
+                <li class="col top-bar-user-menu-item"><a class="black-link" href="./">Back to home</a></li>
                 <li class="col top-bar-user-menu-item"><a class="black-link" href="./seller_dashboard.php">Current listings</a></li>
                 <li class="col top-bar-user-menu-item"><a class="black-link" href="./seller_orders.php">Current orders</a></li>
                 <li class="col top-bar-user-menu-item"><a class="black-link" href="./seller_add_book.php">List new book</a></li>
