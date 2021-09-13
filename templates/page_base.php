@@ -27,7 +27,7 @@
             <section class="row m-0 p-3 align-items-center">
                 <header class="col"><h1><a class="top-bar-logo black-link" href="./">Bookshelf</a></h1></header>
                 <!-- TODO: add search bar -->
-                <section class="col-2">
+                <section class="col-2 col-md-1">
                     <a class="black-link" href="#" onclick="$('#user-menu').slideToggle();">
                         <img class="w-100" src="./imgs/user_icon.png" alt=""></img>
                         <?php if (is_user_logged()) { ?>

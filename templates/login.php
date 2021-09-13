@@ -50,17 +50,17 @@ include_once("./users_consts.php");
         <h2>Login</h2>
     </header>
     <section>
-        <p id="error-missing-fields" class="row col-12 alert alert-danger login-alert" role="alert">Some of the required fields are invalid. Please check them and try again.</p>
-        <p id="error-internal" class="row col-12 alert alert-danger login-alert" role="alert">Something went wrong! Please try again.</p>
-        <p id="error-ko" class="row col-12 alert alert-danger login-alert" role="alert">Error! Please make sure you're registered and that your credentials are valid.</p>
-        <form class="container-md text-center" method="post">
-            <label class="row col justify-content-center form-label mb-3">Email:
+        <p id="error-missing-fields" class="row col-12 col-md-6 offset-md-3 alert alert-danger login-alert" role="alert">Some of the required fields are invalid. Please check them and try again.</p>
+        <p id="error-internal" class="row col-12 col-md-6 offset-md-3 alert alert-danger login-alert" role="alert">Something went wrong! Please try again.</p>
+        <p id="error-ko" class="row col-12 col-md-6 offset-md-3 alert alert-danger login-alert" role="alert">Error! Please make sure you're registered and that your credentials are valid.</p>
+        <form class="col-12 col-md-6 offset-md-3 row container-md text-center" method="post">
+            <label class="col-12 form-label mb-3 p-0">Email:
                 <input class="form-control" type="email" id="<?php echo USER_EMAIL; ?>" name="<?php echo USER_EMAIL; ?>" placeholder="Insert email" required="true"/>
             </label>
-            <label class="row col justify-content-center form-label mb-3">Password:
+            <label class="col-12 form-label mb-3 p-0">Password:
                 <input class="form-control" type="password" id="<?php echo USER_PSW; ?>" name="<?php echo USER_PSW; ?>" placeholder="Insert password" required="true"/>
             </label>
-            <input class="row col-md-3 justify-content-center btn button-primary" type="button" id="login-button" onclick="onLogin();" value="Login">
+            <input class="col-12 btn button-primary" type="button" id="login-button" onclick="onLogin();" value="Login">
                 <div class="spinner-border spinner-border-sm d-none" id="login-button-spinner" role="status">
                     <span class="visually-hidden">Loading...</span>
                 </div>
