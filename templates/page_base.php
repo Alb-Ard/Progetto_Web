@@ -24,10 +24,20 @@
 
         <header class="top-bar">
             <!-- MAIN HEADER -->
-            <section class="row m-0 p-3 align-items-center">
-                <header class="col"><h1><a class="top-bar-logo black-link" href="./">Bookshelf</a></h1></header>
-                <!-- TODO: add search bar -->
-                <section class="col-2 col-md-1">
+            <section class="row m-0 p-3 justify-content-around">
+                <header class="col-4 order-0">
+                    <h1>
+                        <a class="top-bar-logo black-link" href="./">Bookshelf</a>
+                    </h1>
+                </header>
+                <section class="col-12 order-2 col-md-6 order-md-1">
+                    <form class="row">
+                        <label class="col form-label">Search:
+                            <input class="col form-control" type="text" id="serach-query" name="search-query"></input>
+                        </label>
+                    </form>
+                </section>
+                <section class="col-2 order-1 col-md-1 order-md-2">
                     <a class="black-link" href="#" onclick="$('#user-menu').slideToggle();">
                         <img class="w-100" src="./imgs/user_icon.png" alt=""></img>
                         <?php if (is_user_logged()) { ?>
