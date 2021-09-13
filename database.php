@@ -96,6 +96,19 @@ class book_data {
     public string $price = "";
     public string $available = "";
     public string $user_email = "";
+
+    public static function map_from_result(array $result) : book_data {
+        $book = new book_data();
+        $book->id = $result["id"];
+        $book->title = $result["title"];
+        $book->author = $result["author"];
+        $book->category = $result["category"];
+        $book->state = $result["state"];
+        $book->price = $result["price"];
+        $book->available = $result["available"];
+        $book->user_email = $result["owner"];
+        return $book;
+    }
 }
 
 class books_table {
@@ -120,7 +133,7 @@ class books_table {
         $results = $query->get_result()->fetch_all(MYSQLI_ASSOC);
         $books = [];
         foreach ($results as $result)
-            array_push($books, $this->map_result_to_book($result));
+            array_push($books, book_data::map_from_result($result));
         return $books;
     }
 
@@ -133,21 +146,7 @@ class books_table {
         $results = $query->get_result()->fetch_all(MYSQLI_ASSOC);
         $books = [];
         foreach ($results as $result)
-            array_push($books, $this->map_result_to_book($result));
-        return $books;
-    }
-
-    public function get_carted_books(string $user_id) : array {
-        $query = create_statement($this->conn, "SELECT * FROM carted_books, books WHERE  user_id = ? AND carted_books.book_id = books.id");
-        $query->bind_param("s", $user_id);
-        //$query = create_statement($this->conn, "SELECT * FROM books");
-        if(!$query->execute())
-            return [];
-        
-        $results = $query->get_result()->fetch_all(MYSQLI_ASSOC);
-        $books = [];
-        foreach ($results as $result)
-            array_push($books, $this->map_result_to_book($result));
+            array_push($books, book_data::map_from_result($result));
         return $books;
     }
 
@@ -158,7 +157,7 @@ class books_table {
             return [];
         
         $results = $query->get_result()->fetch_all(MYSQLI_ASSOC);
-        return $this->map_result_to_book($results[0]);
+        return book_data::map_from_result($results[0]);
     }
 
     public function edit_book(book_data $book) : bool {
@@ -177,21 +176,8 @@ class books_table {
         $results = $query->get_result()->fetch_all(MYSQLI_ASSOC);
         $books = [];
         foreach ($results as $result)
-            array_push($books, $this->map_result_to_book($result));
+            array_push($books, book_data::map_from_result($result));
         return $books;
-    }
-
-    private function map_result_to_book(array $result) : book_data {
-        $book = new book_data();
-        $book->id = $result["id"];
-        $book->title = $result["title"];
-        $book->author = $result["author"];
-        $book->category = $result["category"];
-        $book->state = $result["state"];
-        $book->price = $result["price"];
-        $book->available = $result["available"];
-        $book->user_email = $result["owner"];
-        return $book;
     }
 }
 
@@ -221,6 +207,19 @@ class carted_books_table {
         $this->conn = $conn;
     }
 
+    public function get_carted_books(string $user_id) : array {
+        $query = create_statement($this->conn, "SELECT * FROM carted_books, books WHERE  user_id = ? AND carted_books.book_id = books.id");
+        $query->bind_param("s", $user_id);
+        //$query = create_statement($this->conn, "SELECT * FROM books");
+        if(!$query->execute())
+            return [];
+        
+        $results = $query->get_result()->fetch_all(MYSQLI_ASSOC);
+        $books = [];
+        foreach ($results as $result)
+            array_push($books, book_data::map_from_result($result));
+        return $books;
+    }
 }
 
 ?>
