@@ -47,21 +47,26 @@
 }
 
 .top-bar-user-menu {
-    background-color: var(--color-primary-dark);
     text-align: center;
     display: none;
 }
 
 .top-bar-seller-menu {
-    background-color: var(--color-primary-dark);
     text-align: center;
 }
 
 .top-bar-user-menu-item {
     list-style-type: none;
     list-style-position: inside;
-    margin: 10pt 0;
-    padding: 0;
+    position: relative;
+    margin: 0;
+    padding: 10pt 0;
+}
+
+.top-bar-user-menu-item:hover {
+    background-color: var(--color-primary-dark);
+    list-style-type: none;
+    list-style-position: inside;
 }
 
 .top-bar-logo {
