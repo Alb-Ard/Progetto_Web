@@ -24,10 +24,20 @@
 
         <header class="top-bar">
             <!-- MAIN HEADER -->
-            <section class="row m-0 p-3 align-items-center">
-                <header class="col"><h1><a class="top-bar-logo black-link" href="./">Bookshelf</a></h1></header>
-                <!-- TODO: add search bar -->
-                <section class="col-2 col-md-1">
+            <section class="row m-0 p-3 justify-content-around">
+                <header class="col-4 order-0">
+                    <h1>
+                        <a class="top-bar-logo black-link" href="./">Bookshelf</a>
+                    </h1>
+                </header>
+                <section class="col-12 order-2 col-md-6 order-md-1">
+                    <form class="row">
+                        <label class="col form-label">Search:
+                            <input class="col form-control" type="text" id="serach-query" name="search-query"></input>
+                        </label>
+                    </form>
+                </section>
+                <section class="col-2 order-1 col-md-1 order-md-2">
                     <a class="black-link" href="#" onclick="$('#user-menu').slideToggle();">
                         <img class="w-100" src="./imgs/user_icon.png" alt=""></img>
                         <?php if (is_user_logged()) { ?>
@@ -36,20 +46,23 @@
                     </a>
                 </section>
             </section>
-
-            <!-- NAVBAR -->
-            <ul class="row align-items-center justify-content-right mb-3 pt-3 pb-3 top-bar-user-menu" id="user-menu"><?php
-                if (!is_user_logged()) { ?>
-                    <li class="top-bar-user-menu-item"><a class="col black-link" href="./login.php?from=<?php echo $_SERVER["REQUEST_URI"]; ?>">Login</a></li>
-                    <li class="top-bar-user-menu-item"><a class="col black-link" href="./register.php">Register</a></li>
-                <?php } else { ?> 
-                    <li class="top-bar-user-menu-item"><a class="col black-link" href="./cart.php">Cart</a></li>
-                    <li class="top-bar-user-menu-item"><a class="col black-link" href="./orders.php">Orders</a></li>
-                    <li class="top-bar-user-menu-item"><a class="col black-link" href="./user.php">Profile</a></li>
-                    <li class="top-bar-user-menu-item"><a class="col black-link" href="./seller_dashboard.php">Go to seller dashboard</a></li>
-                    <li class="top-bar-user-menu-item"><a class="col black-link" href="#" onclick="onLogout();">Logout</a></li>
+            <?php
+                if (!isset($template_args[PAGE_HIDE_NAVBAR]) || !$template_args[PAGE_HIDE_NAVBAR]) { ?>
+                <!-- NAVBAR -->
+                <ul class="row align-items-center justify-content-right mb-3 pt-3 pb-3 top-bar-user-menu" id="user-menu"><?php
+                    if (!is_user_logged()) { ?>
+                        <li class="top-bar-user-menu-item"><a class="col black-link" href="./login.php?from=<?php echo $_SERVER["REQUEST_URI"]; ?>">Login</a></li>
+                        <li class="top-bar-user-menu-item"><a class="col black-link" href="./register.php?from=<?php echo $_SERVER["REQUEST_URI"]; ?>">Register</a></li>
+                    <?php } else { ?> 
+                        <li class="top-bar-user-menu-item"><a class="col black-link" href="./cart.php">Cart</a></li>
+                        <li class="top-bar-user-menu-item"><a class="col black-link" href="./orders.php">Orders</a></li>
+                        <li class="top-bar-user-menu-item"><a class="col black-link" href="./user.php">Profile</a></li>
+                        <li class="top-bar-user-menu-item"><a class="col black-link" href="./seller_dashboard.php">Go to seller dashboard</a></li>
+                        <li class="top-bar-user-menu-item"><a class="col black-link" href="#" onclick="onLogout();">Logout</a></li>
+                    <?php }
+                ?></ul>
                 <?php }
-            ?></ul>
+            ?>
         </header>
 
         <main class="m-3">

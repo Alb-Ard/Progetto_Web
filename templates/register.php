@@ -33,7 +33,7 @@ include_once("./users_consts.php");
 
         tryRegister(email, password, firstName, lastName, (result) => {
             if (result == Result.Ok)
-                window.location.href = "./";
+                window.location.href = "<?php echo $_GET["from"]; ?>";
             else
             {
                 button.val("Register");
@@ -63,7 +63,7 @@ include_once("./users_consts.php");
         <p id="error-missing-fields" class="row col-12 alert alert-danger login-alert" role="alert">Some of the required fields are invalid. Please check them and try again.</p>
         <p id="error-passwords-mismatch" class="row col-12 alert alert-danger login-alert" role="alert">The passwords do not match. Please check them and try again.</p>
         <p id="error-internal" class="row col-12 alert alert-danger login-alert" role="alert">Something went wrong! Please try again.</p>
-        <p id="error-ko" class="row col-12 alert alert-danger login-alert" role="alert">Error! Please make sure you're registered and that your credentials are valid.</p>
+        <p id="error-ko" class="row col-12 alert alert-danger login-alert" role="alert">Error! Please make sure you're not already registered.</p>
 
         <form class="col-12 col-md-6 offset-md-3 row text-center" method="post">
             <label class="col-12 form-label mb-3 p-0">Email:
@@ -81,11 +81,12 @@ include_once("./users_consts.php");
             <label class="col-12 form-label mb-3 p-0">Last name (optional):
                 <input class="form-control" type="text" id="<?php echo USER_LAST_NAME; ?>" name="<?php echo USER_LAST_NAME; ?>" placeholder="Insert last name"/>
             </label>
-            <input class="col-12 btn button-primary" type="button" id="register-button" onclick="onRegister();" value="Register">
+            <input class="col-12 btn button-primary mb-3" type="button" id="register-button" onclick="onRegister();" value="Register">
                 <div class="spinner-border spinner-border-sm d-none" id="register-button-spinner" role="status">
                     <span class="visually-hidden">Loading...</span>
                 </div>
             </input>
+            <a class="col-12" href="./login.php?from=<?php echo isset($_GET['from']) ? $_GET['from'] : "./"; ?>">Already registered? Login here</a>
         </form>
     </section>
 </section>

@@ -24,8 +24,7 @@ include_once("./users_consts.php");
         tryLogin(email, password, (result) => {
             if (result == Result.Ok)
                 window.location.href = "<?php echo $_GET["from"]; ?>";
-            else
-            {
+            else {
                 button.val("Login");
                 button.removeAttr("disabled");
                 $("#login-button-spinner").hide();
@@ -60,11 +59,12 @@ include_once("./users_consts.php");
             <label class="col-12 form-label mb-3 p-0">Password:
                 <input class="form-control" type="password" id="<?php echo USER_PSW; ?>" name="<?php echo USER_PSW; ?>" placeholder="Insert password" required="true"/>
             </label>
-            <input class="col-12 btn button-primary" type="button" id="login-button" onclick="onLogin();" value="Login">
+            <input class="col-12 btn button-primary mb-3" type="button" id="login-button" onclick="onLogin();" value="Login">
                 <div class="spinner-border spinner-border-sm d-none" id="login-button-spinner" role="status">
                     <span class="visually-hidden">Loading...</span>
                 </div>
             </input>
+            <a class="col-12" href="./register.php?from=<?php echo isset($_GET['from']) ? $_GET['from'] : "./"; ?>">Not registered? Signup here</a>
         </form>
     </section>
 </section>
