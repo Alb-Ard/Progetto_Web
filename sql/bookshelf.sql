@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Set 13, 2021 alle 14:03
+-- Creato il: Set 13, 2021 alle 15:06
 -- Versione del server: 10.4.14-MariaDB
 -- Versione PHP: 7.4.11
 
@@ -22,6 +22,18 @@ SET time_zone = "+00:00";
 --
 CREATE DATABASE IF NOT EXISTS `bookshelf` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `bookshelf`;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `addresses`
+--
+
+DROP TABLE IF EXISTS `addresses`;
+CREATE TABLE `addresses` (
+  `user_id` varchar(64) NOT NULL,
+  `address_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -68,6 +80,32 @@ CREATE TABLE `categories` (
 -- --------------------------------------------------------
 
 --
+-- Struttura della tabella `ordered_books`
+--
+
+DROP TABLE IF EXISTS `ordered_books`;
+CREATE TABLE `ordered_books` (
+  `order_id` int(11) NOT NULL,
+  `book_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `orders`
+--
+
+DROP TABLE IF EXISTS `orders`;
+CREATE TABLE `orders` (
+  `user_id` varchar(64) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `payment_id` int(11) NOT NULL,
+  `address_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Struttura della tabella `users`
 --
 
@@ -82,6 +120,12 @@ CREATE TABLE `users` (
 --
 -- Indici per le tabelle scaricate
 --
+
+--
+-- Indici per le tabelle `addresses`
+--
+ALTER TABLE `addresses`
+  ADD PRIMARY KEY (`user_id`,`address_id`);
 
 --
 -- Indici per le tabelle `books`
@@ -103,6 +147,19 @@ ALTER TABLE `carted_books`
 --
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indici per le tabelle `ordered_books`
+--
+ALTER TABLE `ordered_books`
+  ADD PRIMARY KEY (`order_id`,`book_id`),
+  ADD KEY `book_id` (`book_id`);
+
+--
+-- Indici per le tabelle `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`order_id`);
 
 --
 -- Indici per le tabelle `users`
@@ -131,6 +188,12 @@ ALTER TABLE `categories`
 --
 
 --
+-- Limiti per la tabella `addresses`
+--
+ALTER TABLE `addresses`
+  ADD CONSTRAINT `addresses_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`email`);
+
+--
 -- Limiti per la tabella `books`
 --
 ALTER TABLE `books`
@@ -143,6 +206,13 @@ ALTER TABLE `books`
 ALTER TABLE `carted_books`
   ADD CONSTRAINT `carted_books_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`email`),
   ADD CONSTRAINT `carted_books_ibfk_2` FOREIGN KEY (`book_id`) REFERENCES `books` (`id`);
+
+--
+-- Limiti per la tabella `ordered_books`
+--
+ALTER TABLE `ordered_books`
+  ADD CONSTRAINT `ordered_books_ibfk_1` FOREIGN KEY (`book_id`) REFERENCES `books` (`id`),
+  ADD CONSTRAINT `ordered_books_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
