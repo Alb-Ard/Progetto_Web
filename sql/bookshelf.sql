@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Set 13, 2021 alle 15:06
+-- Creato il: Set 13, 2021 alle 19:46
 -- Versione del server: 10.4.14-MariaDB
 -- Versione PHP: 7.4.11
 
@@ -32,7 +32,8 @@ USE `bookshelf`;
 DROP TABLE IF EXISTS `addresses`;
 CREATE TABLE `addresses` (
   `user_id` varchar(64) NOT NULL,
-  `address_id` int(11) NOT NULL
+  `address_id` int(11) NOT NULL,
+  `address` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -100,7 +101,24 @@ CREATE TABLE `orders` (
   `user_id` varchar(64) NOT NULL,
   `order_id` int(11) NOT NULL,
   `payment_id` int(11) NOT NULL,
-  `address_id` int(11) NOT NULL
+  `address_id` int(11) NOT NULL,
+  `date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `payment_methods`
+--
+
+DROP TABLE IF EXISTS `payment_methods`;
+CREATE TABLE `payment_methods` (
+  `payment_id` int(11) NOT NULL,
+  `user_id` varchar(64) NOT NULL,
+  `type` varchar(32) NOT NULL,
+  `number` int(11) NOT NULL,
+  `cvv` int(11) NOT NULL,
+  `date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -125,7 +143,8 @@ CREATE TABLE `users` (
 -- Indici per le tabelle `addresses`
 --
 ALTER TABLE `addresses`
-  ADD PRIMARY KEY (`user_id`,`address_id`);
+  ADD PRIMARY KEY (`address_id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indici per le tabelle `books`
@@ -159,7 +178,17 @@ ALTER TABLE `ordered_books`
 -- Indici per le tabelle `orders`
 --
 ALTER TABLE `orders`
-  ADD PRIMARY KEY (`order_id`);
+  ADD PRIMARY KEY (`order_id`),
+  ADD KEY `payment_id` (`payment_id`),
+  ADD KEY `address_id` (`address_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indici per le tabelle `payment_methods`
+--
+ALTER TABLE `payment_methods`
+  ADD PRIMARY KEY (`payment_id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indici per le tabelle `users`
@@ -170,6 +199,12 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT per le tabelle scaricate
 --
+
+--
+-- AUTO_INCREMENT per la tabella `addresses`
+--
+ALTER TABLE `addresses`
+  MODIFY `address_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT per la tabella `books`
@@ -213,6 +248,20 @@ ALTER TABLE `carted_books`
 ALTER TABLE `ordered_books`
   ADD CONSTRAINT `ordered_books_ibfk_1` FOREIGN KEY (`book_id`) REFERENCES `books` (`id`),
   ADD CONSTRAINT `ordered_books_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`);
+
+--
+-- Limiti per la tabella `orders`
+--
+ALTER TABLE `orders`
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`payment_id`) REFERENCES `payment_methods` (`payment_id`),
+  ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`address_id`) REFERENCES `addresses` (`address_id`),
+  ADD CONSTRAINT `orders_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`email`);
+
+--
+-- Limiti per la tabella `payment_methods`
+--
+ALTER TABLE `payment_methods`
+  ADD CONSTRAINT `payment_methods_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`email`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
