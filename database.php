@@ -122,8 +122,18 @@ class books_table {
         $results = $query->get_result()->fetch_all(MYSQLI_ASSOC);
         $books = [];
         foreach ($results as $result)
-            array_push($books, map_result_to_book($result));
+            array_push($books, $this->map_result_to_book($result));
         return $books;
+    }
+
+    public function get_book(int $id) : book_data {
+        mysqli : $query = create_statement($this->conn, "SELECT * FROM books WHERE id = ?");
+        $query->bind_param("i", $id);
+        if(!$query->execute())
+            return [];
+        
+        $results = $query->get_result()->fetch_all(MYSQLI_ASSOC);
+        return $this->map_result_to_book($results[0]);
     }
 
     private function map_result_to_book(array $result) : book_data {
@@ -133,7 +143,8 @@ class books_table {
         $book->author = $result["author"];
         $book->category = $result["category"];
         $book->state = $result["state"];
-        $book->owner = $result["owner"];
+        $book->price = $result["price"];
+        $book->user_email = $result["owner"];
         return $book;
     }
 }
