@@ -100,13 +100,13 @@ class books_table {
     }
 
     public function add_book(book_data $book) : bool {
-        mysqli : $query = create_statement($this->conn, "INSERT INTO books (title, author, category, state, price, owner) VALUES (?, ?, ?, ?, ?, ?)");
+        $query = create_statement($this->conn, "INSERT INTO books (title, author, category, state, price, owner) VALUES (?, ?, ?, ?, ?, ?)");
         $query->bind_param("ssisss", $book->title, $book->author, $book->category, $book->state, $book->price, $book->user_email);
         return $query->execute() && $query->affected_rows > 0;
     }
 
     public function get_user_books(string $user_email) : array {
-        mysqli : $query = create_statement($this->conn, "SELECT * FROM books WHERE owner = ?");
+        $query = create_statement($this->conn, "SELECT * FROM books WHERE owner = ?");
         $query->bind_param("s", $user_email);
         if(!$query->execute())
             return [];
@@ -114,12 +114,12 @@ class books_table {
         $results = $query->get_result()->fetch_all(MYSQLI_ASSOC);
         $books = [];
         foreach ($results as $result)
-            array_push($books, map_result_to_book($result));
+            array_push($books, $this->map_result_to_book($result));
         return $books;
     }
 
     public function get_books_in_category(int $category) : array {
-        mysqli : $query = create_statement($this->conn, "SELECT * FROM books WHERE category = ?");
+        $query = create_statement($this->conn, "SELECT * FROM books WHERE category = ?");
         $query->bind_param("i", $category);
         if(!$query->execute())
             return [];
@@ -132,7 +132,7 @@ class books_table {
     }
 
     public function get_book(int $id) : book_data {
-        mysqli : $query = create_statement($this->conn, "SELECT * FROM books WHERE id = ?");
+        $query = create_statement($this->conn, "SELECT * FROM books WHERE id = ?");
         $query->bind_param("i", $id);
         if(!$query->execute())
             return [];
@@ -141,8 +141,14 @@ class books_table {
         return $this->map_result_to_book($results[0]);
     }
 
+    public function edit_book(book_data $book) : bool {
+        $query = create_statement($this->conn, "UPDATE books SET title = ?, author = ?, category = ?, state = ?, price = ?, owner = ? WHERE id = ?");
+        $query->bind_param("ssisssi", $book->title, $book->author, $book->category, $book->state, $book->price, $book->user_email, $book->id);
+        return $query->execute() && $query->affected_rows > 0;
+    }
+
     private function map_result_to_book(array $result) : book_data {
-        book_data : $book = new book_data();
+        $book = new book_data();
         $book->id = $result["id"];
         $book->title = $result["title"];
         $book->author = $result["author"];
@@ -163,12 +169,12 @@ class categories_table {
     }
 
     public function get_categories() : array {
-        mysqli : $query = create_statement($this->conn, "SELECT * FROM categories");
+        $query = create_statement($this->conn, "SELECT * FROM categories");
         return $query->execute() ? $query->get_result()->fetch_all(MYSQLI_ASSOC) : [];
     }
 
     public function get_category_name(int $id) : string {
-        mysqli : $query = create_statement($this->conn, "SELECT name FROM categories WHERE id = ?");
+        $query = create_statement($this->conn, "SELECT name FROM categories WHERE id = ?");
         $query->bind_param("i", $id);
         return $query->execute() ? $query->get_result()->fetch_all(MYSQLI_NUM)[0] : [];
     }
