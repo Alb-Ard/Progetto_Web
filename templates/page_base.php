@@ -46,6 +46,7 @@
                     <li class="top-bar-user-menu-item"><a class="col black-link" href="./cart.php">Cart</a></li>
                     <li class="top-bar-user-menu-item"><a class="col black-link" href="./orders.php">Orders</a></li>
                     <li class="top-bar-user-menu-item"><a class="col black-link" href="./user.php">Profile</a></li>
+                    <li class="top-bar-user-menu-item"><a class="col black-link" href="./add_book.php">List new book</a></li>
                     <li class="top-bar-user-menu-item"><a class="col black-link" href="#" onclick="onLogout();">Logout</a></li>
                 <?php }
             ?></ul>
