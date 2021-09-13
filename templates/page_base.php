@@ -36,20 +36,23 @@
                     </a>
                 </section>
             </section>
-
-            <!-- NAVBAR -->
-            <ul class="row align-items-center justify-content-right mb-3 pt-3 pb-3 top-bar-user-menu" id="user-menu"><?php
-                if (!is_user_logged()) { ?>
-                    <li class="top-bar-user-menu-item"><a class="col black-link" href="./login.php?from=<?php echo $_SERVER["REQUEST_URI"]; ?>">Login</a></li>
-                    <li class="top-bar-user-menu-item"><a class="col black-link" href="./register.php">Register</a></li>
-                <?php } else { ?> 
-                    <li class="top-bar-user-menu-item"><a class="col black-link" href="./cart.php">Cart</a></li>
-                    <li class="top-bar-user-menu-item"><a class="col black-link" href="./orders.php">Orders</a></li>
-                    <li class="top-bar-user-menu-item"><a class="col black-link" href="./user.php">Profile</a></li>
-                    <li class="top-bar-user-menu-item"><a class="col black-link" href="./seller_dashboard.php">Go to seller dashboard</a></li>
-                    <li class="top-bar-user-menu-item"><a class="col black-link" href="#" onclick="onLogout();">Logout</a></li>
+            <?php
+                if (!isset($template_args[PAGE_HIDE_NAVBAR]) || !$template_args[PAGE_HIDE_NAVBAR]) { ?>
+                <!-- NAVBAR -->
+                <ul class="row align-items-center justify-content-right mb-3 pt-3 pb-3 top-bar-user-menu" id="user-menu"><?php
+                    if (!is_user_logged()) { ?>
+                        <li class="top-bar-user-menu-item"><a class="col black-link" href="./login.php?from=<?php echo $_SERVER["REQUEST_URI"]; ?>">Login</a></li>
+                        <li class="top-bar-user-menu-item"><a class="col black-link" href="./register.php?from=<?php echo $_SERVER["REQUEST_URI"]; ?>">Register</a></li>
+                    <?php } else { ?> 
+                        <li class="top-bar-user-menu-item"><a class="col black-link" href="./cart.php">Cart</a></li>
+                        <li class="top-bar-user-menu-item"><a class="col black-link" href="./orders.php">Orders</a></li>
+                        <li class="top-bar-user-menu-item"><a class="col black-link" href="./user.php">Profile</a></li>
+                        <li class="top-bar-user-menu-item"><a class="col black-link" href="./seller_dashboard.php">Go to seller dashboard</a></li>
+                        <li class="top-bar-user-menu-item"><a class="col black-link" href="#" onclick="onLogout();">Logout</a></li>
+                    <?php }
+                ?></ul>
                 <?php }
-            ?></ul>
+            ?>
         </header>
 
         <main class="m-3">
