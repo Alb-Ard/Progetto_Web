@@ -5,7 +5,7 @@ include("../database.php");
 include("../session.php");
 
 try {
-    database : $db_conn = new database();
+    $db_conn = new database();
     if (!$db_conn->connect("localhost", "root", ""))
     {
         echo RESULT_INTERNAL;
@@ -18,7 +18,7 @@ try {
         return;
     }
 
-    bool : $result = $db_conn->get_users()->add_user($_POST[USER_EMAIL], $_POST[USER_PSW], $_POST[USER_FIRST_NAME], $_POST[USER_LAST_NAME]);
+    $result = $db_conn->get_users()->add_user($_POST[USER_EMAIL], $_POST[USER_PSW], $_POST[USER_FIRST_NAME], $_POST[USER_LAST_NAME]);
 
     // TODO: Add seller functionality
     if ($result)
