@@ -77,6 +77,10 @@ class users_table {
     }
 }
 
+define("BOOK_FREE", "FREE");
+define("BOOK_IN_CART", "IN_CART");
+define("BOOK_SOLD", "SOLD");
+
 class book_data {
     public int $id;
     public string $title;
@@ -84,6 +88,7 @@ class book_data {
     public int $category;
     public string $state;
     public string $price;
+    public string $available;
     public string $user_email;
 }
 
@@ -144,6 +149,7 @@ class books_table {
         $book->category = $result["category"];
         $book->state = $result["state"];
         $book->price = $result["price"];
+        $book->available = $result["available"];
         $book->user_email = $result["owner"];
         return $book;
     }

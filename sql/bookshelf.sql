@@ -37,6 +37,7 @@ CREATE TABLE `books` (
   `category` int(32) UNSIGNED DEFAULT NULL,
   `state` varchar(64) NOT NULL,
   `price` char(8) NOT NULL,
+  `available` enum('FREE','IN_CART','SOLD') NOT NULL,
   `owner` varchar(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
