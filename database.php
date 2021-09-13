@@ -12,6 +12,7 @@ class database {
     private users_table $users_table;
     private books_table $books_table;
     private categories_table $categories_table;
+    private carted_books_table $carted_books_table;
 
     public function __construct() {
         $this->connected = false;
@@ -29,6 +30,7 @@ class database {
         $this->users_table = new users_table($this->conn);
         $this->books_table = new books_table($this->conn);
         $this->categories_table = new categories_table($this->conn);
+        $this->carted_books_table = new carted_books_table($this->conn);
         return true;
     }
 
@@ -42,6 +44,10 @@ class database {
 
     public function get_categories() : categories_table {
         return $this->categories_table;
+    }
+
+    public function get_carted_books() : carted_books_table {
+        return $this->carted_books_table;
     }
 }
 
@@ -178,6 +184,29 @@ class categories_table {
         $query->bind_param("i", $id);
         return $query->execute() ? $query->get_result()->fetch_all(MYSQLI_NUM)[0] : [];
     }
+}
+
+class carted_books_table {
+    private mysqli $conn;
+
+    public function __construct(mysqli $conn) {
+        $this->conn = $conn;
+    }
+
+    public function get_carted_books(string $user_id) : array {
+        //$query = create_statement($this->conn, "SELECT * FROM carted_books, books WHERE user_id = ? AND carted_books.books_id = books.id");
+        //$query->bind_param("s", $user_id);
+        $query = create_statement($this->conn, "SELECT * FROM books");
+        if(!$query->execute())
+            return [];
+        
+        $results = $query->get_result()->fetch_all(MYSQLI_ASSOC);
+        $books = [];
+        foreach ($results as $result)
+            array_push($books, $this->books_table->map_result_to_book($result));
+        return $books;
+    }
+
 }
 
 ?>
