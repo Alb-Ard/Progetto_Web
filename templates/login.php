@@ -23,7 +23,7 @@ include_once("./users_consts.php");
         $("#login-button-spinner").show();
         tryLogin(email, password, (result) => {
             if (result == Result.Ok)
-                window.location.href = "./";
+                window.location.href = "<?php echo $_GET["from"]; ?>";
             else
             {
                 button.val("Login");

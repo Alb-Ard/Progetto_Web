@@ -40,7 +40,7 @@
             <!-- NAVBAR -->
             <ul class="row align-items-center justify-content-right mb-3 pt-3 pb-3 top-bar-user-menu" id="user-menu"><?php
                 if (!is_user_logged()) { ?>
-                    <li class="top-bar-user-menu-item"><a class="col black-link" href="./login.php">Login</a></li>
+                    <li class="top-bar-user-menu-item"><a class="col black-link" href="./login.php?from=<?php echo $_SERVER["REQUEST_URI"]; ?>">Login</a></li>
                     <li class="top-bar-user-menu-item"><a class="col black-link" href="./register.php">Register</a></li>
                 <?php } else { ?> 
                     <li class="top-bar-user-menu-item"><a class="col black-link" href="./cart.php">Cart</a></li>
