@@ -8,7 +8,7 @@ $user_info = get_client_info();
 
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <title>Dashboard - <?php echo $template_args[PAGE_TITLE]; ?></title>
         <meta charset="utf-8">
@@ -25,13 +25,13 @@ $user_info = get_client_info();
         <link rel="stylesheet" type="text/css" href="./css/default.css" />
     </head>
     <body class="container-fluid p-0 m-0">
-        <header class="top-bar">
+        <nav class="top-bar">
             <!-- MAIN HEADER -->
             <section class="row m-0 p-3 align-items-center">
                 <header class="col-12">
                     <h1 class="top-bar-logo">Dashboard</h1>
-                    <h2><?php echo $user_info["email"]?></h1>
-                    <h3><?php echo $user_info["first_name"] . " " . $user_info["last_name"]; ?></h1>
+                    <h2><?php echo $user_info["email"]?></h2>
+                    <h3><?php echo $user_info["first_name"] . " " . $user_info["last_name"]; ?></h3>
                 </header>
             </section>
 
@@ -42,21 +42,21 @@ $user_info = get_client_info();
                 <li class="col top-bar-user-menu-item"><a class="black-link" href="./seller_orders.php">Current orders</a></li>
                 <li class="col top-bar-user-menu-item"><a class="black-link" href="./seller_add_book.php">List new book</a></li>
             </ul>
-        </header>
+        </nav>
 
         <main class="m-3">
             <?php include_once($template_args[PAGE_BODY]); ?>
         </main>
 
+        <?php
+        
+        if (isset($template_args[PAGE_FOOTER]))
+            include_once($template_args[PAGE_FOOTER]);
+        
+        ?>
+
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" 
             crossorigin="anonymous"></script>
     </body>
-
-    <?php
-    
-    if (isset($template_args[PAGE_FOOTER]))
-        include_once($template_args[PAGE_FOOTER]);
-    
-    ?>
 </html>

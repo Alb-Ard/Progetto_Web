@@ -1,13 +1,13 @@
 <form class="container-md text-center" method="post">
-    <label class="row col-12 col-md-6 offset-md-3 justify-content-center form-label mb-3">Title:
-        <input class="form-control" type="text" id="title" name="title" placeholder="Insert title" value="<?php echo $book->title; ?>" required="true"/>
+    <label class="row col-12 col-md-6 offset-md-3 justify-content-center form-label mb-3" for="title">Title:
+        <input class="form-control" type="text" id="title" name="title" placeholder="Insert title" value="<?php echo $book->title; ?>" required/>
     </label>
-    <label class="row col-12 col-md-6 offset-md-3 justify-content-center form-label mb-3">Author:
-        <input class="form-control" type="text" id="author" name="author" placeholder="Insert author" value="<?php echo $book->author; ?>" required="true"/>
+    <label class="row col-12 col-md-6 offset-md-3 justify-content-center form-label mb-3" for="author">Author:
+        <input class="form-control" type="text" id="author" name="author" placeholder="Insert author" value="<?php echo $book->author; ?>" required/>
     </label>
-    <label class="row col-12 col-md-6 offset-md-3 justify-content-center form-label mb-3">Category:
+    <label class="row col-12 col-md-6 offset-md-3 justify-content-center form-label mb-3" for="category">Category:
         <select class="form-select" aria-label="category" id="category" name="category">
-            <option value="NULL"<?php if($book->category == "NULL") echo " selected"; ?>>Other</option>
+            <option value="NULL"<?php if($book->category == NULL) echo " selected"; ?>>Other</option>
             <?php
             
             $categories = $db_conn->get_categories()->get_categories();
@@ -18,18 +18,15 @@
             ?>
         </select>
     </label>
-    <label class="row col-12 col-md-6 offset-md-3 justify-content-center form-label mb-3">State:
-        <input class="form-control" type="text" id="state" name="state" placeholder="Insert state" value="<?php echo $book->state; ?>" required="true"/>
+    <label class="row col-12 col-md-6 offset-md-3 justify-content-center form-label mb-3" for="state">State:
+        <input class="form-control" type="text" id="state" name="state" placeholder="Insert state" value="<?php echo $book->state; ?>" required/>
     </label>
-    <label class="row col-12 col-md-6 offset-md-3 justify-content-center form-label mb-3">Price:
+    <div class="row col-12 col-md-6 offset-md-3 p-0 mb-3">
+        <label class="form-label" for="price">Price:</label>
         <div class="input-group p-0">
             <span class="input-group-text">€</span>
-            <input class="form-control" type="number" id="price" min="0.00" step="0.01" required="true" value="<?php echo $book->price; ?>" value="0"/>
+            <input class="form-control" type="number" id="price" min="0.00" step="0.01" required value="<?php echo $book->price; ?>"/>
         </div>
-    </label>
-    <input class="row col-12 col-md-6 offset-md-3 justify-content-center btn button-primary m-0" type="button" id="edit-button" onclick="onEditBook();" value="Edit">
-        <div class="spinner-border spinner-border-sm d-none" id="edit-button-spinner" role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-    </input>
+    </div>
+    <input class="row col-12 col-md-6 offset-md-3 justify-content-center btn button-primary m-0" type="button" id="confirm-button" onclick="<?php echo $on_confirm_func; ?>" value="<?php echo $on_confirm_value; ?>"/>
 </form>

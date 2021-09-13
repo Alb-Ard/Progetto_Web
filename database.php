@@ -82,14 +82,14 @@ define("BOOK_IN_CART", "IN_CART");
 define("BOOK_SOLD", "SOLD");
 
 class book_data {
-    public int $id;
-    public string $title;
-    public string $author;
-    public int $category;
-    public string $state;
-    public string $price;
-    public string $available;
-    public string $user_email;
+    public int $id = 0;
+    public string $title = "";
+    public string $author = "";
+    public ?int $category = NULL;
+    public string $state = "";
+    public string $price = "";
+    public string $available = "";
+    public string $user_email = "";
 }
 
 class books_table {
@@ -144,7 +144,21 @@ class books_table {
     public function edit_book(book_data $book) : bool {
         $query = create_statement($this->conn, "UPDATE books SET title = ?, author = ?, category = ?, state = ?, price = ?, owner = ? WHERE id = ?");
         $query->bind_param("ssisssi", $book->title, $book->author, $book->category, $book->state, $book->price, $book->user_email, $book->id);
-        return $query->execute() && $query->affected_rows > 0;
+        return $query->execute();
+    }
+
+    public function search(string $key) : array {
+        $key = "%" . $key . "%";
+        $query = create_statement($this->conn, "SELECT * FROM books WHERE title LIKE ? OR author LIKE ?");
+        $query->bind_param("ss", $key, $key);
+        if(!$query->execute())
+            return [];
+        
+        $results = $query->get_result()->fetch_all(MYSQLI_ASSOC);
+        $books = [];
+        foreach ($results as $result)
+            array_push($books, $this->map_result_to_book($result));
+        return $books;
     }
 
     private function map_result_to_book(array $result) : book_data {

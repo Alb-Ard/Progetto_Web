@@ -2,9 +2,9 @@
 
 include_once("./pages_commons.php");
 
-$books = $db_conn->get_books()->get_books_in_category($_GET["id"]);
+$books = $db_conn->get_books()->search($_GET["key"]);
 
-$template_args[PAGE_TITLE] = $_GET["name"];
+$template_args[PAGE_TITLE] = "Search results";
 $template_args[PAGE_BODY] = "./templates/list_books.php";
 
 include_once("./templates/page_base.php");

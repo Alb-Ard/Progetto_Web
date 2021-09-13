@@ -1,8 +1,3 @@
-<?php 
-
-include_once("./users_consts.php"); 
-
-?>
 <script type="text/javascript">
     function onRegister() {
         $("#error-ko").hide();
@@ -10,11 +5,11 @@ include_once("./users_consts.php");
         $("#error-missing-fields").hide();
         $("#error-passwords-mismatch").hide();
 
-        const email = $("input#<?php echo USER_EMAIL; ?>").val();
-        const password = $("input#<?php echo USER_PSW; ?>").val();
-        const passwordRepeated = $("input#<?php echo USER_PSW; ?>-repeat").val();
-        const firstName = $("input#<?php echo USER_FIRST_NAME; ?>").val();
-        const lastName = $("input#<?php echo USER_LAST_NAME; ?>").val();
+        const email = $("input#email").val();
+        const password = $("input#psw").val();
+        const passwordRepeated = $("input#psw-repeat").val();
+        const firstName = $("input#first_name").val();
+        const lastName = $("input#last_name").val();
 
         if (email == "" || password == "" || firstName == "") {
             $("#error-missing-fields").slideDown();
@@ -28,17 +23,13 @@ include_once("./users_consts.php");
 
         const button = $("#register-button");
         button.attr("disabled");
-        button.val("");
-        $("#register-button-spinner").show();
 
         tryRegister(email, password, firstName, lastName, (result) => {
             if (result == Result.Ok)
                 window.location.href = "<?php echo $_GET["from"]; ?>";
             else
             {
-                button.val("Register");
                 button.removeAttr("disabled");
-                $("#register-button-spinner").hide();
                 switch(result) {
                     case Result.Ko:
                         $("#error-ko").slideDown();
@@ -66,26 +57,22 @@ include_once("./users_consts.php");
         <p id="error-ko" class="row col-12 alert alert-danger login-alert" role="alert">Error! Please make sure you're not already registered.</p>
 
         <form class="col-12 col-md-6 offset-md-3 row text-center" method="post">
-            <label class="col-12 form-label mb-3 p-0">Email:
-                <input class="form-control" type="email" id="<?php echo USER_EMAIL; ?>" name="<?php echo USER_EMAIL; ?>" placeholder="Insert email" required="true"/>
+            <label class="col-12 form-label mb-3 p-0" for="email">Email:
+                <input class="form-control" type="email" id="email" name="email" placeholder="Insert email" required/>
             </label>
-            <label class="col-12 form-label mb-3 p-0">Password:
-                <input class="form-control" type="password" id="<?php echo USER_PSW; ?>" name="<?php echo USER_PSW; ?>" placeholder="Insert password" required="true"/>
+            <label class="col-12 form-label mb-3 p-0" for="psw">Password:
+                <input class="form-control" type="password" id="psw" name="psw" placeholder="Insert password" required/>
             </label>
-            <label class="col-12 form-label mb-3 p-0">Repeat password:
-                <input class="form-control" type="password" id="<?php echo USER_PSW; ?>-repeat" placeholder="Repeat password" required="true"/>
+            <label class="col-12 form-label mb-3 p-0" for="psw-repeat">Repeat password:
+                <input class="form-control" type="password" id="psw-repeat" placeholder="Repeat password" required/>
             </label>
-            <label class="col-12 form-label mb-3 p-0">First name:
-                <input class="form-control" type="text" id="<?php echo USER_FIRST_NAME; ?>" name="<?php echo USER_FIRST_NAME; ?>" placeholder="Insert first name" required="true"/>
+            <label class="col-12 form-label mb-3 p-0" for="first_name">First name:
+                <input class="form-control" type="text" id="first_name" name="first_name" placeholder="Insert first name" required/>
             </label>
-            <label class="col-12 form-label mb-3 p-0">Last name (optional):
-                <input class="form-control" type="text" id="<?php echo USER_LAST_NAME; ?>" name="<?php echo USER_LAST_NAME; ?>" placeholder="Insert last name"/>
+            <label class="col-12 form-label mb-3 p-0" for="last_name">Last name (optional):
+                <input class="form-control" type="text" id="last_name" name="last_name" placeholder="Insert last name"/>
             </label>
-            <input class="col-12 btn button-primary mb-3" type="button" id="register-button" onclick="onRegister();" value="Register">
-                <div class="spinner-border spinner-border-sm d-none" id="register-button-spinner" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-            </input>
+            <input class="col-12 btn button-primary mb-3" type="button" id="register-button" onclick="onRegister();" value="Register"/>
             <a class="col-12" href="./login.php?from=<?php echo isset($_GET['from']) ? $_GET['from'] : "./"; ?>">Already registered? Login here</a>
         </form>
     </section>
