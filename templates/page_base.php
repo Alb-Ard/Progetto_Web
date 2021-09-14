@@ -23,8 +23,8 @@
     <body class="container-fluid p-0 m-0">
         <nav class="top-bar">
             <!-- MAIN HEADER -->
-            <section class="row m-0 p-3 justify-content-around">
-                <header class="col-3 order-0">
+            <section class="row m-0 p-3 align-items-center justify-content-around">
+                <header class="col-9 order-0 col-md-3  text-center">
                     <h1>
                         <a class="top-bar-logo black-link" href="./">Bookshelf</a>
                     </h1>
@@ -39,13 +39,22 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-3 order-1 col-md-1 order-md-2">
-                    <a class="black-link" href="#" onclick="$('#user-menu').slideToggle();">
-                        <img class="img-fluid" src="./imgs/user_icon.png" alt="user icon"/>
-                        <?php if (is_user_logged()) { ?>
-                            <p class="w-100 text-center"><?php echo get_client_info()["first_name"]; ?></p>
-                        <?php } ?>
-                    </a>
+                <div class="col-3 order-1 col-md-1 order-md-2 offset-md-2">
+                    <?php
+                        if (!isset($template_args[PAGE_HIDE_NAVBAR]) || !$template_args[PAGE_HIDE_NAVBAR]) { ?>
+                            <a class="black-link" href="#" onclick="$('#user-menu').slideToggle();">
+                                <img class="img-fluid" src="./imgs/user_icon.png" alt="user icon"/>
+                                <?php if (is_user_logged()) { ?>
+                                    <p class="w-100 text-center"><?php echo get_client_info()["first_name"]; ?></p>
+                                <?php } ?>
+                            </a>
+                        <?php } else { ?>
+                            <img class="img-fluid" src="./imgs/user_icon.png" alt="user icon"/>
+                            <?php if (is_user_logged()) { ?>
+                                <p class="w-100 text-center"><?php echo get_client_info()["first_name"]; ?></p>
+                            <?php }
+                        } 
+                    ?>
                 </div>
             </section>
             <?php

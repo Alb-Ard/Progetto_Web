@@ -36,11 +36,11 @@ $user_info = get_client_info();
             </section>
 
             <!-- NAVBAR -->
-            <ul class="row align-items-center justify-content-right mb-3 pt-3 pb-3 top-bar-seller-menu">
-                <li class="col top-bar-user-menu-item"><a class="black-link stretched-link" href="./">Back to home</a></li>
-                <li class="col top-bar-user-menu-item"><a class="black-link stretched-link" href="./seller_dashboard.php">Current listings</a></li>
-                <li class="col top-bar-user-menu-item"><a class="black-link stretched-link" href="./seller_orders.php">Current orders</a></li>
-                <li class="col top-bar-user-menu-item"><a class="black-link stretched-link" href="./seller_add_book.php">List new book</a></li>
+            <ul class="row align-items-center justify-content-right px-0 mb-3 pt-3 pb-3 top-bar-seller-menu">
+                <li class="col-12 col-md-3 top-bar-user-menu-item"><a class="black-link stretched-link" href="./">Back to home</a></li>
+                <li class="col-12 col-md-3 top-bar-user-menu-item"><a class="black-link stretched-link" href="./seller_dashboard.php">Current listings</a></li>
+                <li class="col-12 col-md-3 top-bar-user-menu-item"><a class="black-link stretched-link" href="./seller_orders.php">Current orders</a></li>
+                <li class="col-12 col-md-3 top-bar-user-menu-item"><a class="black-link stretched-link" href="./seller_add_book.php">List new book</a></li>
             </ul>
         </nav>
 

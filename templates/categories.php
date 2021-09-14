@@ -15,7 +15,7 @@
 
     foreach ($categories as $category) { ?>
         <li class="col position-relative home-category">
-            <a class="black-link stretched-link" href='./category.php?id=<?php echo $category["id"]; ?>&name=<?php echo$category["name"]; ?>'><?php echo $category["name"]; ?></a>
+            <a class="black-link stretched-link" href='./category.php?id=<?php echo $category["id"]; ?>&name=<?php echo $category["name"]; ?>&order=0&page=0'><?php echo $category["name"]; ?></a>
         </li>
     <?php }
 

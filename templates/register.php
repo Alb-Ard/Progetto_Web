@@ -56,7 +56,7 @@
         <p id="error-internal" class="row col-12 alert alert-danger login-alert" role="alert">Something went wrong! Please try again.</p>
         <p id="error-ko" class="row col-12 alert alert-danger login-alert" role="alert">Error! Please make sure you're not already registered.</p>
 
-        <form class="col-12 col-md-6 offset-md-3 row text-center" method="post">
+        <form class="col-10 offset-1 col-md-6 offset-md-3 row text-center" method="post">
             <label class="col-12 form-label mb-3 p-0" for="email">Email:
                 <input class="form-control" type="email" id="email" name="email" placeholder="Insert email" required/>
             </label>

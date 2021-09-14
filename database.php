@@ -111,7 +111,9 @@ class book_data {
     }
 }
 
-class books_table {
+define("BOOKS_RESULT_PAGE_COUNT", 20);
+
+class books_table {    
     private mysqli $conn;
 
     public function __construct(mysqli $conn) {
@@ -125,7 +127,7 @@ class books_table {
     }
 
     public function get_user_books(string $user_email) : array {
-        $query = create_statement($this->conn, "SELECT * FROM books WHERE owner = ?");
+        $query = create_statement($this->conn, "SELECT * FROM books WHERE owner = ? ORDER BY title");
         $query->bind_param("s", $user_email);
         if(!$query->execute())
             return [];
@@ -137,9 +139,24 @@ class books_table {
         return $books;
     }
 
-    public function get_books_in_category(int $category) : array {
-        $query = create_statement($this->conn, "SELECT * FROM books WHERE category = ?");
-        $query->bind_param("i", $category);
+    public function get_books_in_category(int $category, int $order, int $page) : array {
+        $order_column;
+        switch($order) {
+            default:
+            case 0:
+                $order_column = "title";
+                break;
+            case 1:
+                $order_column = "author";
+                break;
+            case 2:
+                $order_column = "price";
+                break;
+        }
+        $query = create_statement($this->conn, "SELECT * FROM books WHERE category = ? ORDER BY $order_column LIMIT ?, ?");
+        $page_count = BOOKS_RESULT_PAGE_COUNT;
+        $page_offset = $page * $page_count;
+        $query->bind_param("iii", $category, $page_offset, $page_count);
         if(!$query->execute())
             return [];
         
@@ -148,6 +165,12 @@ class books_table {
         foreach ($results as $result)
             array_push($books, book_data::map_from_result($result));
         return $books;
+    }
+
+    public function get_book_pages_in_category_count(int $category) : int {
+        $query = create_statement($this->conn, "SELECT COUNT(*) FROM books WHERE category = ?");
+        $query->bind_param("i", $category);
+        return $query->execute() ? ($query->get_result()->fetch_all(MYSQLI_NUM)[0][0] / BOOKS_RESULT_PAGE_COUNT) + 1 : 0;
     }
 
     public function get_book(int $id) : book_data {
@@ -168,7 +191,7 @@ class books_table {
 
     public function search(string $key) : array {
         $key = "%" . $key . "%";
-        $query = create_statement($this->conn, "SELECT * FROM books WHERE title LIKE ? OR author LIKE ?");
+        $query = create_statement($this->conn, "SELECT * FROM books WHERE title LIKE ? OR author LIKE ? ORDER BY title");
         $query->bind_param("ss", $key, $key);
         if(!$query->execute())
             return [];
