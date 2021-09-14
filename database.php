@@ -245,9 +245,9 @@ class carted_books_table {
     }
 
     public function add_book_to_cart(string $user_email, int $book_id) : bool {
-        $query = create_statement($this->conn, "SELECT available FROM books WHERE id = ? AND available = ''SOLD");
-        $query->bind_param("is", $book_id);
-        if (!$query->execute() || $query->get_results()->num_rows > 0)
+        $query = create_statement($this->conn, "SELECT available FROM books WHERE id = ? AND available = 'SOLD'");
+        $query->bind_param("i", $book_id);
+        if (!$query->execute() || $query->get_result()->num_rows > 0)
             return false;
 
         $query = create_statement($this->conn, "INSERT INTO carted_books VALUES(?, ?)");
