@@ -1,3 +1,32 @@
+<?php
+
+$seller = $db_conn->get_users()->get_infos($book->user_email);
+$logged = is_user_logged();
+$user = get_client_info();
+$book_available = $book->available != BOOK_SOLD;
+$book_in_cart = $logged ? $db_conn->get_carted_books()->is_book_in_cart($user["email"], $book->id) : false;
+$button_value = $logged ? ($book_available ? ($book_in_cart ? "Remove from cart" : "Add to cart") : "Unavailable") : "Login to add to your cart"; 
+$button_func = !$logged? "$('#user-menu').slideDown();" : "onAddToCart();";
+
+?>
+<script type="text/javascript">
+    let next_action = "<?php echo $book_in_cart ? "remove" : "add" ?>";
+
+    function onAddToCart() {
+        const data = {
+            "action": next_action,
+            "book_id": <?php echo $book->id; ?>,
+        };
+        $("#action-button").attr("disabled");
+        $.post("./apis/cart_api.php", data, (result) => {
+                $("#action-button").removeAttr("disabled");
+            if (JSON.parse(result)) {
+                $("#action-button").val(next_action == "add" ? "Remove from cart" : "Add to cart");
+                next_action = next_action == "add" ? "remove" : "add";
+            }
+        });
+    }
+</script>
 <header class="row">
     <h2 class="col-12 text-center"><?php echo $book->title; ?></h2>
 </header>
@@ -8,8 +37,7 @@
         <p>Written by <?php echo $book->author; ?></p>
         <p>Sold by <?php 
 
-        $user = $db_conn->get_users()->get_infos($book->user_email);
-        echo $user["first_name"] . " " . $user["last_name"];
+        echo $seller["first_name"] . " " . $seller["last_name"];
 
         ?></p>
         <p>Price: <?php echo $book->price; ?>€</p>
@@ -19,14 +47,10 @@
     <aside class="col-12 col-md-3">
         <?php
         
-        if (is_user_logged() && $book->user_email == get_client_info()["email"]) { ?>
+        if ($logged && $book->user_email == $user["email"]) { ?>
             <a class="btn button-primary w-100" type="button" href="./seller_edit.php?id=<?php echo $book->id; ?>">Edit listing</a>
-        <?php } else {
-            $book_available = $book->available != BOOK_SOLD;
-            $add_to_cart_value = is_user_logged() ? ($book_available ? "Add to cart" : "Unavailable") : "Login to add to your cart"; 
-            $add_to_cart_onclick = !is_user_logged() ? "$('#user-menu').slideDown();" : ""; ?>
-            <!-- TODO: disable if already in cart -->
-            <input class="btn button-secondary w-100 mb-3" type="button" value="<?php echo $add_to_cart_value; ?>" onclick="<?php echo $add_to_cart_onclick; ?>"<?php if(!$book_available) echo ' disabled="true"'; ?>/>
+        <?php } else { ?>
+            <input class="btn button-secondary w-100 mb-3" id="action-button" type="button" value="<?php echo $button_value; ?>" onclick="<?php echo $button_func; ?>"<?php if(!$book_available) echo ' disabled="true"'; ?>/>
         <?php }
         
         ?>

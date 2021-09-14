@@ -5,7 +5,7 @@
     <ul class="row m-0 p-0 justify-content-center">
         <?php
         
-        $carted_books = $db_conn->get_books()->get_carted_books((get_client_info()["email"]));
+        $carted_books = $db_conn->get_carted_books()->get_carted_books((get_client_info()["email"]));
         
         if (count($carted_books) == 0) { ?>
             <h3>There are no books in your cart!</h3>

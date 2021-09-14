@@ -243,6 +243,24 @@ class carted_books_table {
             array_push($books, book_data::map_from_result($result));
         return $books;
     }
+
+    public function add_book_to_cart(string $user_email, int $book_id) : bool {
+        $query = create_statement($this->conn, "INSERT INTO carted_books VALUES(?, ?)");
+        $query->bind_param("is", $book_id, $user_email);
+        return $query->execute() && $query->affected_rows > 0;
+    }
+
+    public function is_book_in_cart(string $user_email, int $book_id) : bool {
+        $query = create_statement($this->conn, "SELECT * FROM carted_books WHERE user_id = ? AND book_id = ?");
+        $query->bind_param("si", $user_email, $book_id);
+        return $query->execute() && $query->get_result()->num_rows > 0;
+    }
+
+    public function remove_book_to_cart(string $user_email, int $book_id) : bool {
+        $query = create_statement($this->conn, "DELETE FROM carted_books WHERE user_id = ? AND book_id = ?");
+        $query->bind_param("si", $user_email, $book_id);
+        return $query->execute() && $query->affected_rows > 0;
+    }
 }
 
 ?>
