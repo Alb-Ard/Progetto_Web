@@ -95,6 +95,7 @@ class book_data {
     public string $state = "";
     public string $price = "";
     public string $available = "";
+    public string $image = "";
     public string $user_email = "";
 
     public static function map_from_result(array $result) : book_data {
@@ -106,6 +107,7 @@ class book_data {
         $book->state = $result["state"];
         $book->price = $result["price"];
         $book->available = $result["available"];
+        $book->image = $result["image"];
         $book->user_email = $result["owner"];
         return $book;
     }
@@ -121,8 +123,8 @@ class books_table {
     }
 
     public function add_book(book_data $book) : bool {
-        $query = create_statement($this->conn, "INSERT INTO books (title, author, category, state, price, owner) VALUES (?, ?, ?, ?, ?, ?)");
-        $query->bind_param("ssisss", $book->title, $book->author, $book->category, $book->state, $book->price, $book->user_email);
+        $query = create_statement($this->conn, "INSERT INTO books (title, author, category, state, price, image, owner) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $query->bind_param("ssissss", $book->title, $book->author, $book->category, $book->state, $book->price, $book->image, $book->user_email);
         return $query->execute() && $query->affected_rows > 0;
     }
 
@@ -184,9 +186,11 @@ class books_table {
     }
 
     public function edit_book(book_data $book) : bool {
-        $query = create_statement($this->conn, "UPDATE books SET title = ?, author = ?, category = ?, state = ?, price = ?, owner = ? WHERE id = ?");
-        $query->bind_param("ssisssi", $book->title, $book->author, $book->category, $book->state, $book->price, $book->user_email, $book->id);
-        return $query->execute();
+        $query = create_statement($this->conn, "UPDATE books SET title = ?, author = ?, category = ?, state = ?, price = ?, image = ?, owner = ? WHERE id = ?");
+        $query->bind_param("ssissssi", $book->title, $book->author, $book->category, $book->state, $book->price, $book->image, $book->user_email, $book->id);
+        $r = $query->execute();
+        echo mysqli_error($this->conn);
+        return $r;
     }
 
     public function search(string $key) : array {

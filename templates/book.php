@@ -43,7 +43,7 @@ $button_func = !$logged? "$('#user-menu').slideDown();" : "onAddToCart();";
     <h2 class="col-12 text-center"><?php echo $book->title; ?></h2>
 </header>
 <section class="row justify_content_center">
-    <img class="col-12 col-md-3 offset-md-1" src="./imgs/archive.png" alt="book image"/>
+    <img class="col-12 col-md-3 offset-md-1" src="<?php echo $book->image ?>" alt="book image"/>
     <div class="col-12 col-md-4">
         <h3>Book info:</h3>
         <p>Written by <?php echo $book->author; ?></p>

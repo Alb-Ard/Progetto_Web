@@ -24,7 +24,7 @@ if (count($user_info) == 0)
 
         for (let i = 0; i < books.length; i++) {
             parent.append('<article class="col-6 col-md-2 position-relative">\
-                    <img class="w-100" src="./imgs/archive.png" alt="">\
+                    <img class="w-100" src="' + books[i]["image"] + '" alt="">\
                     <a class="black-link w-100 text-center stretched-link" href="./book.php?id=' + books[i]["id"] + '">' + books[i]["title"] + '</a>\
                 </article>');
         }
