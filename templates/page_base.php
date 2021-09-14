@@ -23,38 +23,40 @@
     <body class="container-fluid p-0 m-0">
         <nav class="top-bar">
             <!-- MAIN HEADER -->
-            <section class="row m-0 p-3 align-items-center justify-content-around">
-                <header class="col-9 order-0 col-md-3  text-center">
-                    <h1>
-                        <a class="top-bar-logo black-link" href="./">Bookshelf</a>
-                    </h1>
-                </header>
-                <div class="col-12 order-2 col-md-6 order-md-1">
-                    <form class="row" action="./find_books.php" method="get">
-                        <label class="col visually-hidden" for="key">Search query</label>
-                        <label class="col visually-hidden" for="search_confirm">Execute Search</label>
+            <section class="m-0 p-3">
+                <div class="row align-items-center justify-content-around">
+                    <header class="col order-0">
+                        <h1>
+                            <a class="top-bar-logo black-link" href="./">Bookshelf</a>
+                        </h1>
+                    </header>
+                    <div class="col-3 col-md-1">
+                        <?php
+                            if (!isset($template_args[PAGE_HIDE_NAVBAR]) || !$template_args[PAGE_HIDE_NAVBAR]) { ?>
+                                <a class="black-link" href="#" onclick="$('#user-menu').slideToggle();">
+                                    <img class="img-fluid" src="./imgs/user_icon.png" alt="user icon"/>
+                                    <?php if (is_user_logged()) { ?>
+                                        <p class="w-100 text-center"><?php echo get_client_info()["first_name"]; ?></p>
+                                    <?php } ?>
+                                </a>
+                            <?php } else { ?>
+                                <img class="img-fluid" src="./imgs/user_icon.png" alt="user icon"/>
+                                <?php if (is_user_logged()) { ?>
+                                    <p class="w-100 text-center"><?php echo get_client_info()["first_name"]; ?></p>
+                                <?php }
+                            } 
+                        ?>
+                    </div>
+                </div>
+                <div class="row col">
+                    <form action="./find_books.php" method="get">
+                        <label class="visually-hidden" for="key">Search query</label>
+                        <label class="visually-hidden" for="search_confirm">Execute Search</label>
                         <div class="input-group">
                             <input class="col form-control" type="text" id="key" name="key"/>
                             <input class="col-2 col-md-1 btn button-secondary img-fluid" type="image" id="search_confirm" src="./imgs/search.png" alt="search book"/>
                         </div>
                     </form>
-                </div>
-                <div class="col-3 order-1 col-md-1 order-md-2 offset-md-2">
-                    <?php
-                        if (!isset($template_args[PAGE_HIDE_NAVBAR]) || !$template_args[PAGE_HIDE_NAVBAR]) { ?>
-                            <a class="black-link" href="#" onclick="$('#user-menu').slideToggle();">
-                                <img class="img-fluid" src="./imgs/user_icon.png" alt="user icon"/>
-                                <?php if (is_user_logged()) { ?>
-                                    <p class="w-100 text-center"><?php echo get_client_info()["first_name"]; ?></p>
-                                <?php } ?>
-                            </a>
-                        <?php } else { ?>
-                            <img class="img-fluid" src="./imgs/user_icon.png" alt="user icon"/>
-                            <?php if (is_user_logged()) { ?>
-                                <p class="w-100 text-center"><?php echo get_client_info()["first_name"]; ?></p>
-                            <?php }
-                        } 
-                    ?>
                 </div>
             </section>
             <?php

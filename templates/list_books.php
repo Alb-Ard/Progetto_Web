@@ -1,29 +1,31 @@
-<header class="row text-center">
-    <h2 class="col"><?php echo $template_args[PAGE_TITLE]; ?></h2>
+<header class="row">
+    <h2 class="col text-center"><?php echo $template_args[PAGE_TITLE]; ?></h2>
 </header>
 <?php
 
-if (isset($show_order) && $show_order) { ?>
-    <div class="row">
-        <p class="col">Order by:</p>
-        <ul class="col list-group list-group-horizontal">
-            <li class="list-group-item position-relative button-primary"><a class="stretched-link black-link" href="<?php echo get_order_href(0); ?>">Title</a></li>
-            <li class="list-group-item position-relative button-primary"><a class="stretched-link black-link" href="<?php echo get_order_href(1); ?>">Author</a></li>
-            <li class="list-group-item position-relative button-primary"><a class="stretched-link black-link" href="<?php echo get_order_href(2); ?>">Price</a></li>
+$books_count = count($books);
+
+if (isset($show_order) && $show_order && $books_count > 0) { ?>
+    <div class="row align-items-center m-3">
+        <p class="col-12 col-md-auto text-center">Order by:</p>
+        <ul class="col-12 col-md-auto text-center">
+            <li class="d-inline position-relative btn button-primary"><a class="stretched-link black-link" href="<?php echo get_order_href(0); ?>">Title</a></li>
+            <li class="d-inline position-relative btn button-primary"><a class="stretched-link black-link" href="<?php echo get_order_href(1); ?>">Author</a></li>
+            <li class="d-inline position-relative btn button-primary"><a class="stretched-link black-link" href="<?php echo get_order_href(2); ?>">Price</a></li>
         </ul>
     </div>
 <?php }
 
 ?>
-<section>
+<section class="row">
     <?php
         
     if (count($books) == 0) { ?>
-        <h3 class="row col-12 text-center">No books found!</h3>
+        <h3 class="col text-center">No books found!</h3>
     <?php } else { ?>
-        <ul class="row m-0 p-0 justify-content-center" id="book-list"> <?php
+        <ul class="m-0 p-0 justify-content-center" id="book-list"> <?php
             foreach($books as $book) { ?>
-                <li class="col-5 col-md-2 row position-relative category-list-book">
+                <li class="col-5 col-md-2 col-xxl-1 row position-relative category-list-book">
                     <header>
                         <h3 class="col-12 text-truncate">
                             <a class="stretched-link black-link" href="./book.php?id=<?php echo $book->id; ?>"><?php echo $book->title; ?></a>
@@ -38,7 +40,7 @@ if (isset($show_order) && $show_order) { ?>
 </section>
 <?php
 
-if (isset($show_pages) && $show_pages) { 
+if (isset($show_pages) && $show_pages && $books_count > 0) { 
     $previous_page = max(min($current_page - 1, $pages_count - 1), 0);
     $next_page = max(min($current_page + 1, $pages_count - 1), 0);
     ?>
