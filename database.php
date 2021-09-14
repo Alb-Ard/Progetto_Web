@@ -49,6 +49,10 @@ class database {
     public function get_carted_books() : carted_books_table {
         return $this->carted_books_table;
     }
+
+    public function get_payment_methods() : payment_methods_table{
+        return $this->payment_methods_table;
+    }
 }
 
 class users_table {
@@ -260,6 +264,59 @@ class carted_books_table {
         $query = create_statement($this->conn, "DELETE FROM carted_books WHERE user_id = ? AND book_id = ?");
         $query->bind_param("si", $user_email, $book_id);
         return $query->execute() && $query->affected_rows > 0;
+    }
+}
+
+class payment_data {
+    public int $payment_id = 0;
+    public string $user_id = "";
+    public string $type = "";
+    public int $number = NULL;
+    public int $cvv = "";
+    public string $date = "";
+
+    public static function map_from_result(array $result) : payment_data {
+        $payment = new payment_data();
+        $payment->payment_id = $result["payment_id"];
+        $payment->user_id = $result["user_id"];
+        $payment->type = $result["type"];
+        $payment->number = $result["number"];
+        $payment->cvv = $result["cvv"];
+        $payment->date = $result["date"];
+        return $payment;
+    }
+}
+
+class address_data {
+    public int $address_id = 0;
+    public string $user_id = "";
+    public string $address = "";
+
+    public static function map_from_result(array $result) : address_data {
+        $address = new address_data();
+        $address->address_id = $result["address_id"];
+        $address->user_id = $result["user_id"];
+        $address->address = $result["address"];
+        return $address;
+    }
+}
+
+class payment_methods_table{
+    public function __construct(mysqli $conn) {
+        $this->conn = $conn;
+    }
+
+    public function get_carted_books(string $user_id) : array {
+        $query = create_statement($this->conn, "SELECT * FROM payment_methods WHERE  user_id = ? ");
+        $query->bind_param("s", $user_id);
+        if(!$query->execute())
+            return [];
+        
+        $results = $query->get_result()->fetch_all(MYSQLI_ASSOC);
+        $books = [];
+        foreach ($results as $result)
+            array_push($books, book_data::map_from_result($result));
+        return $books;
     }
 }
 
