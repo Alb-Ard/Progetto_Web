@@ -245,6 +245,11 @@ class carted_books_table {
     }
 
     public function add_book_to_cart(string $user_email, int $book_id) : bool {
+        $query = create_statement($this->conn, "SELECT available FROM books WHERE id = ? AND available = ''SOLD");
+        $query->bind_param("is", $book_id);
+        if (!$query->execute() || $query->get_results()->num_rows > 0)
+            return false;
+
         $query = create_statement($this->conn, "INSERT INTO carted_books VALUES(?, ?)");
         $query->bind_param("is", $book_id, $user_email);
         return $query->execute() && $query->affected_rows > 0;
@@ -252,6 +257,12 @@ class carted_books_table {
 
     public function is_book_in_cart(string $user_email, int $book_id) : bool {
         $query = create_statement($this->conn, "SELECT * FROM carted_books WHERE user_id = ? AND book_id = ?");
+        $query->bind_param("si", $user_email, $book_id);
+        return $query->execute() && $query->get_result()->num_rows > 0;
+    }
+
+    public function is_book_in_any_cart(int $book_id) : bool {
+        $query = create_statement($this->conn, "SELECT * FROM carted_books WHERE book_id = ?");
         $query->bind_param("si", $user_email, $book_id);
         return $query->execute() && $query->get_result()->num_rows > 0;
     }
