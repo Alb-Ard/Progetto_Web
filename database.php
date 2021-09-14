@@ -360,4 +360,50 @@ class payment_methods_table{
     }
 }
 
+class addresses_table{
+    public function __construct(mysqli $conn) {
+        $this->conn = $conn;
+    }
+
+    public function get_addresses(string $user_id) : array {
+        $query = create_statement($this->conn, "SELECT * FROM addresses WHERE  user_id = ? ");
+        $query->bind_param("s", $user_id);
+        if(!$query->execute())
+            return [];
+        
+        $results = $query->get_result()->fetch_all(MYSQLI_ASSOC);
+        $payments = [];
+        foreach ($results as $result)
+            array_push($addresses, address_data::map_from_result($result));
+        return $payments;
+    }
+    public function add_address(address_data $address) : bool {
+        $query = create_statement($this->conn, "INSERT INTO addresses (user_id, address) VALUES (?, ?)");
+        $query->bind_param("ss", $address->user_id, $address->address);
+        return $query->execute() && $query->affected_rows > 0;
+    }
+
+    public function remove_address(string $user_email, address_data $card) : bool {
+        $query = create_statement($this->conn, "DELETE FROM addresses WHERE user_id = ? AND address_id = ?");
+        $query->bind_param("si", $user_email, $card->$payment_id);
+        return $query->execute() && $query->affected_rows > 0;
+    }
+
+    public function get_address(int $id) : address_data {
+        $query = create_statement($this->conn, "SELECT * FROM addresses WHERE address_id = ?");
+        $query->bind_param("i", $id);
+        if(!$query->execute())
+            return [];
+        
+        $results = $query->get_result()->fetch_all(MYSQLI_ASSOC);
+        return address_data::map_from_result($results[0]);
+    }
+
+    public function edit_address(address_data $card) : bool {
+        $query = create_statement($this->conn, "UPDATE addresses SET address = ? WHERE address_id = ?");
+        $query->bind_param("si",  $address->address, $address->address_id);
+        return $query->execute();
+    }
+}
+
 ?>
