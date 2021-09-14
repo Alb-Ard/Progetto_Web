@@ -40,7 +40,7 @@
                     <h3 class="col-12">
                         <a class="black-link" href="./book.php?id=<?php echo $book->id; ?>"><?php echo $book->title; ?></a>
                     </h3>
-                    <img class="col-12" src="./imgs/archive.png" alt="<?php echo $book->title; ?> image">
+                    <img class="col-12" src="<?php echo $book->image ?>" alt="<?php echo $book->title; ?> image">
                 </header>
                 <p class="col-12"><?php echo $book->price ?>€</p>
                 <button class="col-12 btn button-secondary" type="button" onclick="onRemoveBook(<?php echo $book->id; ?>);" aria-label="remove book form cart">Remove from cart</button>

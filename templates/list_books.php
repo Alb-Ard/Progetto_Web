@@ -30,7 +30,7 @@ if (isset($show_order) && $show_order && $books_count > 0) { ?>
                         <h3 class="col-12 text-truncate">
                             <a class="stretched-link black-link" href="./book.php?id=<?php echo $book->id; ?>"><?php echo $book->title; ?></a>
                         </h3>
-                        <img class="col-12" src="./imgs/archive.png" alt="<?php echo $book->title; ?> image">
+                        <img class="col-12" src="<?php echo $book->image ?>" alt="<?php echo $book->title; ?> image">
                     </header>
                     <p class="col-12"><?php echo $book->price ?>€</p>
                 </li>
