@@ -14,6 +14,7 @@ class database {
     private categories_table $categories_table;
     private carted_books_table $carted_books_table;
     private payment_methods_table $payment_methods_table;
+    private addresses_table $addresses_table;
 
     public function __construct() {
         $this->connected = false;
@@ -33,6 +34,7 @@ class database {
         $this->categories_table = new categories_table($this->conn);
         $this->carted_books_table = new carted_books_table($this->conn);
         $this->payment_methods_table = new payment_methods_table($this->conn);
+        $this->addresses_table = new addresses_table($this->conn);
         return true;
     }
 
@@ -54,6 +56,10 @@ class database {
 
     public function get_payment_methods() : payment_methods_table{
         return $this->payment_methods_table;
+    }
+
+    public function get_addresses() : addresses_table{
+        return $this->addresses_table;
     }
 }
 
@@ -332,7 +338,7 @@ class payment_methods_table{
         $results = $query->get_result()->fetch_all(MYSQLI_ASSOC);
         $payments = [];
         foreach ($results as $result)
-            array_push($books, payment_data::map_from_result($result));
+            array_push($payments, payment_data::map_from_result($result));
         return $payments;
     }
     public function add_card(payment_data $card) : bool {
@@ -376,10 +382,10 @@ class addresses_table{
             return [];
         
         $results = $query->get_result()->fetch_all(MYSQLI_ASSOC);
-        $payments = [];
+        $addresses = [];
         foreach ($results as $result)
             array_push($addresses, address_data::map_from_result($result));
-        return $payments;
+        return $addresses;
     }
     public function add_address(address_data $address) : bool {
         $query = create_statement($this->conn, "INSERT INTO addresses (user_id, address) VALUES (?, ?)");
