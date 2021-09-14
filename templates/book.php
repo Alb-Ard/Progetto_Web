@@ -12,21 +12,33 @@ $button_func = !$logged? "$('#user-menu').slideDown();" : "onAddToCart();";
 <script type="text/javascript">
     let next_action = "<?php echo $book_in_cart ? "remove" : "add" ?>";
 
+    $(document).ready(() => {
+        $("#success").hide();
+        $("#failed").hide();
+    });
+
     function onAddToCart() {
         const data = {
             "action": next_action,
             "book_id": <?php echo $book->id; ?>,
         };
         $("#action-button").attr("disabled");
+        $("#success").hide();
+        $("#failed").hide();
         $.post("./apis/cart_api.php", data, (result) => {
-                $("#action-button").removeAttr("disabled");
+            $("#action-button").removeAttr("disabled");
             if (JSON.parse(result)) {
                 $("#action-button").val(next_action == "add" ? "Remove from cart" : "Add to cart");
                 next_action = next_action == "add" ? "remove" : "add";
+                $("#success").slideDown();
+            } else {
+                $("#failed").slideDown();
             }
         });
     }
 </script>
+<p id="success" class="row col-12 col-md-10 offset-md-1 alert alert-primary" role="alert">Operation completed!</p>
+<p id="failed" class="row col-12 col-md-10 offset-md-1 alert alert-danger" role="alert">Something went wrong, please try again.</p>
 <header class="row">
     <h2 class="col-12 text-center"><?php echo $book->title; ?></h2>
 </header>
