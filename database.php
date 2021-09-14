@@ -13,6 +13,7 @@ class database {
     private books_table $books_table;
     private categories_table $categories_table;
     private carted_books_table $carted_books_table;
+    private payment_methods_table $payment_methods_table;
 
     public function __construct() {
         $this->connected = false;
@@ -31,6 +32,7 @@ class database {
         $this->books_table = new books_table($this->conn);
         $this->categories_table = new categories_table($this->conn);
         $this->carted_books_table = new carted_books_table($this->conn);
+        $this->payment_methods_table = new payment_methods_table($this->conn);
         return true;
     }
 
@@ -271,8 +273,8 @@ class payment_data {
     public int $payment_id = 0;
     public string $user_id = "";
     public string $type = "";
-    public int $number = NULL;
-    public int $cvv = "";
+    public int $number = 0;
+    public int $cvv = 0;
     public string $date = "";
 
     public static function map_from_result(array $result) : payment_data {
@@ -306,17 +308,28 @@ class payment_methods_table{
         $this->conn = $conn;
     }
 
-    public function get_carted_books(string $user_id) : array {
+    public function get_payment_methods(string $user_id) : array {
         $query = create_statement($this->conn, "SELECT * FROM payment_methods WHERE  user_id = ? ");
         $query->bind_param("s", $user_id);
         if(!$query->execute())
             return [];
         
         $results = $query->get_result()->fetch_all(MYSQLI_ASSOC);
-        $books = [];
+        $payments = [];
         foreach ($results as $result)
-            array_push($books, book_data::map_from_result($result));
-        return $books;
+            array_push($books, payment_data::map_from_result($result));
+        return $payments;
+    }
+    public function add_card(payment_data $card) : bool {
+        $query = create_statement($this->conn, "INSERT INTO payment_methods (user_id, type, number, cvv, date) VALUES (?, ?, ?, ?, ?)");
+        $query->bind_param("ssisss", $card->user_id, $card->type, $card->number, $card->cvv, $card->date);
+        return $query->execute() && $query->affected_rows > 0;
+    }
+
+    public function remove_card(string $user_email, payment_data $card) : bool {
+        $query = create_statement($this->conn, "DELETE FROM payment_methods WHERE user_id = ? AND payment_id = ?");
+        $query->bind_param("si", $user_email, $card->$payment_id);
+        return $query->execute() && $query->affected_rows > 0;
     }
 }
 
