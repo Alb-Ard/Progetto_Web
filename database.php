@@ -13,6 +13,7 @@ class database {
     private books_table $books_table;
     private categories_table $categories_table;
     private carted_books_table $carted_books_table;
+    private payment_methods_table $payment_methods_table;
 
     public function __construct() {
         $this->connected = false;
@@ -31,6 +32,7 @@ class database {
         $this->books_table = new books_table($this->conn);
         $this->categories_table = new categories_table($this->conn);
         $this->carted_books_table = new carted_books_table($this->conn);
+        $this->payment_methods_table = new payment_methods_table($this->conn);
         return true;
     }
 
@@ -48,6 +50,10 @@ class database {
 
     public function get_carted_books() : carted_books_table {
         return $this->carted_books_table;
+    }
+
+    public function get_payment_methods() : payment_methods_table{
+        return $this->payment_methods_table;
     }
 }
 
@@ -275,6 +281,86 @@ class carted_books_table {
         $query = create_statement($this->conn, "DELETE FROM carted_books WHERE user_id = ? AND book_id = ?");
         $query->bind_param("si", $user_email, $book_id);
         return $query->execute() && $query->affected_rows > 0;
+    }
+}
+
+class payment_data {
+    public int $payment_id = 0;
+    public string $user_id = "";
+    public string $type = "";
+    public int $number = 0;
+    public int $cvv = 0;
+    public string $date = "";
+
+    public static function map_from_result(array $result) : payment_data {
+        $payment = new payment_data();
+        $payment->payment_id = $result["payment_id"];
+        $payment->user_id = $result["user_id"];
+        $payment->type = $result["type"];
+        $payment->number = $result["number"];
+        $payment->cvv = $result["cvv"];
+        $payment->date = $result["date"];
+        return $payment;
+    }
+}
+
+class address_data {
+    public int $address_id = 0;
+    public string $user_id = "";
+    public string $address = "";
+
+    public static function map_from_result(array $result) : address_data {
+        $address = new address_data();
+        $address->address_id = $result["address_id"];
+        $address->user_id = $result["user_id"];
+        $address->address = $result["address"];
+        return $address;
+    }
+}
+
+class payment_methods_table{
+    public function __construct(mysqli $conn) {
+        $this->conn = $conn;
+    }
+
+    public function get_payment_methods(string $user_id) : array {
+        $query = create_statement($this->conn, "SELECT * FROM payment_methods WHERE  user_id = ? ");
+        $query->bind_param("s", $user_id);
+        if(!$query->execute())
+            return [];
+        
+        $results = $query->get_result()->fetch_all(MYSQLI_ASSOC);
+        $payments = [];
+        foreach ($results as $result)
+            array_push($books, payment_data::map_from_result($result));
+        return $payments;
+    }
+    public function add_card(payment_data $card) : bool {
+        $query = create_statement($this->conn, "INSERT INTO payment_methods (user_id, type, number, cvv, date) VALUES (?, ?, ?, ?, ?)");
+        $query->bind_param("ssiis", $card->user_id, $card->type, $card->number, $card->cvv, $card->date);
+        return $query->execute() && $query->affected_rows > 0;
+    }
+
+    public function remove_card(string $user_email, payment_data $card) : bool {
+        $query = create_statement($this->conn, "DELETE FROM payment_methods WHERE user_id = ? AND payment_id = ?");
+        $query->bind_param("si", $user_email, $card->$payment_id);
+        return $query->execute() && $query->affected_rows > 0;
+    }
+
+    public function get_card(int $id) : payment_data {
+        $query = create_statement($this->conn, "SELECT * FROM payment_methods WHERE payment_id = ?");
+        $query->bind_param("i", $id);
+        if(!$query->execute())
+            return [];
+        
+        $results = $query->get_result()->fetch_all(MYSQLI_ASSOC);
+        return payment_data::map_from_result($results[0]);
+    }
+
+    public function edit_card(payment_data $card) : bool {
+        $query = create_statement($this->conn, "UPDATE payment_methods SET type = ?, number = ?, cvv = ?, date = ? WHERE payment_id = ?");
+        $query->bind_param("siisi",  $card->type, $card->number, $card->cvv, $card->date, $card->payment_id);
+        return $query->execute();
     }
 }
 
