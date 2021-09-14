@@ -322,7 +322,7 @@ class payment_methods_table{
     }
     public function add_card(payment_data $card) : bool {
         $query = create_statement($this->conn, "INSERT INTO payment_methods (user_id, type, number, cvv, date) VALUES (?, ?, ?, ?, ?)");
-        $query->bind_param("ssisss", $card->user_id, $card->type, $card->number, $card->cvv, $card->date);
+        $query->bind_param("ssiis", $card->user_id, $card->type, $card->number, $card->cvv, $card->date);
         return $query->execute() && $query->affected_rows > 0;
     }
 
@@ -330,6 +330,22 @@ class payment_methods_table{
         $query = create_statement($this->conn, "DELETE FROM payment_methods WHERE user_id = ? AND payment_id = ?");
         $query->bind_param("si", $user_email, $card->$payment_id);
         return $query->execute() && $query->affected_rows > 0;
+    }
+
+    public function get_card(int $id) : payment_data {
+        $query = create_statement($this->conn, "SELECT * FROM payment_methods WHERE payment_id = ?");
+        $query->bind_param("i", $id);
+        if(!$query->execute())
+            return [];
+        
+        $results = $query->get_result()->fetch_all(MYSQLI_ASSOC);
+        return payment_data::map_from_result($results[0]);
+    }
+
+    public function edit_card(payment_data $card) : bool {
+        $query = create_statement($this->conn, "UPDATE payment_methods SET type = ?, number = ?, cvv = ?, date = ? WHERE payment_id = ?");
+        $query->bind_param("siisi",  $card->type, $card->number, $card->cvv, $card->date, $card->payment_id);
+        return $query->execute();
     }
 }
 
