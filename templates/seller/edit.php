@@ -33,6 +33,7 @@ $book = $db_conn->get_books()->get_book($_GET["id"]);
         $on_confirm_value = "Edit";
         $on_confirm_func = "onEditBook();";
         $action = "edit";
+        $image_required = false;
         include_once("./templates/seller/book_form.php");
         
         ?>

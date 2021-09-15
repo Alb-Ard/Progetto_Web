@@ -48,13 +48,13 @@
                         ?>
                     </div>
                 </div>
-                <div class="row col">
-                    <form action="./find_books.php" method="get">
+                <div class="row top-bar-search">
+                    <form class="h-100 col-12 col-md-10 offset-md-1" action="./find_books.php" method="get">
                         <label class="visually-hidden" for="key">Search query</label>
                         <label class="visually-hidden" for="search_confirm">Execute Search</label>
-                        <div class="input-group">
-                            <input class="col form-control" type="text" id="key" name="key"/>
-                            <input class="col-2 col-md-1 btn button-secondary img-fluid" type="image" id="search_confirm" src="./imgs/search.png" alt="search book"/>
+                        <div class="input-group h-100">
+                            <input class="col form-control h-100" type="text" id="key" name="key"/>
+                            <input class="col-2 col-md-1 btn button-secondary top-bar-search-icon" type="image" id="search_confirm" src="./imgs/search.png" alt="search book"/>
                         </div>
                     </form>
                 </div>
@@ -82,6 +82,23 @@
             <?php include_once($template_args[PAGE_BODY]); ?>
         </main>
         
+        <div class="modal fade" id="completed-modal" tabindex="-1">
+            <div class="modal-dialog">
+                <section class="modal-content">
+                    <header class="modal-header">
+                        <p class="modal-title">Info</p>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </header>
+                    <div class="modal-body">
+                        <p>Operation completed sucesfully.</p>
+                    </div>
+                    <footer class="modal-footer">
+                        <button type="button" class="btn button-primary w-100" data-bs-dismiss="modal">Ok</button>
+                    </footer>
+                </section>
+            </div>
+        </div>
+
         <?php
         
         if (isset($template_args[PAGE_FOOTER]))

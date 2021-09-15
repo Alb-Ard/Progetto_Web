@@ -4,16 +4,9 @@ include("../database.php");
 include("../session.php");
 
 function create_book_from_data(array $data): ?book_data {
-    if (!isset($data["title"]) || !isset($data["author"]) || !isset($data["state"]) || !isset($data["category"]) || !isset($data["price"]) || !isset($_FILES["image"]))
+    if (!isset($data["title"]) || !isset($data["author"]) || !isset($data["state"]) || !isset($data["category"]) || !isset($data["price"]))
         return NULL;
     if (!is_numeric($data["price"]) || !is_numeric($data["category"]))
-        return NULL;
-
-    $name = $_FILES["image"]["name"];
-    $file_name = basename($name);
-    $image_type = $_FILES["image"]["type"];
-
-    if (!in_array($image_type, [ "image/jpg", "image/jpeg", "image/png", "image/gif" ]))
         return NULL;
 
     $book = new book_data();
@@ -23,8 +16,20 @@ function create_book_from_data(array $data): ?book_data {
     $book->category = $data["category"];
     $book->price = $data["price"];
     $book->user_email = get_client_info()["email"];
-    $book->image = "data:" . $image_type . ";base64," . base64_encode(file_get_contents($_FILES["image"]["tmp_name"]));
 
+    return $book;
+}
+
+function add_image_data(book_data $book, string $name) : book_data {
+    if (isset($_FILES[$name])) {
+        $image_type = $_FILES[$name]["type"];
+
+        if (!in_array($image_type, [ "image/jpg", "image/jpeg", "image/png", "image/gif" ]))
+            return NULL;
+
+        $image_data = base64_encode(file_get_contents($_FILES[$name]["tmp_name"]));
+        $book->image = "data:" . $image_type . ";base64," . $image_data;
+    }
     return $book;
 }
 
@@ -41,12 +46,19 @@ try {
             echo json_encode($result);
             break;
         case "add":
-            if (!is_user_logged()) {
+            if (!is_user_logged() || !isset($_FILES["image"])) {
                 echo json_encode(false);
                 break;
             }
 
             $book = create_book_from_data($_POST);
+            if ($book == NULL) {
+                echo json_encode(false);
+                break;
+            }
+
+            $book = add_image_data($book, "image");
+
             echo json_encode($book == NULL ? false : $db_conn->get_books()->add_book($book));
             break;
         case "edit":
@@ -65,11 +77,24 @@ try {
                 echo json_encode(false);
                 break;
             }
+
+            if (isset($_FILES["image"]))
+                $book = add_image_data($book, "image");
             
             $book->id = $_POST["id"];
             echo json_encode($db_conn->get_books()->edit_book($book));
             break;
         case "remove":
+            if (!is_user_logged() || !isset($_POST["id"])) {
+                echo json_encode(false);
+                break;
+            }
+            if ($db_conn->get_books()->get_book($_POST["id"])->user_email != get_client_info()["email"]) {
+                echo json_encode(false);
+                break;
+            }
+
+            echo json_encode($db_conn->get_books()->delete_book($_POST["id"]));
             break;
     }
 } catch(exception $e) {

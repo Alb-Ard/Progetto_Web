@@ -76,6 +76,15 @@
     padding: 0 0 0 10pt;
 }
 
+.top-bar-search {
+    height: 40pt;
+}
+
+.top-bar-search-icon {
+    max-height: 100%;
+    width: auto;
+}
+
 .button-primary {
     background-color: var(--color-primary);
 }

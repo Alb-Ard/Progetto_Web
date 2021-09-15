@@ -1,12 +1,19 @@
 <script type="text/javascript">
     function onAddBook() {
         $("#confirm-button").attr("disabled");
-        $.post("./apis/books_api.php", new FormData($("#book-form").get()[0]), (result) => {
-            if (!JSON.parse(result)) {
-                $("#confirm-button").removeAttr("disabled");
-                $("#error-internal").slideDown();
-            } else
-                window.location.href = "./seller_dashboard.php?completed=true";
+        $.ajax({
+            url: "./apis/books_api.php", 
+            data: new FormData($("#book-form").get()[0]), 
+            type: "POST",
+            processData: false,
+            contentType: false,
+            success: (result) => {
+                if (!JSON.parse(result)) {
+                    $("#confirm-button").removeAttr("disabled");
+                    $("#error-internal").slideDown();
+                } else
+                    window.location.href = "./seller_dashboard.php?completed=true";
+            }
         });
     }
 </script>
@@ -22,6 +29,7 @@
         $on_confirm_value = "Add";
         $on_confirm_func = "onAddBook();";
         $action = "add";
+        $image_required = true;
         include_once("./templates/seller/book_form.php");
         
         ?>

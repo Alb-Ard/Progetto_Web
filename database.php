@@ -135,7 +135,7 @@ class books_table {
     }
 
     public function get_user_books(string $user_email) : array {
-        $query = create_statement($this->conn, "SELECT * FROM books WHERE owner = ? ORDER BY title");
+        $query = create_statement($this->conn, "SELECT * FROM books WHERE owner = ? ORDER BY title, author, price");
         $query->bind_param("s", $user_email);
         if(!$query->execute())
             return [];
@@ -148,20 +148,12 @@ class books_table {
     }
 
     public function get_books_in_category(int $category, int $order, int $page) : array {
-        $order_column;
-        switch($order) {
-            default:
-            case 0:
-                $order_column = "title";
-                break;
-            case 1:
-                $order_column = "author";
-                break;
-            case 2:
-                $order_column = "price";
-                break;
-        }
-        $query = create_statement($this->conn, "SELECT * FROM books WHERE category = ? ORDER BY $order_column LIMIT ?, ?");
+        $orders = [ "title", "author", "price" ];
+        $first_order = $orders[$order];
+        $second_order = $orders[($order + 1) % 3];
+        $third_order = $orders[($order + 1) % 3];
+        // ORDER BY params don't work well when passed with bind_param (?)
+        $query = create_statement($this->conn, "SELECT * FROM books WHERE category = ? ORDER BY $first_order, $second_order, $third_order LIMIT ?, ?");
         $page_count = BOOKS_RESULT_PAGE_COUNT;
         $page_offset = $page * $page_count;
         $query->bind_param("iii", $category, $page_offset, $page_count);
@@ -194,14 +186,18 @@ class books_table {
     public function edit_book(book_data $book) : bool {
         $query = create_statement($this->conn, "UPDATE books SET title = ?, author = ?, category = ?, state = ?, price = ?, image = ?, owner = ? WHERE id = ?");
         $query->bind_param("ssissssi", $book->title, $book->author, $book->category, $book->state, $book->price, $book->image, $book->user_email, $book->id);
-        $r = $query->execute();
-        echo mysqli_error($this->conn);
-        return $r;
+        return $query->execute() && $query->affected_rows > 0;
+    }
+
+    public function delete_book(int $book_id) : bool {
+        $query = create_statement($this->conn, "DELETE FROM books WHERE id = ?");
+        $query->bind_param("i", $book_id);
+        return $query->execute() && $query->affected_rows > 0;
     }
 
     public function search(string $key) : array {
         $key = "%" . $key . "%";
-        $query = create_statement($this->conn, "SELECT * FROM books WHERE title LIKE ? OR author LIKE ? ORDER BY title");
+        $query = create_statement($this->conn, "SELECT * FROM books WHERE title LIKE ? OR author LIKE ? ORDER BY title, author, price");
         $query->bind_param("ss", $key, $key);
         if(!$query->execute())
             return [];

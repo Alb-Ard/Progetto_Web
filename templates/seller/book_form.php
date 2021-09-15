@@ -28,7 +28,7 @@
         </div>
     </div>
     <label class="col-12 justify-content-center form-label px-2 mb-4" for="image">Book image
-        <input class="form-control mt-1" type="file" id="image" name="image" required/>
+        <input class="form-control mt-1" type="file" id="image" name="image"<?php if($image_required) echo " required"; ?>/>
     </label>
     <label class="col-12 justify-content-center form-label px-2 mb-4" for="state">State:
         <textarea class="form-control mt-1" id="state" name="state" placeholder="Insert state" required><?php echo $book->state; ?></textarea>
