@@ -31,6 +31,7 @@
             "action": "add",
             "type": $("#type").val(),
             "number": $("#number").val(),
+            "cvv": $("#cvv").val(),
             "date": $("#date").val(),
         };
         $("#confirm-button").attr("disabled");
@@ -39,7 +40,7 @@
                 $("#confirm-button").removeAttr("disabled");
                 $("#error-internal").slideDown();
             } else
-                window.location.href = "./seller_dashboard.php?completed=true";
+                window.location.href = "./payment_choose.php?completed=true";
         });
     }
 </script>
