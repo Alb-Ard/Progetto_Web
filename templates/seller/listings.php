@@ -45,6 +45,7 @@
                     <li class="col-12 col-md-6 d-inline position-relative mb-1">
                         <a class="w-100 btn btn-danger stretched-link" href="#" data-bs-toggle="modal" data-bs-target="#delete-modal" data-bs-id="<?php echo $listing->id; ?>">Delete listing</a>
                     </li>
+                </ul>
             </article>
         </li>
     <?php }

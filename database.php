@@ -419,8 +419,25 @@ class addresses_table{
 }
 
 class orders_table{
+    private mysqli $conn;
+
     public function __construct(mysqli $conn) {
         $this->conn = $conn;
+    }
+
+    public function get_seller_ordered_books(string $user_id) : array {
+        $query = create_statement($this->conn, "SELECT * FROM ordered_books, books WHERE owner = ? AND books.id = ordered_books.book_id");
+        $query->bind_param("s", $user_id);
+        if(!$query->execute())
+            return [];
+        
+        return $query->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function set_ordered_book_state(int $book_id, int $order_id, string $state) : bool {
+        $query = create_statement($this->conn, "UPDATE ordered_books SET advancement = ? WHERE book_id = ? AND order_id = ?");
+        $query->bind_param("sii", $state, $book_id, $order_id);
+        return $query->execute() && $query->affected_rows > 0;
     }
 
     public function get_seller_orders(string $user_id) : array {
