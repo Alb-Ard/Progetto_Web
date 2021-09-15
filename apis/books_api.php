@@ -26,6 +26,10 @@ function add_image_data(book_data $book, string $name) : book_data {
     if (!in_array($image_type, [ "jpg", "jpeg", "png", "gif" ]))
         return NULL;
 
+    if (!file_exists("../imgs/uploads/")) {
+        mkdir("../imgs/uploads/");
+    }
+
     $path = "./imgs/uploads/{$book->id}.$image_type";
     file_put_contents(".$path", file_get_contents($_FILES[$name]["tmp_name"]));
     $book->image = $path;
