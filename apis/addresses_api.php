@@ -32,7 +32,7 @@ try {
             }
 
             $address = create_address_from_data($_POST);
-            echo json_encode($card == NULL ? false : $db_conn->get_addresses()->add_address($card));
+            echo json_encode($address == NULL ? false : $db_conn->get_addresses()->add_address($address));
             break;
         case "edit":
             if (!is_user_logged() || !isset($_POST["id"])) {

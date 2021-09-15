@@ -18,11 +18,44 @@
                         </h3>
                         <img class="col-12" src="./imgs/archive.png" alt="<?php echo $address->address; ?> image">
                     </header>
-                    <p class="col-12"><?php echo $address->address ?>€</p>
+                    <p class="col-12"><?php echo $address->address ?></p>
                 </li>
             <?php }
         }
         
         ?>
     </ul>
+</section>
+<script type="text/javascript">
+    function onAddAddress() {
+        const data = {
+            "action": "add",
+            "address": $("#address").val(),
+        };
+        $("#confirm-button").attr("disabled");
+        $.post("./apis/addresses_api.php", data, (result) => {
+            if (!JSON.parse(result)) {
+                $("#confirm-button").removeAttr("disabled");
+                $("#error-internal").slideDown();
+            } else
+                window.location.href = "./address_choose.php?completed=true";
+        });
+    }
+</script>
+<section>
+    <header class="row col text-center">
+        <h2>Add new address</h2>
+    </header>
+    <section>
+        <p id="error-internal" class="row col-12 alert alert-danger login-alert" role="alert">Something went wrong! Check the values and try again.</p>
+        <?php 
+        
+        $address = new address_data(); 
+        $on_confirm_value = "Add";
+        $on_confirm_func = "onAddAddress();";
+        include_once("./templates/address_form.php");
+        
+        ?>
+    </section>
+</section>
 </section>
