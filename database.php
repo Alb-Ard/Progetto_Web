@@ -140,10 +140,10 @@ class books_table {
         $this->conn = $conn;
     }
 
-    public function add_book(book_data $book) : bool {
+    public function add_book(book_data $book) : int {
         $query = create_statement($this->conn, "INSERT INTO books (title, author, category, state, price, image, owner) VALUES (?, ?, ?, ?, ?, ?, ?)");
         $query->bind_param("ssissss", $book->title, $book->author, $book->category, $book->state, $book->price, $book->image, $book->user_email);
-        return $query->execute() && $query->affected_rows > 0;
+        return $query->execute() && $query->affected_rows > 0 ? $conn->insert_id : -1;
     }
 
     public function get_user_books(string $user_email) : array {
@@ -198,7 +198,7 @@ class books_table {
     public function edit_book(book_data $book) : bool {
         $query = create_statement($this->conn, "UPDATE books SET title = ?, author = ?, category = ?, state = ?, price = ?, image = ?, owner = ? WHERE id = ?");
         $query->bind_param("ssissssi", $book->title, $book->author, $book->category, $book->state, $book->price, $book->image, $book->user_email, $book->id);
-        return $query->execute() && $query->affected_rows > 0;
+        return $query->execute();
     }
 
     public function delete_book(int $book_id) : bool {

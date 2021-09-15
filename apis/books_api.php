@@ -21,15 +21,14 @@ function create_book_from_data(array $data): ?book_data {
 }
 
 function add_image_data(book_data $book, string $name) : book_data {
-    if (isset($_FILES[$name])) {
-        $image_type = $_FILES[$name]["type"];
+    $image_type = explode("/", $_FILES[$name]["type"])[1];
 
-        if (!in_array($image_type, [ "image/jpg", "image/jpeg", "image/png", "image/gif" ]))
-            return NULL;
+    if (!in_array($image_type, [ "jpg", "jpeg", "png", "gif" ]))
+        return NULL;
 
-        $image_data = base64_encode(file_get_contents($_FILES[$name]["tmp_name"]));
-        $book->image = "data:" . $image_type . ";base64," . $image_data;
-    }
+    $path = "./imgs/uploads/{$book->id}.$image_type";
+    file_put_contents(".$path", file_get_contents($_FILES[$name]["tmp_name"]));
+    $book->image = $path;
     return $book;
 }
 
@@ -56,10 +55,21 @@ try {
                 echo json_encode(false);
                 break;
             }
+            
+            $new_id = $db_conn->get_books()->add_book($book);
+            if ($new_id == -1) {
+                echo json_encode(false);
+                break;
+            }
 
+            $book->id = $new_id;
             $book = add_image_data($book, "image");
+            if ($book == NULL) {
+                echo json_encode(false);
+                break;
+            }
 
-            echo json_encode($book == NULL ? false : $db_conn->get_books()->add_book($book));
+            echo json_encode($db_conn->get_books()->edit_book($book));
             break;
         case "edit":
             if (!is_user_logged() || !isset($_POST["id"])) {
@@ -78,10 +88,16 @@ try {
                 break;
             }
 
-            if (isset($_FILES["image"]))
-                $book = add_image_data($book, "image");
-            
             $book->id = $_POST["id"];
+            if (isset($_FILES["image"]))
+            {
+                $book = add_image_data($book, "image");
+                if ($book == NULL) {
+                    echo json_encode(false);
+                    break;
+                }
+            }
+
             echo json_encode($db_conn->get_books()->edit_book($book));
             break;
         case "remove":

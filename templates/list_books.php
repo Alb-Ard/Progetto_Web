@@ -27,14 +27,14 @@ if (isset($show_order) && $show_order && $books_count > 0) { ?>
     <?php } else { ?>
         <ul class="m-0 p-0 justify-content-center" id="book-list"> <?php
             foreach($books as $book) { ?>
-                <li class="col-5 col-md-2 col-xxl-1 row position-relative category-list-book">
-                    <header>
-                        <h3 class="col-12 text-truncate">
+                <li class="col-5 col-md-2 col-xxl-1 position-relative category-list-book">
+                    <header class="h-50">
+                        <h3 class="text-truncate">
                             <a class="stretched-link black-link" href="./book.php?id=<?php echo $book->id; ?>"><?php echo $book->title; ?></a>
                         </h3>
-                        <img class="col-12 img-fluid" src="<?php echo $book->image ?>" alt="<?php echo $book->title; ?> image">
+                        <img class="category-list-book-image" src="<?php echo $book->image ?>" alt="<?php echo $book->title; ?> image">
                     </header>
-                    <p class="col-12"><?php echo $book->price ?>€</p>
+                    <p><strong><?php echo $book->price ?>€</strong></p>
                 </li>
             <?php } ?>
         </ul>

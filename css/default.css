@@ -28,9 +28,15 @@
     text-align: center;
     display: inline-block;
     margin: 10pt;
-    padding: 0;
+    padding: 10pt;
     border: 2pt solid var(--color-secondary-dark);
     border-radius: 10pt;
+}
+
+.category-list-book-image {
+    height: 200pt;
+    max-width: 100%;
+    object-fit: contain;
 }
 
 .seller-listing-book {

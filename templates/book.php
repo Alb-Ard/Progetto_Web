@@ -52,7 +52,7 @@ $button_func = !$logged? "$('#user-menu').slideDown();" : "onAddToCart();";
         echo $seller["first_name"] . " " . $seller["last_name"];
 
         ?></p>
-        <p>Price: <?php echo $book->price; ?>€</p>
+        <p>Price: <strong><?php echo $book->price; ?>€</strong></p>
         <h3>Condition reported by seller:</h3>
         <p class="text-wrap"><?php echo $book->state; ?></p>
     </div>
@@ -60,7 +60,7 @@ $button_func = !$logged? "$('#user-menu').slideDown();" : "onAddToCart();";
         <?php
         
         if ($logged && $book->user_email == $user["email"]) { ?>
-            <a class="btn button-primary w-100" type="button" href="./seller_edit.php?id=<?php echo $book->id; ?>">Edit listing</a>
+            <a class="btn button-primary w-100" href="./seller_edit.php?id=<?php echo $book->id; ?>">Edit listing</a>
         <?php } else { ?>
             <input class="btn button-secondary w-100 mb-3" id="action-button" type="button" value="<?php echo $button_value; ?>" onclick="<?php echo $button_func; ?>"<?php if(!$book_available) echo ' disabled="true"'; ?>/>
         <?php }
