@@ -49,6 +49,7 @@
         
         ?>
     </ul>
+    <button class="col-12 btn button-secondary" type="button" onclick="window.location.href='../payment_choose.php'" aria-label="proceed to order">Proceed to order</button>
 </section>
 <aside>
 </aside>
