@@ -14,6 +14,8 @@ class database {
     private categories_table $categories_table;
     private carted_books_table $carted_books_table;
     private payment_methods_table $payment_methods_table;
+    private addresses_table $addresses_table;
+    private orders_table $orders_table;
 
     public function __construct() {
         $this->connected = false;
@@ -33,6 +35,8 @@ class database {
         $this->categories_table = new categories_table($this->conn);
         $this->carted_books_table = new carted_books_table($this->conn);
         $this->payment_methods_table = new payment_methods_table($this->conn);
+        $this->addresses_table = new addresses_table($this->conn);
+        $this->orders_table = new orders_table($this->conn);
         return true;
     }
 
@@ -54,6 +58,14 @@ class database {
 
     public function get_payment_methods() : payment_methods_table{
         return $this->payment_methods_table;
+    }
+
+    public function get_addresses() : addresses_table{
+        return $this->addresses_table;
+    }
+
+    public function get_orders() : orders_table{
+        return $this->orders_table;
     }
 }
 
@@ -328,7 +340,7 @@ class payment_methods_table{
         $results = $query->get_result()->fetch_all(MYSQLI_ASSOC);
         $payments = [];
         foreach ($results as $result)
-            array_push($books, payment_data::map_from_result($result));
+            array_push($payments, payment_data::map_from_result($result));
         return $payments;
     }
     public function add_card(payment_data $card) : bool {
@@ -357,6 +369,97 @@ class payment_methods_table{
         $query = create_statement($this->conn, "UPDATE payment_methods SET type = ?, number = ?, cvv = ?, date = ? WHERE payment_id = ?");
         $query->bind_param("siisi",  $card->type, $card->number, $card->cvv, $card->date, $card->payment_id);
         return $query->execute();
+    }
+}
+
+class addresses_table{
+    public function __construct(mysqli $conn) {
+        $this->conn = $conn;
+    }
+
+    public function get_addresses(string $user_id) : array {
+        $query = create_statement($this->conn, "SELECT * FROM addresses WHERE  user_id = ? ");
+        $query->bind_param("s", $user_id);
+        if(!$query->execute())
+            return [];
+        
+        $results = $query->get_result()->fetch_all(MYSQLI_ASSOC);
+        $addresses = [];
+        foreach ($results as $result)
+            array_push($addresses, address_data::map_from_result($result));
+        return $addresses;
+    }
+    public function add_address(address_data $address) : bool {
+        $query = create_statement($this->conn, "INSERT INTO addresses (user_id, address) VALUES (?, ?)");
+        $query->bind_param("ss", $address->user_id, $address->address);
+        return $query->execute() && $query->affected_rows > 0;
+    }
+
+    public function remove_address(string $user_email, address_data $card) : bool {
+        $query = create_statement($this->conn, "DELETE FROM addresses WHERE user_id = ? AND address_id = ?");
+        $query->bind_param("si", $user_email, $card->$payment_id);
+        return $query->execute() && $query->affected_rows > 0;
+    }
+
+    public function get_address(int $id) : address_data {
+        $query = create_statement($this->conn, "SELECT * FROM addresses WHERE address_id = ?");
+        $query->bind_param("i", $id);
+        if(!$query->execute())
+            return [];
+        
+        $results = $query->get_result()->fetch_all(MYSQLI_ASSOC);
+        return address_data::map_from_result($results[0]);
+    }
+
+    public function edit_address(address_data $card) : bool {
+        $query = create_statement($this->conn, "UPDATE addresses SET address = ? WHERE address_id = ?");
+        $query->bind_param("si",  $address->address, $address->address_id);
+        return $query->execute();
+    }
+}
+
+class orders_table{
+    public function __construct(mysqli $conn) {
+        $this->conn = $conn;
+    }
+
+    public function get_seller_orders(string $user_id) : array {
+        $query = create_statement($this->conn, "SELECT * FROM books, ordered_books WHERE  owner = ? AND books.id = ordered_books.book_id");
+        $query->bind_param("s", $user_id);
+        if(!$query->execute())
+            return [];
+        
+        $results = $query->get_result()->fetch_all(MYSQLI_ASSOC);
+        $books = [];
+        foreach ($results as $result)
+            array_push($books, book_data::map_from_result($result));
+        return $books;
+    }
+
+    public function get_orders(string $user_id) : array{
+        $query = create_statement($this->conn, "SELECT * FROM books, orders WHERE  orders.user_id = ? AND books.id = orders.book_id");
+        $query->bind_param("s", $user_id);
+        if(!$query->execute())
+            return [];
+        
+        $results = $query->get_result()->fetch_all(MYSQLI_ASSOC);
+        $books = [];
+        foreach ($results as $result)
+            array_push($books, book_data::map_from_result($result));
+        return $books;
+    }
+
+    public function get_books_from_order(string $order_id) : array{
+        $query = create_statement($this->conn, "SELECT * FROM books, ordered_books WHERE  ordered_books.order_id = ? AND books.id = ordered_books.book_id");
+        $query->bind_param("s", $order_id);
+        if(!$query->execute())
+            return [];
+        
+        $results = $query->get_result()->fetch_all(MYSQLI_ASSOC);
+        $books = [];
+        foreach ($results as $result)
+            array_push($books, book_data::map_from_result($result));
+        return $books;
     }
 }
 
