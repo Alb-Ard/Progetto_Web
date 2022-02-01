@@ -48,7 +48,7 @@
                     if (advanceSection.length < 1) {
                         advanceSection = $(`<section id="advance-section" class="row m-0 p-0 justify-content-center">
                                                 <p id="total-price" class="text-center"></p>
-                                                <a class="btn button-primary w-25" href="./order.php">Proceed to order</a>
+                                                <a class="btn button-primary w-25" href="./payment_choose.php">Proceed to order</a>
                                             </section>`);
                         $("#book-list-section").after(advanceSection);
                     }
