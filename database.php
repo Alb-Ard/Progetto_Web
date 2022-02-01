@@ -432,7 +432,7 @@ class orders_table{
     }
 
     public function get_seller_ordered_books(string $user_id) : array {
-        $query = create_statement($this->conn, "SELECT * FROM ordered_books, books WHERE owner = ? AND books.id = ordered_books.book_id");
+        $query = create_statement($this->conn, "SELECT * FROM orders, ordered_books, books WHERE owner = ? AND books.id = ordered_books.book_id AND orders.order_id = ordered_books.order_id");
         $query->bind_param("s", $user_id);
         if(!$query->execute())
             return [];
@@ -446,22 +446,9 @@ class orders_table{
         return $query->execute() && $query->affected_rows > 0;
     }
 
-    public function get_seller_orders(string $user_id) : array {
-        $query = create_statement($this->conn, "SELECT * FROM books, ordered_books WHERE  owner = ? AND books.id = ordered_books.book_id");
-        $query->bind_param("s", $user_id);
-        if(!$query->execute())
-            return [];
-        
-        $results = $query->get_result()->fetch_all(MYSQLI_ASSOC);
-        $books = [];
-        foreach ($results as $result)
-            array_push($books, book_data::map_from_result($result));
-        return $books;
-    }
-
     public function get_order_client(int $order_id, int $book_id) : string {
-        $query = create_statement($this->conn, "SELECT order.user_id FROM ordered_books, orders WHERE ordered_books.book_id = ? AND orders.id = ? AND ordered_books.order_id = orders.order_id");
-        $query->bind_param("s", $user_id);
+        $query = create_statement($this->conn, "SELECT orders.user_id FROM ordered_books, orders WHERE ordered_books.book_id = ? AND orders.order_id = ? AND ordered_books.order_id = orders.order_id");
+        $query->bind_param("ii", $book_id, $order_id);
         return $query->execute() ? $query->get_result()->fetch_all(MYSQLI_NUM)[0][0] : "";
     }
 
@@ -500,13 +487,13 @@ class notifications_table {
     }
 
     public function get_user(string $email) : array {
-        mysqli_stmt : $query = create_statement($this->conn, "SELECT * FROM notifications WHERE user = ? AND seen = 0 ORDER BY created_timestamp");
+        mysqli_stmt : $query = create_statement($this->conn, "SELECT * FROM `notifications` WHERE user = ? ORDER BY created_timestamp");
         $query->bind_param("s", $email);
         if (!$query->execute())
             return [];
         
         $results = $query->get_result()->fetch_all(MYSQLI_ASSOC);
-        $query = create_statement($this->conn, "UPDATE notifications SET seen = 1 WHERE user = ?");
+        $query = create_statement($this->conn, "UPDATE `notifications` SET seen = 1 WHERE user = ?");
         $query->bind_param("s", $email);
         if (!$query->execute())
             return [];
@@ -514,9 +501,15 @@ class notifications_table {
         return $results;
     }
 
-    public function add(string $to, string $from, string $order_state) {
-        mysqli_stmt : $query = create_statement($this->conn, "INSERT INTO notifications (user, from_user, order_state) VALUES (?, ?, ?)");
-        $query->bind_param("sss", $to, $from, $order_state);
+    public function get_user_unseen_count(string $email) : int {
+        mysqli_stmt : $query = create_statement($this->conn, "SELECT COUNT(*) FROM `notifications` WHERE user = ? and seen = 0");
+        $query->bind_param("s", $email);
+        return !$query->execute() ? 0 : $query->get_result()->fetch_all(MYSQLI_NUM)[0][0];
+    }
+
+    public function add(string $to, string $from, int $order_id, string $order_state) : bool {
+        mysqli_stmt : $query = create_statement($this->conn, "INSERT INTO `notifications` (user, from_user, order_id, order_state) VALUES (?, ?, ?, ?)");
+        $query->bind_param("ssis", $to, $from, $order_id, $order_state);
         return $query->execute() && $query->affected_rows > 0;
     }
 }

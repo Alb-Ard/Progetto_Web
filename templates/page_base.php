@@ -32,19 +32,47 @@
                     </header>
                     <div class="col-3 col-md-1">
                         <?php
-                            if (!isset($template_args[PAGE_HIDE_NAVBAR]) || !$template_args[PAGE_HIDE_NAVBAR]) { ?>
-                                <a class="black-link" href="#" onclick="$('#user-menu').slideToggle();">
-                                    <img class="img-fluid" src="./imgs/user_icon.png" alt="user icon"/>
-                                    <?php if (is_user_logged()) { ?>
-                                        <p class="w-100 text-center"><?php echo get_client_info()["first_name"]; ?></p>
-                                    <?php } ?>
-                                </a>
-                            <?php } else { ?>
+                        $unseen_notifications_count = 0;
+                        
+                        if (!isset($template_args[PAGE_HIDE_NAVBAR]) || !$template_args[PAGE_HIDE_NAVBAR]) { ?>
+                            <a class="black-link" href="#" onclick="$('#user-menu').slideToggle();">
                                 <img class="img-fluid" src="./imgs/user_icon.png" alt="user icon"/>
-                                <?php if (is_user_logged()) { ?>
-                                    <p class="w-100 text-center"><?php echo get_client_info()["first_name"]; ?></p>
-                                <?php }
-                            } 
+                                <?php 
+
+                                if (is_user_logged()) { ?>
+                                    <p class="w-100 text-center">
+                                        <?php
+                                        
+                                        echo get_client_info()["first_name"]; 
+                                        $unseen_notifications_count = $db_conn->get_notifications()->get_user_unseen_count(get_client_info()["email"]);
+                                        if ($unseen_notifications_count > 0) {
+                                            echo " (" . $unseen_notifications_count . ")";
+                                        }
+
+                                        ?>
+                                    </p>
+                                <?php } 
+                                
+                                ?>
+                            </a>
+                        <?php } else { ?>
+                            <img class="img-fluid" src="./imgs/user_icon.png" alt="user icon"/>
+                            <?php 
+                            
+                            if (is_user_logged()) { ?>
+                                <p class="w-100 text-center">
+                                    <?php 
+                                    
+                                    echo get_client_info()["first_name"]; 
+                                    $unseen_notifications_count = $db_conn->get_notifications()->get_user_unseen_count(get_client_info()["email"]);
+                                    if ($unseen_notifications_count > 0) {
+                                        echo " (" . $unseen_notifications_count . ")";
+                                    }
+                                    
+                                    ?>
+                                </p>
+                            <?php }
+                        } 
                         ?>
                     </div>
                 </div>
@@ -61,19 +89,20 @@
             </section>
             <?php
                 if (!isset($template_args[PAGE_HIDE_NAVBAR]) || !$template_args[PAGE_HIDE_NAVBAR]) { ?>
-                <!-- NAVBAR -->
-                <ul class="row align-items-center justify-content-right mx-0 mb-3 py-3 px-0 top-bar-user-menu" id="user-menu"><?php
-                    if (!is_user_logged()) { ?>
-                        <li class="col top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="./login.php?from=<?php echo $_SERVER["REQUEST_URI"]; ?>">Login</a></li>
-                        <li class="col top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="./register.php?from=<?php echo $_SERVER["REQUEST_URI"]; ?>">Register</a></li>
-                    <?php } else { ?> 
-                        <li class="col top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="./cart.php">Cart</a></li>
-                        <li class="col top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="./orders.php">Orders</a></li>
-                        <li class="col top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="./user.php">Profile</a></li>
-                        <li class="col top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="./seller_dashboard.php">Go to seller dashboard</a></li>
-                        <li class="col top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="#" onclick="onLogout();">Logout</a></li>
-                    <?php }
-                ?></ul>
+                    <!-- NAVBAR -->
+                    <ul class="row align-items-center justify-content-right mx-0 mb-3 py-3 px-0 top-bar-user-menu" id="user-menu"><?php
+                        if (!is_user_logged()) { ?>
+                            <li class="col top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="./login.php?from=<?php echo $_SERVER["REQUEST_URI"]; ?>">Login</a></li>
+                            <li class="col top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="./register.php?from=<?php echo $_SERVER["REQUEST_URI"]; ?>">Register</a></li>
+                        <?php } else { ?> 
+                            <li class="col top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="./cart.php">Cart</a></li>
+                            <li class="col top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="./orders.php">Orders</a></li>
+                            <li class="col top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="./user.php">Profile</a></li>
+                            <li class="col top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="./notifications.php">Notifications (<?php echo $unseen_notifications_count; ?>)</a></li>
+                            <li class="col top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="./seller_dashboard.php">Go to seller dashboard</a></li>
+                            <li class="col top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="#" onclick="onLogout();">Logout</a></li>
+                        <?php }
+                    ?></ul>
                 <?php }
             ?>
         </nav>
@@ -86,7 +115,7 @@
             <div class="modal-dialog">
                 <section class="modal-content">
                     <header class="modal-header">
-                        <p class="modal-title">Info</p>
+                        <h2 class="modal-title">Info</h2>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </header>
                     <div class="modal-body">
@@ -97,23 +126,6 @@
                     </footer>
                 </section>
             </div>
-        </div>
-
-        <div class="toast-container">
-            <?php 
-            if (is_user_logged()) {
-                $notifications = $db_conn->get_notifications()->get_user(get_client_info()["email"]);
-                foreach ($notifications as $n) { ?>
-                    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-                        <div class="toast-header">
-                            <strong class="me-auto">Delivery</strong>
-                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                        </div>
-                        <div class="toast-body"><p>Your order from <?php echo $n["from_user"]; ?> is now in state <?php echo $n["order_state"]; ?></p></div>
-                    </div>
-                <?php } 
-            }
-            ?>
         </div>
 
         <?php
