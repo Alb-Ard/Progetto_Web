@@ -99,6 +99,23 @@
             </div>
         </div>
 
+        <div class="toast-container">
+            <?php 
+            if (is_user_logged()) {
+                $notifications = $db_conn->get_notifications()->get_user(get_client_info()["email"]);
+                foreach ($notifications as $n) { ?>
+                    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="toast-header">
+                            <strong class="me-auto">Delivery</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body"><p>Your order from <?php echo $n["from_user"]; ?> is now in state <?php echo $n["order_state"]; ?></p></div>
+                    </div>
+                <?php } 
+            }
+            ?>
+        </div>
+
         <?php
         
         if (isset($template_args[PAGE_FOOTER]))

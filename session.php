@@ -15,8 +15,8 @@ session_start();
 
 function login_user(string $email) : bool {
     if (is_user_logged())
-        return false;
-    
+        logout_user();
+
     $_SESSION[SESSION_EMAIL] = $email;
     return true;
 }

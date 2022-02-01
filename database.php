@@ -16,6 +16,7 @@ class database {
     private payment_methods_table $payment_methods_table;
     private addresses_table $addresses_table;
     private orders_table $orders_table;
+    private notifications_table $notifications_table;
 
     public function __construct() {
         $this->connected = false;
@@ -37,6 +38,7 @@ class database {
         $this->payment_methods_table = new payment_methods_table($this->conn);
         $this->addresses_table = new addresses_table($this->conn);
         $this->orders_table = new orders_table($this->conn);
+        $this->notifications_table = new notifications_table($this->conn);
         return true;
     }
 
@@ -67,6 +69,10 @@ class database {
     public function get_orders() : orders_table{
         return $this->orders_table;
     }
+
+    public function get_notifications() : notifications_table {
+        return $this->notifications_table;
+    }
 }
 
 class users_table {
@@ -77,19 +83,19 @@ class users_table {
     }
 
     public function add_user(string $email, string $hashed_psw, string $first_name, string $last_name) : bool {
-        mysqli_stmt : $query = create_statement($this->conn, "INSERT INTO users (email, password, first_name, last_name) VALUES (?, ?, ?, ?)");
+        mysqli_stmt : $query = create_statement($this->conn, "INSERT INTO users (email, `password`, first_name, last_name) VALUES (?, ?, ?, ?)");
         $query->bind_param("ssss", $email, $hashed_psw, $first_name, $last_name);
         return $query->execute() && $query->affected_rows > 0;
     }
 
     public function check_credentials(string $email, string $hashed_psw) : bool {
-        mysqli_stmt : $query = create_statement($this->conn, "SELECT email FROM users WHERE email = ? AND password = ?");
+        mysqli_stmt : $query = create_statement($this->conn, "SELECT COUNT(*) FROM users WHERE email = ? AND `password` = ?");
         $query->bind_param("ss", $email, $hashed_psw);
-        return $query->execute() && $query->get_result()->num_rows > 0;
+        return $query->execute() && $query->get_result()->fetch_array(MYSQLI_NUM)[0] > 0;
     }
 
     public function get_infos(string $email) : array {
-        mysqli_stmt : $query = create_statement($this->conn, "SELECT * FROM users WHERE email = ? ");
+        mysqli_stmt : $query = create_statement($this->conn, "SELECT * FROM users WHERE email = ?");
         $query->bind_param("s", $email);
         return $query->execute() ? $query->get_result()->fetch_all(MYSQLI_ASSOC)[0] : [];
     }
@@ -453,6 +459,12 @@ class orders_table{
         return $books;
     }
 
+    public function get_order_client(int $order_id, int $book_id) : string {
+        $query = create_statement($this->conn, "SELECT order.user_id FROM ordered_books, orders WHERE ordered_books.book_id = ? AND orders.id = ? AND ordered_books.order_id = orders.order_id");
+        $query->bind_param("s", $user_id);
+        return $query->execute() ? $query->get_result()->fetch_all(MYSQLI_NUM)[0][0] : "";
+    }
+
     public function get_orders(string $user_id) : array{
         $query = create_statement($this->conn, "SELECT * FROM books, orders WHERE  orders.user_id = ? AND books.id = orders.book_id");
         $query->bind_param("s", $user_id);
@@ -477,6 +489,35 @@ class orders_table{
         foreach ($results as $result)
             array_push($books, book_data::map_from_result($result));
         return $books;
+    }
+}
+
+class notifications_table {
+    private mysqli $conn;
+
+    public function __construct(mysqli $conn) {
+        $this->conn = $conn;
+    }
+
+    public function get_user(string $email) : array {
+        mysqli_stmt : $query = create_statement($this->conn, "SELECT * FROM notifications WHERE user = ? AND seen = 0 ORDER BY created_timestamp");
+        $query->bind_param("s", $email);
+        if (!$query->execute())
+            return [];
+        
+        $results = $query->get_result()->fetch_all(MYSQLI_ASSOC);
+        $query = create_statement($this->conn, "UPDATE notifications SET seen = 1 WHERE user = ?");
+        $query->bind_param("s", $email);
+        if (!$query->execute())
+            return [];
+
+        return $results;
+    }
+
+    public function add(string $to, string $from, string $order_state) {
+        mysqli_stmt : $query = create_statement($this->conn, "INSERT INTO notifications (user, from_user, order_state) VALUES (?, ?, ?)");
+        $query->bind_param("sss", $to, $from, $order_state);
+        return $query->execute() && $query->affected_rows > 0;
     }
 }
 

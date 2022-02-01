@@ -5,7 +5,7 @@ include("../session.php");
 
 try {
     $db_conn = new database();
-    if (!$db_conn->connect("localhost", "root", "") || !isset($_POST["action"]) || !isset($_POST["book_id"])) {
+    if (!$db_conn->connect("localhost", "root", "") || !isset($_POST["action"])) {
         echo json_encode(false);
         return;
     }
@@ -17,10 +17,21 @@ try {
 
     switch($_POST["action"]) {
         case "add":
+            if (!isset($_POST["book_id"])) {
+                echo json_encode(false);
+                return;
+            }
             echo json_encode($db_conn->get_carted_books()->add_book_to_cart(get_client_info()["email"], $_POST["book_id"]));
             break;
         case "remove":
+            if (!isset($_POST["book_id"])) {
+                echo json_encode(false);
+                return;
+            }
             echo json_encode($db_conn->get_carted_books()->remove_book_to_cart(get_client_info()["email"], $_POST["book_id"]));
+            break;
+        case "get":
+            echo json_encode($db_conn->get_carted_books()->get_carted_books(get_client_info()["email"]));
             break;
     }
 

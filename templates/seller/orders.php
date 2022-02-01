@@ -31,6 +31,8 @@
                     <h3 class="d-inline-block text-truncate w-100"><?php echo $book->title; ?></h3>
                 </header>
                 <p class="col-12 col-md-4 text-end">Price: <?php echo $book->price; ?>€</p>
+                <p class="col-12 text-end">Send to: <?php echo $order[""]; ?>€</p>
+                <p class="col-12 text-end">Address: <?php echo $book->price; ?>€</p>
                 <p class="col-12 col-md-8 text-end">Current state: <?php echo $order["advancement"]; ?></p>
                 <button class="col-12 col-md-4 btn button-secondary" 
                 onclick='onChangeState(<?php echo "{$book->id}, {$order["order_id"]}, \"{$order["advancement"]}\""; ?>);'

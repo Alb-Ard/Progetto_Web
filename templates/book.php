@@ -37,7 +37,7 @@ $button_func = !$logged? "$('#user-menu').slideDown();" : "onAddToCart();";
         });
     }
 </script>
-<p id="success" class="row col-12 col-md-10 offset-md-1 alert alert-primary" role="alert">Operation completed!</p>
+<p id="success" class="row col-12 col-md-10 offset-md-1 alert alert-primary" role="alert">Operation completed!<a href="./cart.php">Go to cart...</a></p>
 <p id="failed" class="row col-12 col-md-10 offset-md-1 alert alert-danger" role="alert">Something went wrong, please try again.</p>
 <header class="row">
     <h2 class="col-12 text-center"><?php echo $book->title; ?></h2>

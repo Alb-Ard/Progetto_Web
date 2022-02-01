@@ -26,7 +26,6 @@ try {
 
     bool : $result = $db_conn->get_users()->check_credentials($_POST[USER_EMAIL], $_POST[USER_PSW]);
 
-    // TODO: Add seller functionality
     if ($result)
         $result |= login_user($_POST[USER_EMAIL]);
 
