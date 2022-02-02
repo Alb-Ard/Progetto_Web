@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Set 15, 2021 alle 15:26
+-- Creato il: Feb 02, 2022 alle 21:00
 -- Versione del server: 10.4.14-MariaDB
 -- Versione PHP: 7.4.11
 
@@ -98,6 +98,23 @@ CREATE TABLE `categories` (
 -- --------------------------------------------------------
 
 --
+-- Struttura della tabella `notifications`
+--
+
+DROP TABLE IF EXISTS `notifications`;
+CREATE TABLE `notifications` (
+  `user` varchar(64) NOT NULL,
+  `from_user` varchar(64) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `order_state` enum('WAITING','SENT','RECEIVED') NOT NULL,
+  `id` int(32) NOT NULL,
+  `seen` tinyint(4) NOT NULL DEFAULT 0,
+  `created_timestamp` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Struttura della tabella `ordered_books`
 --
 
@@ -186,6 +203,16 @@ ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indici per le tabelle `notifications`
+--
+ALTER TABLE `notifications`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_user` (`user`),
+  ADD KEY `fk_from` (`from_user`),
+  ADD KEY `idx_timestamp` (`created_timestamp`),
+  ADD KEY `fk_order` (`order_id`);
+
+--
 -- Indici per le tabelle `ordered_books`
 --
 ALTER TABLE `ordered_books`
@@ -237,6 +264,12 @@ ALTER TABLE `categories`
   MODIFY `id` int(32) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT per la tabella `notifications`
+--
+ALTER TABLE `notifications`
+  MODIFY `id` int(32) NOT NULL AUTO_INCREMENT;
+
+--
 -- Limiti per le tabelle scaricate
 --
 
@@ -259,6 +292,14 @@ ALTER TABLE `books`
 ALTER TABLE `carted_books`
   ADD CONSTRAINT `carted_books_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`email`),
   ADD CONSTRAINT `carted_books_ibfk_2` FOREIGN KEY (`book_id`) REFERENCES `books` (`id`);
+
+--
+-- Limiti per la tabella `notifications`
+--
+ALTER TABLE `notifications`
+  ADD CONSTRAINT `fk_from` FOREIGN KEY (`from_user`) REFERENCES `users` (`email`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_order` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_user` FOREIGN KEY (`user`) REFERENCES `users` (`email`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `ordered_books`
