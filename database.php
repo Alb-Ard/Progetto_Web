@@ -487,7 +487,7 @@ class notifications_table {
     }
 
     public function get_user(string $email) : array {
-        mysqli_stmt : $query = create_statement($this->conn, "SELECT * FROM `notifications` WHERE user = ? ORDER BY created_timestamp");
+        mysqli_stmt : $query = create_statement($this->conn, "SELECT * FROM `notifications` WHERE user = ? ORDER BY created_timestamp DESC");
         $query->bind_param("s", $email);
         if (!$query->execute())
             return [];
@@ -510,6 +510,12 @@ class notifications_table {
     public function add(string $to, string $from, int $order_id, string $order_state) : bool {
         mysqli_stmt : $query = create_statement($this->conn, "INSERT INTO `notifications` (user, from_user, order_id, order_state) VALUES (?, ?, ?, ?)");
         $query->bind_param("ssis", $to, $from, $order_id, $order_state);
+        return $query->execute() && $query->affected_rows > 0;
+    }
+
+    public function remove(int $id) : bool {
+        mysqli_stmt : $query = create_statement($this->conn, "DELETE FROM `notifications` WHERE id = ?");
+        $query->bind_param("i", $id);
         return $query->execute() && $query->affected_rows > 0;
     }
 }
