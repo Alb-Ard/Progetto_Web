@@ -446,6 +446,12 @@ class orders_table{
         return $query->execute() && $query->affected_rows > 0;
     }
 
+    public function add_order(int $payment_id, int $address_id) : bool {
+        $query = create_statement($this->conn, "INSERT INTO orders (user_id, payment_id, address_id, date) VALUES (?, ?, ?, ?)");
+        $query->bind_param("siis", $user_id, $payment_id, $address_id);
+        return $query->execute() && $query->affected_rows > 0;
+    }
+
     public function get_order_client(int $order_id, int $book_id) : string {
         $query = create_statement($this->conn, "SELECT orders.user_id FROM ordered_books, orders WHERE ordered_books.book_id = ? AND orders.order_id = ? AND ordered_books.order_id = orders.order_id");
         $query->bind_param("ii", $book_id, $order_id);
