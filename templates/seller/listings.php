@@ -17,38 +17,42 @@
         $.post("./apis/books_api.php", data, (result) => {
             if (JSON.parse(result)) {
                 $("#" + id).remove();
-            }
-            else
+            } else {
                 $("#error-internal").slideDown();
+            }
         });
     }
 </script>
+
 <section class="row">
     <p class="alert alert-danger login-alert" id="error-internal" role="alert">Something went wrong! Please try again.</p>
 </section>
-<ul class="row m-0 p-0 justify-content-around">
-    <?php
-    
-    $listings = $db_conn->get_books()->get_user_books($user_info["email"]);
 
-    foreach($listings as $listing) { ?>
-        <li class="col-12 col-md-5 position-relative seller-listing-book mx-0 my-1" id="<?php echo $listing->id; ?>">
-            <article class="row justify-content-around m-0 p-1">
-                <header class="col-12 col-md-8">
-                    <h3 class="d-inline-block text-truncate w-100"><?php echo $listing->title; ?></h3>
-                </header>
-                <p class="col-12 col-md-4 text-end">Price: <?php echo $listing->price; ?>€</p>
-                <ul class="col-12 row text-center">
-                    <li class="col-12 col-md-6 d-inline position-relative mb-1">
-                        <a class="w-100 btn button-secondary stretched-link" href="./seller_edit.php?id=<?php echo $listing->id; ?>">Edit listing</a>
-                    </li>
-                    <li class="col-12 col-md-6 d-inline position-relative mb-1">
-                        <a class="w-100 btn btn-danger stretched-link" href="#" data-bs-toggle="modal" data-bs-target="#delete-modal" data-bs-id="<?php echo $listing->id; ?>">Delete listing</a>
-                    </li>
-                </ul>
-            </article>
-        </li>
-    <?php }
+<section>
+    <ul class="d-flex flex-wrap m-3 p-0">
+        <?php
+        
+        $listings = $db_conn->get_books()->get_user_books($user_info["email"]);
 
-    ?>
-</ul>
+        foreach($listings as $listing) { 
+            if ($listing->available != BOOK_SOLD) { ?>
+                <li class="card shadow m-3" id="<?php echo $listing->id; ?>">
+                    <header class="card-header">
+                        <h3 class="card-title"><?php echo $listing->title; ?></h3>
+                    </header>
+                    <p class="card-text mx-3 mt-3">Price: <?php echo $listing->price; ?>€</p>
+                    <ul class="btn-group mx-3 mb-3 p-0">
+                        <li class="btn button-secondary">
+                            <a class="w-100 black-link stretched-link" href="./seller_edit.php?id=<?php echo $listing->id; ?>">Edit listing</a>
+                        </li>
+                        <li class="btn btn-danger">
+                            <a class="w-100 black-link stretched-link" href="#" data-bs-toggle="modal" data-bs-target="#delete-modal" data-bs-id="<?php echo $listing->id; ?>">Delete listing</a>
+                        </li>
+                    </ul>
+                </li>
+            <?php }
+        }
+
+        ?>
+    </ul>
+</section>
