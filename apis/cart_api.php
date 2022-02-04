@@ -33,6 +33,14 @@ try {
         case "get":
             echo json_encode($db_conn->get_carted_books()->get_carted_books(get_client_info()["email"]));
             break;
+        case "get_total_price":
+            $books = $db_conn->get_carted_books()->get_carted_books(get_client_info()["email"]);
+            $total = 0;
+            foreach ($books as $book) {
+                $total += $book->price;
+            }
+            echo json_encode($total);
+            break;
     }
 
 } catch(exception $e) {

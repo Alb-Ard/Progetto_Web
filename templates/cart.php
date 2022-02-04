@@ -10,7 +10,8 @@
         };
         $.post("./apis/cart_api.php", data, (result) => {
             if (result) {
-                updateBooks();
+                updateTotal();
+                $("#book-" + id).fadeOut("fast", () => { $("#book-" + id).remove(); });
             }
         });
     }
@@ -20,49 +21,53 @@
             if (result) {
                 const cartedBooks = JSON.parse(result);
                 const booksList = $("#book-list");
-                let advanceSection = $("#advance-section");
 
                 booksList.children().remove();
-                if (!cartedBooks || cartedBooks.length < 1) {
-                    if (advanceSection.length > 0) {
-                        advanceSection.remove();
-                    }
-                    $("#book-list").before(`<h3 id="empty-label">There are no books in your cart!</h3>`); 
-                } else {
-                    let totalSum = 0.0;
+                if (cartedBooks && cartedBooks.length > 0) {
                     for (let idx in cartedBooks) {
                         const book = cartedBooks[idx];
-                        totalSum += parseFloat(book["price"]);
-                        const bookItem = $(`<li class="col-12 col-sm-6 col-md-3 row position-relative category-list-book p-1" id="${book["id"]}">
-                                                <header>
-                                                    <h3 class="col-12">
+                        const bookItem = $(`<li id="book-${book["id"]}" class="card shadow m-3">
+                                                <header class="card-header">
+                                                    <h3 class="card-title d-inline-block">
                                                         <a class="black-link" href="./book.php?id=${book["id"]}">${book["title"]}</a>
                                                     </h3>
-                                                    <img class="col-12" src="${book["image"]}" alt="${book["title"]} cover image">
+                                                    <button class="p-3 btn btn-close float-end" type="button" onclick="onRemoveBook(${book["id"]});" aria-label="remove book form cart"></button>
                                                 </header>
-                                                <p class="col-12">${book["price"]}€</p>
-                                                <button class="col-12 btn button-secondary" type="button" onclick="onRemoveBook(${book["id"]});" aria-label="remove book form cart">Remove from cart</button>
+                                                <img class="p-3 book-cover" src="${book["image"]}" alt="${book["title"]} cover image"/>
+                                                <p class="p-3">${book["price"]}€</p>
                                             </li>`);
                         booksList.append(bookItem);
                     }
-                    if (advanceSection.length < 1) {
-                        advanceSection = $(`<section id="advance-section" class="row m-0 p-0 justify-content-center">
-                                                <p id="total-price" class="text-center"></p>
-                                                <a class="btn button-primary w-25" href="./payment_choose.php">Proceed to order</a>
-                                            </section>`);
-                        $("#book-list-section").after(advanceSection);
-                    }
-                    $("#total-price").html("Total: " + totalSum.toFixed(2) + "€");
-                    $("#empty-label").remove();
                 }
             }
-        })
+        });
+        updateTotal();
+    }
+
+    function updateTotal() {
+        $.post("./apis/cart_api.php", { "action": "get_total_price" }, (result) => {
+            if (result) {
+                const total = JSON.parse(result);
+                $("#total-price").html("Total: " + total.toFixed(2) + "€");
+                if (total <= 0) {
+                    $("#book-list").before(`<h3 id="empty-label">There are no books in your cart!</h3>`); 
+                    $("#advance-button").addClass("disabled");
+                } else {
+                    $("#empty-label").remove();
+                    $("#advance-button").removeClass("disabled");
+                }
+            }
+        });
     }
 </script>
 <header class="row">
     <h2 class="col text-center">Your cart</h2>
 </header>
-<section id="book-list-section" class="row m-0 p-0 justify-content-center">
-    <ul id="book-list">
+<section id="book-list-section" class="m-3 p-0">
+    <ul id="book-list" class="m-0 p-0 d-flex flex-wrap justify-content-between">
     </ul>
 </section>
+<aside id="advance-section" class="row m-0 p-0 justify-content-center">
+    <p id="total-price" class="text-center"></p>
+    <a id="advance-button" class="btn button-primary w-25" href="./payment_choose.php">Proceed to order</a>
+</aside>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Feb 02, 2022 alle 21:00
+-- Creato il: Feb 04, 2022 alle 21:20
 -- Versione del server: 10.4.14-MariaDB
 -- Versione PHP: 7.4.11
 
@@ -30,10 +30,12 @@ USE `bookshelf`;
 --
 
 DROP TABLE IF EXISTS `addresses`;
-CREATE TABLE `addresses` (
+CREATE TABLE IF NOT EXISTS `addresses` (
   `user_id` varchar(64) NOT NULL,
-  `address_id` int(11) NOT NULL,
-  `address` text NOT NULL
+  `address_id` int(11) NOT NULL AUTO_INCREMENT,
+  `address` text NOT NULL,
+  PRIMARY KEY (`address_id`),
+  KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -43,8 +45,8 @@ CREATE TABLE `addresses` (
 --
 
 DROP TABLE IF EXISTS `books`;
-CREATE TABLE `books` (
-  `id` int(32) NOT NULL,
+CREATE TABLE IF NOT EXISTS `books` (
+  `id` int(32) NOT NULL AUTO_INCREMENT,
   `title` varchar(64) NOT NULL,
   `author` varchar(64) NOT NULL,
   `category` int(32) UNSIGNED DEFAULT NULL,
@@ -52,7 +54,10 @@ CREATE TABLE `books` (
   `price` char(8) NOT NULL,
   `available` enum('FREE','IN_CART','SOLD') NOT NULL,
   `image` char(255) NOT NULL,
-  `owner` varchar(64) NOT NULL
+  `owner` varchar(64) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_owner` (`owner`),
+  KEY `fk_category` (`category`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -62,9 +67,11 @@ CREATE TABLE `books` (
 --
 
 DROP TABLE IF EXISTS `carted_books`;
-CREATE TABLE `carted_books` (
+CREATE TABLE IF NOT EXISTS `carted_books` (
   `book_id` int(32) NOT NULL,
-  `user_id` varchar(64) NOT NULL
+  `user_id` varchar(64) NOT NULL,
+  PRIMARY KEY (`book_id`,`user_id`),
+  KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -90,9 +97,10 @@ DELIMITER ;
 --
 
 DROP TABLE IF EXISTS `categories`;
-CREATE TABLE `categories` (
-  `id` int(32) UNSIGNED NOT NULL,
-  `name` char(32) NOT NULL
+CREATE TABLE IF NOT EXISTS `categories` (
+  `id` int(32) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` char(32) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -102,14 +110,21 @@ CREATE TABLE `categories` (
 --
 
 DROP TABLE IF EXISTS `notifications`;
-CREATE TABLE `notifications` (
+CREATE TABLE IF NOT EXISTS `notifications` (
   `user` varchar(64) NOT NULL,
   `from_user` varchar(64) NOT NULL,
   `order_id` int(11) NOT NULL,
-  `order_state` enum('WAITING','SENT','RECEIVED') NOT NULL,
-  `id` int(32) NOT NULL,
+  `book_id` int(32) NOT NULL,
+  `order_state` enum('WAITING','SENT','RECEIVED','CANCELED') NOT NULL,
+  `id` int(32) NOT NULL AUTO_INCREMENT,
   `seen` tinyint(4) NOT NULL DEFAULT 0,
-  `created_timestamp` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_timestamp` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `fk_user` (`user`),
+  KEY `fk_from` (`from_user`),
+  KEY `idx_timestamp` (`created_timestamp`),
+  KEY `fk_order` (`order_id`),
+  KEY `fk_book` (`book_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -119,10 +134,12 @@ CREATE TABLE `notifications` (
 --
 
 DROP TABLE IF EXISTS `ordered_books`;
-CREATE TABLE `ordered_books` (
+CREATE TABLE IF NOT EXISTS `ordered_books` (
   `order_id` int(11) NOT NULL,
   `book_id` int(11) NOT NULL,
-  `advancement` enum('WAITING','SENT','RECEIVED') NOT NULL DEFAULT 'WAITING'
+  `advancement` enum('WAITING','SENT','RECEIVED') NOT NULL DEFAULT 'WAITING',
+  PRIMARY KEY (`order_id`,`book_id`),
+  KEY `book_id` (`book_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -132,12 +149,16 @@ CREATE TABLE `ordered_books` (
 --
 
 DROP TABLE IF EXISTS `orders`;
-CREATE TABLE `orders` (
+CREATE TABLE IF NOT EXISTS `orders` (
   `user_id` varchar(64) NOT NULL,
   `order_id` int(11) NOT NULL,
   `payment_id` int(11) NOT NULL,
   `address_id` int(11) NOT NULL,
-  `date` date NOT NULL
+  `date` date NOT NULL,
+  PRIMARY KEY (`order_id`),
+  KEY `payment_id` (`payment_id`),
+  KEY `address_id` (`address_id`),
+  KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -147,13 +168,15 @@ CREATE TABLE `orders` (
 --
 
 DROP TABLE IF EXISTS `payment_methods`;
-CREATE TABLE `payment_methods` (
+CREATE TABLE IF NOT EXISTS `payment_methods` (
   `payment_id` int(11) NOT NULL,
   `user_id` varchar(64) NOT NULL,
   `type` varchar(32) NOT NULL,
   `number` int(11) NOT NULL,
   `cvv` int(11) NOT NULL,
-  `date` date NOT NULL
+  `date` date NOT NULL,
+  PRIMARY KEY (`payment_id`),
+  KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -163,111 +186,13 @@ CREATE TABLE `payment_methods` (
 --
 
 DROP TABLE IF EXISTS `users`;
-CREATE TABLE `users` (
+CREATE TABLE IF NOT EXISTS `users` (
   `email` varchar(64) NOT NULL,
   `password` char(64) NOT NULL,
   `first_name` varchar(64) NOT NULL,
-  `last_name` varchar(64) NOT NULL
+  `last_name` varchar(64) NOT NULL,
+  PRIMARY KEY (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Indici per le tabelle scaricate
---
-
---
--- Indici per le tabelle `addresses`
---
-ALTER TABLE `addresses`
-  ADD PRIMARY KEY (`address_id`),
-  ADD KEY `user_id` (`user_id`);
-
---
--- Indici per le tabelle `books`
---
-ALTER TABLE `books`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_owner` (`owner`),
-  ADD KEY `fk_category` (`category`);
-
---
--- Indici per le tabelle `carted_books`
---
-ALTER TABLE `carted_books`
-  ADD PRIMARY KEY (`book_id`,`user_id`),
-  ADD KEY `user_id` (`user_id`);
-
---
--- Indici per le tabelle `categories`
---
-ALTER TABLE `categories`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indici per le tabelle `notifications`
---
-ALTER TABLE `notifications`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_user` (`user`),
-  ADD KEY `fk_from` (`from_user`),
-  ADD KEY `idx_timestamp` (`created_timestamp`),
-  ADD KEY `fk_order` (`order_id`);
-
---
--- Indici per le tabelle `ordered_books`
---
-ALTER TABLE `ordered_books`
-  ADD PRIMARY KEY (`order_id`,`book_id`),
-  ADD KEY `book_id` (`book_id`);
-
---
--- Indici per le tabelle `orders`
---
-ALTER TABLE `orders`
-  ADD PRIMARY KEY (`order_id`),
-  ADD KEY `payment_id` (`payment_id`),
-  ADD KEY `address_id` (`address_id`),
-  ADD KEY `user_id` (`user_id`);
-
---
--- Indici per le tabelle `payment_methods`
---
-ALTER TABLE `payment_methods`
-  ADD PRIMARY KEY (`payment_id`),
-  ADD KEY `user_id` (`user_id`);
-
---
--- Indici per le tabelle `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`email`);
-
---
--- AUTO_INCREMENT per le tabelle scaricate
---
-
---
--- AUTO_INCREMENT per la tabella `addresses`
---
-ALTER TABLE `addresses`
-  MODIFY `address_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT per la tabella `books`
---
-ALTER TABLE `books`
-  MODIFY `id` int(32) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT per la tabella `categories`
---
-ALTER TABLE `categories`
-  MODIFY `id` int(32) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT per la tabella `notifications`
---
-ALTER TABLE `notifications`
-  MODIFY `id` int(32) NOT NULL AUTO_INCREMENT;
 
 --
 -- Limiti per le tabelle scaricate
@@ -297,8 +222,9 @@ ALTER TABLE `carted_books`
 -- Limiti per la tabella `notifications`
 --
 ALTER TABLE `notifications`
+  ADD CONSTRAINT `fk_book` FOREIGN KEY (`book_id`) REFERENCES `ordered_books` (`book_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_from` FOREIGN KEY (`from_user`) REFERENCES `users` (`email`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_order` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_order` FOREIGN KEY (`order_id`) REFERENCES `ordered_books` (`order_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_user` FOREIGN KEY (`user`) REFERENCES `users` (`email`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --

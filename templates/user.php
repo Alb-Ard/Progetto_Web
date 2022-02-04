@@ -15,36 +15,44 @@ if (count($user_info) == 0)
     });
 
     function updateBooks(books) {
-        const parent = $("#books-parent");
+        const parent = $("#books-list-section");
 
         if (books.length == 0) {
-            parent.html("<p>This user has no books for sale!</p>");
+            parent.html("<p>You don't have any books for sale.</p>");
             return;
         }
 
+        const booksList = $(`<ul id="books-list" class="d-flex flex-wrap m-0 p-0"></ul>`);
+        parent.append(booksList);
         for (let i = 0; i < books.length; i++) {
-            parent.append('<article class="col-6 col-md-2 position-relative">\
-                    <img class="w-100" src="' + books[i]["image"] + '" alt="">\
-                    <a class="black-link w-100 text-center stretched-link" href="./book.php?id=' + books[i]["id"] + '">' + books[i]["title"] + '</a>\
-                </article>');
+            bookItem = $(`<li class="card shadow m-3">
+                                <header class="card-header">
+                                    <a class="black-link text-center stretched-link" href="./book.php?id=${books[i]["id"]}">${books[i]["title"]}</a>
+                                </header>
+                                <img class="p-3 book-cover" src="${books[i]["image"]}" alt="${books[i]["title"]} cover image"/>
+                            </li>`);
+            booksList.append(bookItem);
         }
     }
 </script>
 
-<!-- USER INFO & MANAGMENT -->
 <section>    
     <div class="row col-12 mb-3">
         <p class="alert alert-danger login-alert" id="error-internal" role="alert">Something went wrong! Please try again.</p>
     </div>
 </section>
-<section class="row">
-    <header class="col mb-3">
+
+<!-- USER INFO & MANAGMENT -->
+<section class="border rounded m-3 p-3 shadow row">
+    <header class="col mb-3 text-center">
         <h2><?php echo $user_info["first_name"] . " " . $user_info["last_name"]; ?></h2>
     </header>
-    <div class="col-12 col-md-2">
-        <input class="btn btn-danger mb-3 mx-1 w-100" type="button" value="Delete account" data-bs-toggle="modal" data-bs-target="#delete-modal"/>
-    </div>
+    <button class="btn btn-danger col-12 col-md-auto float-end" type="button" data-bs-toggle="modal" data-bs-target="#delete-modal">Delete account</button>
 </section>
 
 <!-- USER BOOKS -->
-<section class="row mb-3" id="books-parent"></section>
+<section id="books-list-section" class="m-3">
+    <header>
+        <h2>Books for sale:</h2>
+    </header>
+</section>
