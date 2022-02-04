@@ -121,7 +121,6 @@
     text-decoration: none;
 }
 
-.notification-unseen {
-    color: var(--color-primary-dark);
-    font-weight: bold;
+.notification-item {
+    list-style: none inside;
 }

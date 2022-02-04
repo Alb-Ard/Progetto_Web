@@ -2,7 +2,7 @@
     let id;
 
     $(document).ready(() => {
-        let exampleModal = $("#delete-modal").get()[0].addEventListener("show.bs.modal", (event) => {
+        $("#delete-modal").get()[0].addEventListener("show.bs.modal", (event) => {
             id = event.relatedTarget.getAttribute("data-bs-id");
         });
     });
