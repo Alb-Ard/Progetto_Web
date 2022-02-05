@@ -446,9 +446,9 @@ class orders_table{
         return $query->execute() && $query->affected_rows > 0;
     }
 
-    public function add_order(int $payment_id, int $address_id) : bool {
+    public function add_order(string $user_email, int $payment_id, int $address_id) : bool {
         $query = create_statement($this->conn, "INSERT INTO orders (user_id, payment_id, address_id, date) VALUES (?, ?, ?, ?)");
-        $query->bind_param("siis", $user_id, $payment_id, $address_id);
+        $query->bind_param("siis", $user_email, $payment_id, $address_id, 0);
         return $query->execute() && $query->affected_rows > 0;
     }
 
