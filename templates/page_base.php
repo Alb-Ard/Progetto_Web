@@ -24,7 +24,7 @@
         <nav class="top-bar shadow">
             <!-- MAIN HEADER -->
             <section class="m-0 p-3">
-                <div class="row align-items-center justify-content-around">
+                <div class="row align-items-center justify-content-around mb-3">
                     <header class="col order-0">
                         <h1>
                             <a class="top-bar-logo black-link" href="./">Bookshelf</a>
