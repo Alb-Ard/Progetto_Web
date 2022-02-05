@@ -446,6 +446,11 @@ class orders_table{
         return $query->execute() && $query->affected_rows > 0;
     }
 
+    public function add_ordered_book(int $order_id, int $book_id, string$state) : bool{
+        $query = create_statement($this->conn, "INSERT INTO ordered_books (order_id, book_id, advancement) VALUES (?,?,?)");
+        $query->bind_param("sii", $state, $book_id, $order_id);
+        return $query->execute() && $query->affected_rows > 0;
+    }
     public function add_order(string $user_email, int $payment_id, int $address_id) : bool {
         $query = create_statement($this->conn, "INSERT INTO orders (user_id, payment_id, address_id, date) VALUES (?, ?, ?, ?)");
         $query->bind_param("siis", $user_email, $payment_id, $address_id, 0);
