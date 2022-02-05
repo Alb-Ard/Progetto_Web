@@ -66,8 +66,10 @@ try {
                 echo false;
                 return;
             $books = $db_conn->get_carted_books()->get_carted_books(get_client_info()["email"]);
-            foreach ($books as $book){
-                $db_conn->get_orders()->add_ordered_book($order, $book, "waiting");
+            if($order>-1){
+                foreach ($books as $book){
+                $db_conn->get_orders()->add_ordered_book($order, $book["book_id"], "waiting");
+                }
             }
             break;
     }

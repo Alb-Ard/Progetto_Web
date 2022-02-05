@@ -451,10 +451,10 @@ class orders_table{
         $query->bind_param("sii", $state, $book_id, $order_id);
         return $query->execute() && $query->affected_rows > 0;
     }
-    public function add_order(string $user_email, int $payment_id, int $address_id) : bool {
+    public function add_order(string $user_email, int $payment_id, int $address_id) : int {
         $query = create_statement($this->conn, "INSERT INTO orders (user_id, payment_id, address_id, date) VALUES (?, ?, ?, ?)");
         $query->bind_param("siis", $user_email, $payment_id, $address_id, 0);
-        return $query->execute() && $query->affected_rows > 0;
+        return $query->execute() && $query->affected_rows > 0 ? $conn->insert_id : -1;
     }
 
     public function get_order_client(int $order_id, int $book_id) : string {
