@@ -90,7 +90,7 @@
             <?php
                 if (!isset($template_args[PAGE_HIDE_NAVBAR]) || !$template_args[PAGE_HIDE_NAVBAR]) { ?>
                     <!-- NAVBAR -->
-                    <ul class="row align-items-center justify-content-right mx-0 mb-3 py-3 px-0 top-bar-user-menu" id="user-menu"><?php
+                    <ul class="row align-items-center justify-content-right m-0 p-0 top-bar-user-menu" id="user-menu"><?php
                         if (!is_user_logged()) { ?>
                             <li class="col top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="./login.php?from=<?php echo $_SERVER["REQUEST_URI"]; ?>">Login</a></li>
                             <li class="col top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="./register.php?from=<?php echo $_SERVER["REQUEST_URI"]; ?>">Register</a></li>

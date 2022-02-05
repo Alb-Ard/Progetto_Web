@@ -30,8 +30,8 @@
                                                 <h3 class="card-title">${order["title"]}</h3>
                                             </header>
                                             <img class="book-cover m-3" src="${order["image"]}" alt="${order["title"]} cover image"/>
-                                            <p class="card-text mx-3 d-inline">Price: ${order["price"]}€</p>
-                                            <p class="card-text mx-3 d-inline">${orderTexts[order["advancement"]]}</p>
+                                            <p class="card-text mx-3">Price: ${order["price"]}€</p>
+                                            <p class="card-text mx-3">${orderTexts[order["advancement"]]}</p>
                                             <p class="card-text mx-3">Purchased from: ${order["owner"]}</p>
                                             <button id="book-${order["id"]}-delete-button" class="btn btn-danger mx-3 mb-3" onclick="onDeleteRequest(${order["id"]})">Cancel order</button>
                                         </li>`);
@@ -41,19 +41,24 @@
                         $(`book-${order["id"]}-delete-button`).prop("disabled");
                     }
                 }
+                const urlParts = window.location.href.split("#");
+                if (urlParts.length > 1) {
+                    const book = urlParts[1];
+                    const bookParts = book.split("-");
+                    if (bookParts.length > 1 && bookParts[0] == "book") {
+                        $(`#${book}`).fadeOut("fast").fadeIn("fast");
+                    }
+                }
             }
         });
     }
 </script>
 
-<section class="row">
-    <p class="alert alert-danger login-alert" id="error-internal" role="alert">Something went wrong! Please try again.</p>
-</section>
-
 <section>
+    <p class="alert alert-danger login-alert" id="error-internal" role="alert">Something went wrong! Please try again.</p>
     <header>
         <h2 class="text-center">Orders</h2>
     </header>
-    <ul id="orders-list" class="d-flex flex-wrap m-3 p-0">
+    <ul id="orders-list" class="d-flex flex-wrap m-3 p-0 justify-content-center">
     </ul>
 </section>

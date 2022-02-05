@@ -29,14 +29,14 @@ $user_info = get_client_info();
             <!-- MAIN HEADER -->
             <section class="row m-0 p-3 align-items-center">
                 <header class="col-12">
-                    <h1 class="top-bar-logo">Dashboard</h1>
-                    <h2><?php echo $user_info["email"]?></h2>
-                    <h3><?php echo $user_info["first_name"] . " " . $user_info["last_name"]; ?></h3>
+                    <h1 class="top-bar-logo">Seller's dashboard</h1>
+                    <p class="h2"><?php echo $user_info["email"]?></p>
+                    <p class="h3"><?php echo $user_info["first_name"] . " " . $user_info["last_name"]; ?></p>
                 </header>
             </section>
 
             <!-- NAVBAR -->
-            <ul class="row align-items-center justify-content-right px-0 mb-3 pt-3 pb-3 top-bar-seller-menu">
+            <ul class="row align-items-center justify-content-right mb-0 p-0 pt-3 top-bar-seller-menu">
                 <li class="col-12 col-md-3 top-bar-user-menu-item"><a class="black-link stretched-link" href="./">Back to home</a></li>
                 <li class="col-12 col-md-3 top-bar-user-menu-item"><a class="black-link stretched-link" href="./seller_dashboard.php">Current listings</a></li>
                 <li class="col-12 col-md-3 top-bar-user-menu-item"><a class="black-link stretched-link" href="./seller_orders.php">Current orders</a></li>

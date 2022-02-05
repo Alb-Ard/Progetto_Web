@@ -42,10 +42,11 @@
     }
 
     function getReadableTimestamp(timestamp) {
-        const standardTimestamp = timestamp.replace(' ', 'T') + "Z";
+        const standardTimestamp = `${timestamp.replace(' ', 'T')}+01:00`;
         const date = new Date(standardTimestamp);
         const currentDate = new Date(Date.now());
-            
+ 
+        
         let result = "";
         if (currentDate.getFullYear() != date.getFullYear()) {
             result += `${date.toDateString()} at"`;

@@ -46,6 +46,6 @@
 </section>
 
 <section>
-    <ul id="orders-list" class="d-flex flex-wrap m-3 p-0">
+    <ul id="orders-list" class="d-flex flex-wrap m-3 p-0 justify-content-center">
     </ul>
 </section>

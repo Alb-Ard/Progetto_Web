@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap');
 
 :root {
-    --color-primary: #FDA979;
-    --color-primary-dark: #BE8E74;
-    --color-secondary: #78FAD6;
-    --color-secondary-dark: #00815D;
+    --color-primary: #D0C198;
+    --color-primary-dark: #8A794A;
+    --color-secondary: #8997A0;
+    --color-secondary-dark: #637885;
 }
 
 .home-category {
@@ -22,32 +22,11 @@
     padding: 0;
 }
 
-.category-list-book {
-    list-style-type: none;
-    list-style-position: inside;
-    text-align: center;
-    display: inline-block;
-    margin: 10pt;
-    padding: 10pt;
-    border: 2pt solid var(--color-secondary-dark);
-    border-radius: 10pt;
-}
-
 .book-cover {
     display: block;
     box-sizing: border-box;
     height: 200pt;
     width: auto;
-}
-
-.seller-listing-book {
-    list-style-type: none;
-    list-style-position: inside;
-    display: inline-block;
-    margin: 10pt;
-    padding: 0;
-    border: 2pt solid var(--color-secondary-dark);
-    border-radius: 4pt;
 }
 
 .top-bar {
