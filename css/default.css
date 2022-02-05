@@ -33,6 +33,20 @@
     background-color: var(--color-primary);
 }
 
+.top-bar-icon {
+    max-width: 100pt;
+    width: 100%;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.top-bar-notification-badge-unseen {
+    background-color: var(--color-secondary);
+    font-weight: bold;
+}
+
 .top-bar-user-menu {
     text-align: center;
     display: none;

@@ -29,7 +29,7 @@
 </section>
 
 <section>
-    <ul class="d-flex flex-wrap m-3 p-0">
+    <ul class="d-flex flex-wrap justify-content-center m-3 p-0">
         <?php
         
         $listings = $db_conn->get_books()->get_user_books($user_info["email"]);

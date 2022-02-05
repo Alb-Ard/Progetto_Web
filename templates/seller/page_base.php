@@ -25,7 +25,7 @@ $user_info = get_client_info();
         <link rel="stylesheet" type="text/css" href="./css/default.css" />
     </head>
     <body class="container-fluid p-0 m-0">
-        <nav class="top-bar">
+        <nav class="top-bar shadow">
             <!-- MAIN HEADER -->
             <section class="row m-0 p-3 align-items-center">
                 <header class="col-12">

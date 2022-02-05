@@ -21,7 +21,7 @@
         </script>
     </head>
     <body class="container-fluid p-0 m-0">
-        <nav class="top-bar">
+        <nav class="top-bar shadow">
             <!-- MAIN HEADER -->
             <section class="m-0 p-3">
                 <div class="row align-items-center justify-content-around">
@@ -30,50 +30,8 @@
                             <a class="top-bar-logo black-link" href="./">Bookshelf</a>
                         </h1>
                     </header>
-                    <div class="col-3 col-md-1">
-                        <?php
-                        $unseen_notifications_count = 0;
-                        
-                        if (!isset($template_args[PAGE_HIDE_NAVBAR]) || !$template_args[PAGE_HIDE_NAVBAR]) { ?>
-                            <a class="black-link" href="#" onclick="$('#user-menu').slideToggle();">
-                                <img class="img-fluid" src="./imgs/user_icon.png" alt="user icon"/>
-                                <?php 
-
-                                if (is_user_logged()) { ?>
-                                    <p class="w-100 text-center">
-                                        <?php
-                                        
-                                        echo get_client_info()["first_name"]; 
-                                        $unseen_notifications_count = $db_conn->get_notifications()->get_user_unseen_count(get_client_info()["email"]);
-                                        if ($unseen_notifications_count > 0) {
-                                            echo " (" . $unseen_notifications_count . ")";
-                                        }
-
-                                        ?>
-                                    </p>
-                                <?php } 
-                                
-                                ?>
-                            </a>
-                        <?php } else { ?>
-                            <img class="img-fluid" src="./imgs/user_icon.png" alt="user icon"/>
-                            <?php 
-                            
-                            if (is_user_logged()) { ?>
-                                <p class="w-100 text-center">
-                                    <?php 
-                                    
-                                    echo get_client_info()["first_name"]; 
-                                    $unseen_notifications_count = $db_conn->get_notifications()->get_user_unseen_count(get_client_info()["email"]);
-                                    if ($unseen_notifications_count > 0) {
-                                        echo " (" . $unseen_notifications_count . ")";
-                                    }
-                                    
-                                    ?>
-                                </p>
-                            <?php }
-                        } 
-                        ?>
+                    <div class="col-12 col-md-3 col-lg-2 col-xxl-1 row">
+                        <?php include_once("./templates/top_bar_user.php"); ?>
                     </div>
                 </div>
                 <div class="row top-bar-search">
@@ -98,7 +56,6 @@
                             <li class="col top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="./cart.php">Cart</a></li>
                             <li class="col top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="./orders.php">Orders</a></li>
                             <li class="col top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="./user.php">Profile</a></li>
-                            <li class="col top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="./notifications.php">Notifications (<?php echo $unseen_notifications_count; ?>)</a></li>
                             <li class="col top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="./seller_dashboard.php">Go to seller dashboard</a></li>
                             <li class="col top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="#" onclick="onLogout();">Logout</a></li>
                         <?php }
