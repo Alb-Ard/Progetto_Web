@@ -27,11 +27,11 @@ $user_info = get_client_info();
     <body class="container-fluid p-0 m-0">
         <nav class="top-bar shadow">
             <!-- MAIN HEADER -->
-            <section class="row m-0 p-3 align-items-center">
+            <section class="row m-0 p-0 align-items-center">
                 <header class="col-12">
-                    <h1 class="top-bar-logo">Seller's dashboard</h1>
-                    <p class="h2"><?php echo $user_info["email"]?></p>
-                    <p class="h3"><?php echo $user_info["first_name"] . " " . $user_info["last_name"]; ?></p>
+                    <h1 class="top-bar-logo text-center m-0 p-0">Seller's dashboard</h1>
+                    <p class="h4 mx-1 mx-sm-3"><?php echo $user_info["first_name"] . " " . $user_info["last_name"]; ?></p>
+                    <p class="h5 mx-1 mx-sm-3"><?php echo $user_info["email"]?></p>
                 </header>
             </section>
 
