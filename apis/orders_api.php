@@ -62,13 +62,13 @@ try {
                 return;
             }
             $payment_id = $_POST["payment_id"];
-            $order = $db_conn->get_orders()->add_order(get_client_info()["email"], $payment_id, 0)
+            $order = $db_conn->get_orders()->add_order(get_client_info()["email"], $payment_id, 0);
                 echo false;
                 return;
             $books = $db_conn->get_carted_books()->get_carted_books(get_client_info()["email"]);
             if($order>-1){
                 foreach ($books as $book){
-                $db_conn->get_orders()->add_ordered_book($order, $book["book_id"], "waiting");
+                $db_conn->get_orders()->add_ordered_book($order, $book->$id, "waiting");
                 }
             }
             break;
