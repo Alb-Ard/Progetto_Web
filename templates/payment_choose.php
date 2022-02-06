@@ -14,7 +14,7 @@
                 <li class="col-5 col-md-1 row position-relative category-list-book">
                     <header>
                         <h3 class="col-12">
-                            <a class="stretched-link black-link" href="../order.php?card=<?php echo $card->payment_id; ?>"><?php echo $card->type; ?></a>
+                            <a class="stretched-link black-link" href="./order.php?card=<?php echo $card->payment_id; ?>"><?php echo $card->type; ?></a>
                         </h3>
                         <img class="col-12" src="./imgs/credit-card.png" alt="<?php echo $card->number; ?> image">
                     </header>
