@@ -45,23 +45,6 @@
                     </form>
                 </div>
             </section>
-            <?php
-                if (!isset($template_args[PAGE_HIDE_NAVBAR]) || !$template_args[PAGE_HIDE_NAVBAR]) { ?>
-                    <!-- NAVBAR -->
-                    <ul class="row align-items-center justify-content-right m-0 p-0 top-bar-user-menu" id="user-menu"><?php
-                        if (!is_user_logged()) { ?>
-                            <li class="col top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="./login.php?from=<?php echo $_SERVER["REQUEST_URI"]; ?>">Login</a></li>
-                            <li class="col top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="./register.php?from=<?php echo $_SERVER["REQUEST_URI"]; ?>">Register</a></li>
-                        <?php } else { ?> 
-                            <li class="col top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="./cart.php">Cart</a></li>
-                            <li class="col top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="./orders.php">Orders</a></li>
-                            <li class="col top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="./user.php">Profile</a></li>
-                            <li class="col top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="./seller_dashboard.php">Go to seller dashboard</a></li>
-                            <li class="col top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="#" onclick="onLogout();">Logout</a></li>
-                        <?php }
-                    ?></ul>
-                <?php }
-            ?>
         </nav>
 
         <main class="m-3">

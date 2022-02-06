@@ -49,27 +49,38 @@
     font-weight: bold;
 }
 
+.top-bar-seller-menu {
+    text-align: center;
+}
+
+.top-bar-seller-menu-item {
+    list-style-type: none;
+    list-style-position: inside;
+    box-sizing: border-box;
+    padding: 1em;
+    position: relative;
+}
+
+.top-bar-seller-menu-item:hover {
+    background-color: var(--color-primary);
+}
+
 .top-bar-user-menu {
     text-align: center;
     display: none;
-}
-
-.top-bar-seller-menu {
-    text-align: center;
+    padding: 0;
+    margin: 0;
 }
 
 .top-bar-user-menu-item {
     list-style-type: none;
     list-style-position: inside;
     position: relative;
-    margin: 0;
-    padding: 10pt 0;
+    padding: 1em;
 }
 
 .top-bar-user-menu-item:hover {
-    background-color: var(--color-primary-dark);
-    list-style-type: none;
-    list-style-position: inside;
+    background-color: var(--color-primary);
 }
 
 .top-bar-logo {

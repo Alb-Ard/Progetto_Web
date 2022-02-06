@@ -37,10 +37,10 @@ $user_info = get_client_info();
 
             <!-- NAVBAR -->
             <ul id="seller-top-bar" class="row align-items-center mb-0 p-0 pt-3 collapse top-bar-seller-menu">
-                <li class="col-12 col-md-3 top-bar-user-menu-item"><a class="black-link stretched-link" href="./">Back to home</a></li>
-                <li class="col-12 col-md-3 top-bar-user-menu-item"><a class="black-link stretched-link" href="./seller_dashboard.php">Current listings</a></li>
-                <li class="col-12 col-md-3 top-bar-user-menu-item"><a class="black-link stretched-link" href="./seller_orders.php">Current orders</a></li>
-                <li class="col-12 col-md-3 top-bar-user-menu-item"><a class="black-link stretched-link" href="./seller_add_book.php">List new book</a></li>
+                <li class="col-12 col-md-3 top-bar-seller-menu-item"><a class="black-link stretched-link" href="./">Back to home</a></li>
+                <li class="col-12 col-md-3 top-bar-seller-menu-item"><a class="black-link stretched-link" href="./seller_dashboard.php">Current listings</a></li>
+                <li class="col-12 col-md-3 top-bar-seller-menu-item"><a class="black-link stretched-link" href="./seller_orders.php">Current orders</a></li>
+                <li class="col-12 col-md-3 top-bar-seller-menu-item"><a class="black-link stretched-link" href="./seller_add_book.php">List new book</a></li>
             </ul>
             <button id="seller-top-bar-button" class="row col-12 btn button-secondary text-center p-2 m-0" data-bs-toggle="collapse" data-bs-target="#seller-top-bar">Toggle menu</button>
         </nav>
