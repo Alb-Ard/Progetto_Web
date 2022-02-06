@@ -3,6 +3,7 @@
 :root {
     --color-primary: #D0C198;
     --color-primary-dark: #8A794A;
+    --color-primary-alt: #AD9C6B;
     --color-secondary: #8997A0;
     --color-secondary-dark: #637885;
 }
@@ -31,6 +32,7 @@
 
 .top-bar {
     background-color: var(--color-primary);
+    background-image: linear-gradient(180deg, transparent 25%, var(--color-primary-alt) 100%), url(../imgs/background.svg);
 }
 
 .top-bar-icon {
@@ -74,6 +76,7 @@
     font-family: 'Alex Brush', cursive;
     font-size: 48pt;
     padding: 0 0 0 10pt;
+    font-weight: bold;
 }
 
 .top-bar-search {
@@ -117,4 +120,12 @@
 
 .notification-item {
     list-style: none inside;
+}
+
+.card {
+    transition: transform 200ms ease-in-out;
+}
+
+.card:hover {
+    transform: scale(1.02);
 }
