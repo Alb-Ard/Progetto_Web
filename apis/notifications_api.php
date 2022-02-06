@@ -24,7 +24,8 @@ try {
             echo $db_conn->get_notifications()->remove($_POST["id"]);
             break;
         case "get":
-            echo json_encode($db_conn->get_notifications()->get_user(get_client_info()["email"]));
+            $user = get_client_info()["email"];
+            echo json_encode($db_conn->get_notifications()->get_user($user));
             break;
     }
 } catch(exception $e) {

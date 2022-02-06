@@ -516,14 +516,14 @@ class notifications_table {
     }
 
     public function get_user(string $email) : array {
-        mysqli_stmt : $query = create_statement($this->conn, "SELECT * FROM notifications, books WHERE notifications.book_id = books.id AND (user = ? OR (from_user = ? AND order_state = 'CANCELED')) ORDER BY created_timestamp DESC");
-        $query->bind_param("ss", $email, $email);
+        mysqli_stmt : $query = create_statement($this->conn, "SELECT * FROM notifications, books WHERE notifications.book_id = books.id AND user = ? ORDER BY created_timestamp DESC");
+        $query->bind_param("s", $email);
         if (!$query->execute())
             return [];
         
         $results = $query->get_result()->fetch_all(MYSQLI_ASSOC);
-        $query = create_statement($this->conn, "UPDATE notifications SET seen = 1 WHERE user = ? OR (from_user = ? AND order_state = 'CANCELED')");
-        $query->bind_param("ss", $email, $email);
+        $query = create_statement($this->conn, "UPDATE notifications SET seen = 1 WHERE user = ?");
+        $query->bind_param("s", $email);
         if (!$query->execute())
             return [];
 
@@ -531,8 +531,8 @@ class notifications_table {
     }
 
     public function get_user_unseen_count(string $email) : int {
-        mysqli_stmt : $query = create_statement($this->conn, "SELECT COUNT(*) FROM notifications WHERE (user = ? OR (from_user = ? AND order_state = 'CANCELED')) AND seen = 0");
-        $query->bind_param("ss", $email, $email);
+        mysqli_stmt : $query = create_statement($this->conn, "SELECT COUNT(*) FROM notifications WHERE user = ? AND seen = 0");
+        $query->bind_param("s", $email);
         return !$query->execute() ? 0 : $query->get_result()->fetch_all(MYSQLI_NUM)[0][0];
     }
 

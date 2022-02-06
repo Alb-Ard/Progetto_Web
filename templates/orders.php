@@ -38,7 +38,7 @@
                     ordersList.append(orderItem);
 
                     if (order["advancement"] == "RECEIVED") {
-                        $(`book-${order["id"]}-delete-button`).prop("disabled");
+                        $(`#book-${order["id"]}-delete-button`).addClass("disabled");
                     }
                 }
                 const urlParts = window.location.href.split("#");
