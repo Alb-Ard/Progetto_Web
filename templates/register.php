@@ -25,8 +25,10 @@
         button.attr("disabled");
 
         tryRegister(email, password, firstName, lastName, (result) => {
-            if (result == Result.Ok)
+            if (result == Result.Ok){
                 window.location.href = "<?php echo $_GET["from"]; ?>";
+                window.location.assign("index.php");
+                }
             else
             {
                 button.removeAttr("disabled");

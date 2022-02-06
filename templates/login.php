@@ -20,8 +20,10 @@ include_once("./users_consts.php");
         const button = $("#login-button");
         button.attr("disabled");
         tryLogin(email, password, (result) => {
-            if (result == Result.Ok)
+            if (result == Result.Ok){
                 window.location.href = "<?php echo $_GET["from"]; ?>";
+                window.location.assign("index.php");
+                }
             else {
                 button.removeAttr("disabled");
                 switch(result) {
