@@ -24,9 +24,9 @@
     }
 </script>
 
-<section class="row">
+<aside>
     <p class="alert alert-danger login-alert" id="error-internal" role="alert">Something went wrong! Please try again.</p>
-</section>
+</aside>
 
 <section>
     <ul class="d-flex flex-wrap justify-content-center m-3 p-0">

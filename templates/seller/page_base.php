@@ -54,7 +54,7 @@ $user_info = get_client_info();
             <div class="modal-dialog">
                 <section class="modal-content">
                     <header class="modal-header">
-                        <p class="modal-title">Info</p>
+                        <h2 class="modal-title h3">Info</h2>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </header>
                     <div class="modal-body">

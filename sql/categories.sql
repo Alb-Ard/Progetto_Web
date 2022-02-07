@@ -4,3 +4,5 @@ INSERT INTO categories (name) VALUES
 ("Historical"), 
 ("Comic/Manga"), 
 ("Educational/Academic");
+INSERT INTO categories (id, name) VALUES
+(0, "Other");

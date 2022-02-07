@@ -23,6 +23,10 @@
                 const ordersList = $("#orders-list");
                 const orders = JSON.parse(result);
                 ordersList.children().remove();
+                if (orders.length == 0) {
+                    ordersList.before($(`<p id="empty-label" class="text-center">No orders found.</p>`));
+                    return;
+                }
                 for(let idx in orders) { 
                     const order = orders[idx];
                     const orderItem = $(`<li class="card shadow m-3" id="book-${order["id"]}">
@@ -49,13 +53,18 @@
                         $(`#${book}`).fadeOut("fast").fadeIn("fast");
                     }
                 }
+            } else {
+                $("#error-internal").show();
             }
         });
     }
 </script>
 
-<section>
+<aside>
     <p class="alert alert-danger login-alert" id="error-internal" role="alert">Something went wrong! Please try again.</p>
+</aside>
+
+<section>
     <header>
         <h2 class="text-center">Orders</h2>
     </header>

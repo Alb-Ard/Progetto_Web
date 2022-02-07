@@ -24,7 +24,7 @@
         <label class="form-label mb-1" for="price">Price:</label>
         <div class="input-group p-0">
             <span class="input-group-text">€</span>
-            <input class="form-control" type="number" id="price" name="price" min="0.00" step="0.01" required value="<?php echo $book->price; ?>"/>
+            <input class="form-control" type="number" id="price" name="price" min="0.01" step="0.01" required value="<?php echo $book->price; ?>"/>
         </div>
     </div>
     <label class="col-12 justify-content-center form-label px-2 mb-4" for="image">Book image

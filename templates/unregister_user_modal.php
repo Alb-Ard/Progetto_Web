@@ -15,7 +15,7 @@
     <div class="modal-dialog">
         <section class="modal-content">
             <header class="modal-header">
-                <p class="modal-title">Confirm deletion</p>
+                <h2 class="modal-title h3">Confirm deletion</h2>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </header>
             <div class="modal-body">

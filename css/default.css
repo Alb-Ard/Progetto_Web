@@ -140,3 +140,11 @@
 .card:hover {
     transform: scale(1.02);
 }
+
+.card-disabled {
+    opacity: 0.75;
+}
+
+.card-disabled:hover {
+    transform: scale(1) !important;
+}

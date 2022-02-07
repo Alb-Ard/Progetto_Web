@@ -13,13 +13,21 @@
         <?php
 
         $categories = $db_conn->get_categories()->get_categories();
+        $other_category;
 
-        foreach ($categories as $category) { ?>
-            <li class="card shadow home-category flex-fill">
-                <a class="black-link stretched-link" href='./category.php?id=<?php echo $category["id"]; ?>&name=<?php echo $category["name"]; ?>&order=0&page=0'><?php echo $category["name"]; ?></a>
-            </li>
-        <?php }
+        foreach ($categories as $category) { 
+            if ($category["id"] != 0) { ?>
+                <li class="card shadow home-category flex-fill">
+                    <a class="black-link stretched-link" href='./category.php?id=<?php echo $category["id"]; ?>&name=<?php echo $category["name"]; ?>&order=0&page=0'><?php echo $category["name"]; ?></a>
+                </li>
+            <?php } else {
+                $other_category = $category;
+            }
+        }
 
         ?>
+        <li class="card shadow home-category flex-fill">
+            <a class="black-link stretched-link" href='./category.php?id=<?php echo $other_category["id"]; ?>&name=<?php echo $other_category["name"]; ?>&order=0&page=0'><?php echo $other_category["name"]; ?></a>
+        </li>
     </ul>
 </section>

@@ -117,7 +117,7 @@ class book_data {
     public string $author = "";
     public ?int $category = NULL;
     public string $state = "";
-    public string $price = "";
+    public string $price = "0.01";
     public string $available = "";
     public string $image = "";
     public string $user_email = "";
@@ -236,7 +236,7 @@ class categories_table {
     }
 
     public function get_categories() : array {
-        $query = create_statement($this->conn, "SELECT * FROM categories");
+        $query = create_statement($this->conn, "SELECT * FROM categories ORDER BY name");
         return $query->execute() ? $query->get_result()->fetch_all(MYSQLI_ASSOC) : [];
     }
 

@@ -6,8 +6,8 @@
 $books_count = count($books);
 
 if (isset($show_order) && $show_order && $books_count > 0) { ?>
-    <section class="row m-3 border rounded p-3">
-        <p class="col-12 col-md-auto text-center">Order by:</p>
+    <aside class="row m-3 border rounded p-3">
+        <p class="col-12 col-md-auto my-auto text-center">Order by:</p>
         <ul class="col-12 col-md-auto btn-group m-0">
             <li class="col d-inline position-relative btn button-primary">
                 <a class="stretched-link black-link" href="<?php echo get_order_href(0); ?>">Title</a>
@@ -19,7 +19,7 @@ if (isset($show_order) && $show_order && $books_count > 0) { ?>
                 <a class="stretched-link black-link" href="<?php echo get_order_href(2); ?>">Price</a>
             </li>
         </ul>
-    </section>
+    </aside>
 <?php }
 
 ?>

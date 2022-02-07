@@ -50,7 +50,7 @@
                 const total = JSON.parse(result);
                 $("#total-price").html("Total: " + total.toFixed(2) + "€");
                 if (total <= 0) {
-                    $("#book-list").before(`<h3 id="empty-label">There are no books in your cart!</h3>`); 
+                    $("#book-list").before(`<p id="empty-label">There are no books in your cart.</p>`); 
                     $("#advance-button").addClass("disabled");
                 } else {
                     $("#empty-label").remove();
@@ -60,10 +60,10 @@
         });
     }
 </script>
-<header class="row">
-    <h2 class="col text-center">Your cart</h2>
-</header>
 <section id="book-list-section" class="m-3 p-0">
+    <header class="row">
+        <h2 class="col text-center">Your cart</h2>
+    </header>
     <ul id="book-list" class="m-0 p-0 d-flex flex-wrap justify-content-between">
     </ul>
 </section>

@@ -41,11 +41,14 @@
     }
 </script>
 
-<section class="row">
+<aside>
     <p class="alert alert-danger login-alert" id="error-internal" role="alert">Something went wrong! Please try again.</p>
-</section>
+</aside>
 
 <section>
+    <header>
+        <h2 class="text-center">Active orders:</h2>
+    </header>
     <ul id="orders-list" class="d-flex flex-wrap m-3 p-0 justify-content-center">
     </ul>
 </section>

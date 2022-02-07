@@ -19,18 +19,16 @@ function print_user_avatar() {
 }
 
 if ($show_user_info) { ?>
-    <span class="col-6">
-        <a class="black-link" href="./notifications.php">
-            <img class="top-bar-icon" src="./imgs/notifications.png" alt="unread notifications: <?php echo $unseen_notifications_count; ?>">
-            <p class="w-100 text-center mt-1 <?php if ($unseen_notifications_count > 0) { ?> rounded-pill top-bar-notification-badge-unseen <?php } ?>">
-                <?php echo $unseen_notifications_count; ?>
-            </p>
+    <div class="col-6 position-relative">
+        <img class="top-bar-icon mb-1" src="./imgs/notifications.png" alt="unread notifications: <?php echo $unseen_notifications_count; ?>"/>
+        <a class="d-block text-center black-link stretched-link <?php if ($unseen_notifications_count > 0) { ?> rounded-pill top-bar-notification-badge-unseen <?php } ?>" href="./notifications.php">
+            <?php echo $unseen_notifications_count; ?>
         </a>
-    </span>
+    </div>
 <?php }
 
 ?>
-<span class="col-<?php echo $avatar_column_size; ?>">
+<div class="col-<?php echo $avatar_column_size; ?>">
     <?php
 
     if (!isset($template_args[PAGE_HIDE_NAVBAR]) || !$template_args[PAGE_HIDE_NAVBAR]) { ?>
@@ -47,13 +45,14 @@ if ($show_user_info) { ?>
                     <li class="top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="./orders.php">Orders</a></li>
                     <li class="top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="./user.php">Profile</a></li>
                     <li class="top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="#" onclick="onLogout();">Logout</a></li>
-                    <li><hr class="dropdown-divider"></hr></li>
+                    <li><hr class="dropdown-divider"/></li>
                     <li class="top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="./seller_dashboard.php">Go to seller dashboard</a></li>
                 <?php }
             ?></ul>
+        </div>
     <?php } else {
         print_user_avatar();
     }
     
 ?>
-</span>
+</div>
