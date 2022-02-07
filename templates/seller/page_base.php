@@ -25,25 +25,26 @@ $user_info = get_client_info();
         <link rel="stylesheet" type="text/css" href="./css/default.css" />
     </head>
     <body class="container-fluid p-0 m-0">
-        <nav class="top-bar shadow">
+        <header class="top-bar shadow">
             <!-- MAIN HEADER -->
             <section class="row m-0 p-0 mb-3 align-items-center">
-                <header class="col-12">
-                    <h1 class="top-bar-logo text-center m-0 p-0">Seller's dashboard</h1>
-                    <p class="h4 mx-1 mx-sm-3"><?php echo $user_info["first_name"] . " " . $user_info["last_name"]; ?></p>
-                    <p class="h5 mx-1 mx-sm-3"><?php echo $user_info["email"]?></p>
-                </header>
+                <h1 class="top-bar-logo text-center m-0 p-0">Seller's dashboard</h1>
+                <p class="h4 mx-1 mx-sm-3"><?php echo $user_info["first_name"] . " " . $user_info["last_name"]; ?></p>
+                <p class="h5 mx-1 mx-sm-3"><?php echo $user_info["email"]?></p>
             </section>
-
             <!-- NAVBAR -->
-            <ul id="seller-top-bar" class="row align-items-center mb-0 p-0 pt-3 collapse top-bar-seller-menu">
-                <li class="col-12 col-md-3 top-bar-seller-menu-item"><a class="black-link stretched-link" href="./">Back to home</a></li>
-                <li class="col-12 col-md-3 top-bar-seller-menu-item"><a class="black-link stretched-link" href="./seller_dashboard.php">Current listings</a></li>
-                <li class="col-12 col-md-3 top-bar-seller-menu-item"><a class="black-link stretched-link" href="./seller_orders.php">Current orders</a></li>
-                <li class="col-12 col-md-3 top-bar-seller-menu-item"><a class="black-link stretched-link" href="./seller_add_book.php">List new book</a></li>
-            </ul>
-            <button id="seller-top-bar-button" class="row col-12 btn button-secondary text-center p-2 m-0" data-bs-toggle="collapse" data-bs-target="#seller-top-bar">Toggle menu</button>
-        </nav>
+            <nav class="navbar navbar-expand-lg">
+                <div class="container-fluid">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#seller-top-bar" aria-controls="seller-top-bar" aria-expanded="false" aria-label="Toggle menu">Menu</button>
+                    <ul id="seller-top-bar" class="navbar-nav collapse navbar-collapse top-bar-seller-menu">
+                        <li class="top-bar-seller-menu-item"><a class="black-link stretched-link" href="./">Back to home</a></li>
+                        <li class="top-bar-seller-menu-item"><a class="black-link stretched-link" href="./seller_dashboard.php">Current listings</a></li>
+                        <li class="top-bar-seller-menu-item"><a class="black-link stretched-link" href="./seller_orders.php">Current orders</a></li>
+                        <li class="top-bar-seller-menu-item"><a class="black-link stretched-link" href="./seller_add_book.php">List new book</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
 
         <main class="m-3">
             <?php include_once($template_args[PAGE_BODY]); ?>
