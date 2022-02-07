@@ -19,11 +19,6 @@ try {
     }
 
     $result = $db_conn->get_users()->add_user($_POST[USER_EMAIL], $_POST[USER_PSW], $_POST[USER_FIRST_NAME], $_POST[USER_LAST_NAME]);
-
-    // TODO: Add seller functionality
-    if ($result)
-        $result |= login_user($_POST[USER_EMAIL], SESSION_TYPE_CLIENT);
-
     echo $result ? RESULT_OK : RESULT_KO;
 } catch(exception $e) {
     echo RESULT_INTERNAL;
