@@ -24,7 +24,7 @@
         
         $card = new payment_data(); 
         $on_confirm_value = "Add";
-        $on_confirm_func = "onAddOrder();"?>
+        $on_confirm_func = "onAddOrder();";?>
         <form class="col-10 offset-1 col-md-6 offset-md-3 p-0 row text-center" method="post">
         <input class="col-12 justify-content-center btn button-primary m-0" type="button" id="confirm-button" onclick="<?php echo $on_confirm_func; ?>" value="<?php echo $on_confirm_value; ?>"/>
         </form>

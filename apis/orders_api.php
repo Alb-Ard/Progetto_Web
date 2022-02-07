@@ -58,20 +58,18 @@ try {
             $db_conn->get_notifications()->add(get_client_info()["email"], $client, $order, $book, "CANCELED");
             break;
         case "add":
-            if (!isset($_POST["payment_id"])) {
+            if (!isset($_POST["card"])) {
                 echo false;
                 return;
             }
-            $payment_id = $_POST["payment_id"];
-            $order = $db_conn->get_orders()->add_order(get_client_info()["email"], $payment_id, 0);
-                echo false;
-                return;
+            $payment_id = $_POST["card"];
+            $order = $db_conn->get_orders()->add_order(get_client_info()["email"], $payment_id, 1);
             $books = $db_conn->get_carted_books()->get_carted_books(get_client_info()["email"]);
             if($order>-1){
-                foreach ($books as $book){
-                    $db_conn->get_orders()->add_ordered_book($order, $book->$id, "waiting");
+                foreach($books as $book){
+                    $db_conn->get_orders()->add_ordered_book($order, $book->id, "waiting");
                     $owner = $book->user_email;
-                    $db_conn->get_notifications()->add(get_client_info()["email"], $owner, $order, $book, "WAITING");
+                    $db_conn->get_notifications()->add(get_client_info()["email"], $owner, $order, $book->id, "WAITING");
                 }
             }
             break;
