@@ -5,8 +5,8 @@ $logged = is_user_logged();
 $user = get_client_info();
 $book_available = $book->available != BOOK_SOLD;
 $book_in_cart = $logged ? $db_conn->get_carted_books()->is_book_in_cart($user["email"], $book->id) : false;
-$button_value = $logged ? ($book_available ? ($book_in_cart ? "Remove from cart" : "Add to cart") : "Unavailable") : "Login to add to your cart"; 
-$button_func = !$logged? "$('#user-menu').slideDown();" : "onAddToCart();";
+$button_value = $logged ? ($book_available ? ($book_in_cart ? "Remove from cart" : "Add to cart") : "Unavailable") : "Login or register to buy"; 
+$button_func = !$logged? "window.location.href = './login.php';" : "onAddToCart();";
 
 ?>
 <script type="text/javascript">
@@ -37,34 +37,36 @@ $button_func = !$logged? "$('#user-menu').slideDown();" : "onAddToCart();";
         });
     }
 </script>
-<p id="success" class="row col-12 col-md-10 offset-md-1 alert alert-primary" role="alert">Operation completed!<a href="./cart.php">Go to cart...</a></p>
-<p id="failed" class="row col-12 col-md-10 offset-md-1 alert alert-danger" role="alert">Something went wrong, please try again.</p>
-<header class="row">
-    <h2 class="col-12 text-center"><?php echo $book->title; ?></h2>
-</header>
+
+<aside>
+    <p id="success" class="alert alert-primary text-center" role="alert">Operation completed! <a class="stretched-link" href="./cart.php">Go to cart...</a></p>
+    <p id="failed" class="alert alert-danger text-center" role="alert">Something went wrong, please try again.</p>
+</aside>
+
 <section class="row justify_content_center">
-    <img class="col-12 col-md-3 offset-md-1" src="<?php echo $book->image ?>" alt="book image"/>
-    <div class="col-12 col-md-4">
+    <header>
+        <h2 class="text-center"><?php echo $book->title; ?></h2>
+    </header>
+    <img class="col-12 col-md-3 offset-md-1 mb-1" src="<?php echo $book->image; ?>" alt="book image"/>
+    <span class="col-12 col-md-4">
         <h3>Book info:</h3>
         <p>Written by <?php echo $book->author; ?></p>
-        <p>Sold by <?php 
-
-        echo $seller["first_name"] . " " . $seller["last_name"];
-
-        ?></p>
-        <p>Price: <strong><?php echo $book->price; ?>€</strong></p>
+        <p>Sold by <?php echo $seller["first_name"] . " " . $seller["last_name"]; ?></p>
         <h3>Condition reported by seller:</h3>
         <p class="text-wrap"><?php echo $book->state; ?></p>
-    </div>
+    </span>
     <aside class="col-12 col-md-3">
-        <?php
-        
-        if ($logged && $book->user_email == $user["email"]) { ?>
-            <a class="btn button-primary w-100" href="./seller_edit.php?id=<?php echo $book->id; ?>">Edit listing</a>
-        <?php } else { ?>
-            <input class="btn button-secondary w-100 mb-3" id="action-button" type="button" value="<?php echo $button_value; ?>" onclick="<?php echo $button_func; ?>"<?php if(!$book_available) echo ' disabled="true"'; ?>/>
-        <?php }
-        
-        ?>
+        <div class="border rounded px-3 pt-2">
+            <p>Price: <strong><?php echo $book->price; ?>€</strong></p>
+            <?php
+            
+            if ($logged && $book->user_email == $user["email"]) { ?>
+                <a class="btn button-primary w-100" href="./seller_edit.php?id=<?php echo $book->id; ?>">Edit listing</a>
+            <?php } else { ?>
+                <button id="action-button" class="btn button-secondary w-100 mb-3" type="button" onclick="<?php echo $button_func; ?>"<?php if (!$book_available) echo ' disabled="true"'; ?>><?php echo $button_value; ?></button>
+            <?php }
+
+            ?>
+        </div>
     </aside>
 </section>
