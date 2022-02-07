@@ -46,7 +46,7 @@ if ($show_user_info) { ?>
                     <li class="top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="./user.php">Profile</a></li>
                     <li class="top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="#" onclick="onLogout();">Logout</a></li>
                     <li><hr class="dropdown-divider"/></li>
-                    <li class="top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="./seller_dashboard.php">Go to seller dashboard</a></li>
+                    <li class="top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="./seller_dashboard.php">Seller's dashboard</a></li>
                 <?php }
             ?></ul>
         </div>
