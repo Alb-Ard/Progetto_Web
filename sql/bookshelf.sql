@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Feb 04, 2022 alle 21:20
+-- Creato il: Feb 09, 2022 alle 00:19
 -- Versione del server: 10.4.14-MariaDB
 -- Versione PHP: 7.4.11
 
@@ -142,6 +142,20 @@ CREATE TABLE IF NOT EXISTS `ordered_books` (
   KEY `book_id` (`book_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Trigger `ordered_books`
+--
+DROP TRIGGER IF EXISTS `remove_soldbooksfromcart`;
+DELIMITER $$
+CREATE TRIGGER `remove_soldbooksfromcart` AFTER INSERT ON `ordered_books` FOR EACH ROW DELETE FROM carted_books WHERE book_id = NEW.book_id
+$$
+DELIMITER ;
+DROP TRIGGER IF EXISTS `set_book_sold`;
+DELIMITER $$
+CREATE TRIGGER `set_book_sold` AFTER INSERT ON `ordered_books` FOR EACH ROW UPDATE books SET available = 'SOLD' WHERE id = NEW.book_id
+$$
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -151,7 +165,7 @@ CREATE TABLE IF NOT EXISTS `ordered_books` (
 DROP TABLE IF EXISTS `orders`;
 CREATE TABLE IF NOT EXISTS `orders` (
   `user_id` varchar(64) NOT NULL,
-  `order_id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL AUTO_INCREMENT,
   `payment_id` int(11) NOT NULL,
   `address_id` int(11) NOT NULL,
   `date` date NOT NULL,

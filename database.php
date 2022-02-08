@@ -452,9 +452,9 @@ class orders_table{
         return $query->execute() && $query->affected_rows > 0;
     }
     public function add_order(string $user_email, int $payment_id, int $address_id) : int {
-        $query = create_statement($this->conn, "INSERT INTO orders (user_id, payment_id, address_id, date, order_id) VALUES (?, ?, 1, 0, 0)");
+        $query = create_statement($this->conn, "INSERT INTO orders (user_id, payment_id, address_id, date) VALUES (?, ?, 1, 0)");
         $query->bind_param("si", $user_email, $payment_id);
-        return $query->execute() && $query->affected_rows > 0 ? 0 : -1;
+        return $query->execute() && $query->affected_rows > 0 ? $this->conn->insert_id : -1;
     }
 
     public function get_order_client(int $order_id, int $book_id) : string {
