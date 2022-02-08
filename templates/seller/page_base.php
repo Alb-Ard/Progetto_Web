@@ -24,33 +24,37 @@ $user_info = get_client_info();
             crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="./css/default.css" />
     </head>
-    <body class="container-fluid p-0 m-0">
-        <header class="top-bar shadow">
+    <body class="container-fluid">
+        <main>
             <!-- MAIN HEADER -->
-            <section class="row m-0 p-0 mb-3 align-items-center">
-                <h1 class="top-bar-logo text-center m-0 p-0">Seller's dashboard</h1>
-                <p class="h4 mx-1 mx-sm-3"><?php echo $user_info["first_name"] . " " . $user_info["last_name"]; ?></p>
-                <p class="h5 mx-1 mx-sm-3"><?php echo $user_info["email"]?></p>
-            </section>
-            <!-- NAVBAR -->
-            <nav class="navbar navbar-expand-lg">
-                <div class="container-fluid">
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#seller-top-bar" aria-controls="seller-top-bar" aria-expanded="false" aria-label="Toggle menu">Menu</button>
-                    <ul id="seller-top-bar" class="navbar-nav collapse navbar-collapse top-bar-seller-menu">
-                        <li class="top-bar-seller-menu-item"><a class="black-link stretched-link" href="./">Back to home</a></li>
-                        <li class="top-bar-seller-menu-item"><a class="black-link stretched-link" href="./seller_dashboard.php">Current listings</a></li>
-                        <li class="top-bar-seller-menu-item"><a class="black-link stretched-link" href="./seller_orders.php">Current orders</a></li>
-                        <li class="top-bar-seller-menu-item"><a class="black-link stretched-link" href="./seller_add_book.php">List new book</a></li>
-                    </ul>
-                </div>
-            </nav>
-        </header>
+            <header class="top-bar shadow">
+                <section class="m-0 p-0 mb-3">
+                    <h1 class="top-bar-logo m-0 p-0 text-center">Seller's dashboard</h1>
+                    <p class="h4 mx-2 mx-sm-3"><?php echo $user_info["first_name"] . " " . $user_info["last_name"]; ?></p>
+                    <p class="h5 mx-2 mx-sm-3"><?php echo $user_info["email"]?></p>
+                </section>
+                <!-- NAVBAR -->
+                <nav class="navbar navbar-expand-sm">
+                    <div class="container-fluid">
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#seller-top-bar" aria-controls="seller-top-bar" aria-expanded="false" aria-label="Toggle menu">Menu</button>
+                        <ul id="seller-top-bar" class="navbar-nav collapse navbar-collapse top-bar-seller-menu">
+                            <li class="top-bar-seller-menu-item"><a class="black-link stretched-link" href="./">Back to home</a></li>
+                            <li class="top-bar-seller-menu-item"><a class="black-link stretched-link" href="./seller_dashboard.php">Current listings</a></li>
+                            <li class="top-bar-seller-menu-item"><a class="black-link stretched-link" href="./seller_orders.php">Current orders</a></li>
+                            <li class="top-bar-seller-menu-item"><a class="black-link stretched-link" href="./seller_add_book.php">List new book</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>    
 
-        <main class="m-3">
-            <?php include_once($template_args[PAGE_BODY]); ?>
+            <div class="m-3">
+                <?php include_once($template_args[PAGE_BODY]); ?>
+            </div>
+
+            <?php include_once("./templates/page_footer.php"); ?>
         </main>
 
-        <div class="modal fade" id="completed-modal" tabindex="-1">
+        <aside class="modal fade" id="completed-modal" tabindex="-1">
             <div class="modal-dialog">
                 <section class="modal-content">
                     <header class="modal-header">
@@ -65,7 +69,7 @@ $user_info = get_client_info();
                     </footer>
                 </section>
             </div>
-        </div>
+        </aside>
 
         <?php
         

@@ -20,38 +20,43 @@
             }
         </script>
     </head>
-    <body class="container-fluid p-0 m-0">
-        <nav class="top-bar shadow">
-            <!-- MAIN HEADER -->
-            <section class="m-0 p-3">
-                <div class="row align-items-center justify-content-around mb-3">
-                    <header class="col order-0">
-                        <h1>
-                            <a class="top-bar-logo black-link" href="./">Bookshelf</a>
-                        </h1>
-                    </header>
-                    <div class="col-12 col-md-3 col-lg-2 col-xxl-1 row">
-                        <?php include_once("./templates/top_bar_user.php"); ?>
-                    </div>
-                </div>
-                <div class="row top-bar-search">
-                    <form class="h-100 col-12 col-md-10 offset-md-1" action="./find_books.php" method="get">
-                        <label class="visually-hidden" for="key">Search query</label>
-                        <label class="visually-hidden" for="search_confirm">Execute Search</label>
-                        <div class="input-group h-100">
-                            <input class="col form-control h-100" type="text" id="key" name="key"/>
-                            <input class="col-2 col-md-1 btn button-secondary top-bar-search-icon" type="image" id="search_confirm" src="./imgs/search.png" alt="search book"/>
+    <body class="container-fluid">
+        <main>
+            <header class="top-bar shadow m-0 p-3">
+                <nav>
+                    <div class="row align-items-center justify-content-around mb-3">
+                        <header class="col">
+                            <h1 class="text-center text-sm-start">
+                                <a class="top-bar-logo black-link w-100 p-0" href="./">Bookshelf</a>
+                            </h1>
+                        </header>
+                        <div class="col-12 col-sm-auto">
+                            <div class="row justify-content-end">
+                                <?php include_once("./templates/top_bar_user.php"); ?>
+                           </div>
                         </div>
-                    </form>
-                </div>
-            </section>
-        </nav>
+                    </div>
+                    <div class="row top-bar-search">
+                        <form class="h-100 col-12 col-sm-10 mx-auto" action="./find_books.php" method="get">
+                            <label class="visually-hidden" for="key">Search query</label>
+                            <label class="visually-hidden" for="search_confirm">Execute Search</label>
+                            <div class="input-group h-100">
+                                <input class="col form-control h-100" type="text" id="key" name="key"/>
+                                <input class="col-2 col-md-1 btn button-secondary top-bar-search-icon" type="image" id="search_confirm" src="./imgs/search.png" alt="search book"/>
+                            </div>
+                        </form>
+                    </div>
+                </nav>
+            </header>
+            
+            <div class="m-3">
+                <?php include_once($template_args[PAGE_BODY]); ?>
+            </div>
 
-        <main class="m-3">
-            <?php include_once($template_args[PAGE_BODY]); ?>
+            <?php include_once("./templates/page_footer.php"); ?>
         </main>
         
-        <div class="modal fade" id="completed-modal" tabindex="-1">
+        <aside class="modal fade" id="completed-modal" tabindex="-1">
             <div class="modal-dialog">
                 <section class="modal-content">
                     <header class="modal-header">
@@ -59,14 +64,14 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </header>
                     <div class="modal-body">
-                        <p>Operation completed sucesfully.</p>
+                        <p>Operation completed successfully.</p>
                     </div>
                     <footer class="modal-footer">
                         <button type="button" class="btn button-primary w-100" data-bs-dismiss="modal">Ok</button>
                     </footer>
                 </section>
             </div>
-        </div>
+        </aside>
 
         <?php
         
