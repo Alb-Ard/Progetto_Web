@@ -68,6 +68,7 @@ try {
             if($order>-1){
                 foreach($books as $book){
                     $db_conn->get_orders()->add_ordered_book($order, $book->id, "waiting");
+                    $db_conn->get_carted_books()->remove_book_to_cart(get_client_info()["email"], $book->id);
                     $owner = $book->user_email;
                     $db_conn->get_notifications()->add(get_client_info()["email"], $owner, $order, $book->id, "WAITING");
                 }
