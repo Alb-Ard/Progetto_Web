@@ -2,7 +2,7 @@
     function onAddOrder() {
         const data = {
             "action": "add",
-            "card": 0,
+            "card": $_GET["card"],
         };
         $("#confirm-button").attr("disabled");
         $.post("./apis/orders_api.php", data, (result) => {
@@ -10,7 +10,7 @@
                 $("#confirm-button").removeAttr("disabled");
                 $("#error-internal").slideDown();
             } else
-                window.location.href = "./payment_choose.php?completed=true";
+                window.location.href = "./orders.php?completed=true";
         });
     }
 </script>
@@ -20,7 +20,7 @@
     </header>
     <section>
         <p id="error-internal" class="row col-12 alert alert-danger login-alert" role="alert">Something went wrong! Check the values and try again.</p>
-        <?php 
+        <?php
         
         $card = new payment_data(); 
         $on_confirm_value = "Add";
