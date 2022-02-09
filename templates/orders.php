@@ -23,7 +23,7 @@
         let statesGraphic = "";
         for (let stateIdx in states) {
             const state = states[stateIdx];
-            const colorClass = `order-state-${currentState == "RECEIVED" ? "received" : (stateIdx <= currentIdx ? "completed" : "incompleted")}`;
+            const colorClass = `order-state-${stateIdx <= currentIdx ? "completed" : "incompleted"}`;
             if (stateIdx != 0) {
                 statesGraphic += `<div class="rounded-pill mx-1 my-auto h-25 ${colorClass} p-1 col"></div>`;
             }
@@ -62,10 +62,15 @@
                                                     <div class="col-12 col-sm-3">
                                                         <img class="img-fluid mx-auto" src="${order["image"]}" alt="${order["title"]} cover image"/>
                                                     </div>
-                                                    <div class="col-12 col-sm-9 col-lg-3 text-center text-sm-start my-3 my-md-auto">
-                                                        <p class="card-text">Price: ${order["price"]}€</p>
-                                                        <p class="card-text">Purchased from: ${order["owner"]}</p>
-                                                    </div>
+                                                    <section class="col-12 col-sm-9 col-lg-3 text-center text-sm-start my-3">
+                                                        <header class="mb-2">
+                                                            <h4>Info</h4>
+                                                        </header>
+                                                        <div>
+                                                            <p class="m-0 p-0">Price: ${order["price"]}€</p>
+                                                            <p class="m-0 mb-1 p-0">Purchased from: ${order["owner"]}</p>
+                                                        </div>
+                                                    </section>
                                                     <div class="col-12 col-lg-6 my-3 my-md-auto">
                                                         ${getOrderStateGraphic(order["advancement"])}
                                                     </div>

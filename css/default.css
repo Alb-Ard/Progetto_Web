@@ -190,9 +190,5 @@ html, body, main {
 }
 
 .order-state-completed {
-    background-color: var(--color-secondary-dark);
-}
-
-.order-state-received {
     background-color: var(--color-secondary-alt);
 }
