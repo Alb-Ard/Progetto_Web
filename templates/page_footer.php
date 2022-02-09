@@ -1,4 +1,4 @@
-<footer class="bottom-bar fixed-bottom text-center text-sm-start">
+<footer class="bottom-bar text-center text-sm-start">
     <section class="bottom-bar-link-section">
         <header>
             <h2 class="h5">Client links</h2>

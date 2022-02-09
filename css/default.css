@@ -6,6 +6,7 @@
     --color-primary-alt: #AD9C6B;
     --color-secondary: #8997A0;
     --color-secondary-dark: #637885;
+    --color-secondary-alt: #5D4D76;
 }
 
 html, body, main {
@@ -177,4 +178,21 @@ html, body, main {
 
 .card-disabled:hover {
     transform: scale(1) !important;
+}
+
+.order-state {
+    width: 2em;
+    height: 2em;
+}
+
+.order-state-incompleted {
+    background-color: var(--color-secondary);
+}
+
+.order-state-completed {
+    background-color: var(--color-secondary-dark);
+}
+
+.order-state-received {
+    background-color: var(--color-secondary-alt);
 }

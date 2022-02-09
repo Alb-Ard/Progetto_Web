@@ -17,6 +17,30 @@
         new bootstrap.Modal($("#delete-modal")).show();
     }
 
+    function getOrderStateGraphic(currentState) {
+        const states = ["WAITING", "SENT", "RECEIVED"];
+        const currentIdx = states.indexOf(currentState);
+        let statesGraphic = "";
+        for (let stateIdx in states) {
+            const state = states[stateIdx];
+            const colorClass = `order-state-${currentState == "RECEIVED" ? "received" : (stateIdx <= currentIdx ? "completed" : "incompleted")}`;
+            if (stateIdx != 0) {
+                statesGraphic += `<div class="rounded-pill mx-1 my-auto h-25 ${colorClass} p-1 col"></div>`;
+            }
+            statesGraphic += `<div class="rounded-pill order-state ${colorClass} col-auto"></div>`;
+        }
+        const labels = ["Preparing shipment", "Delivering", "Delivered"];
+        const labelClasses = ["start", "center", "end"]
+        return `<section>
+                    <header>
+                        <h4 class="text-center text-md-${labelClasses[currentIdx]} p-0 mx-0 h5">${labels[currentIdx]}</h4>
+                    </header>
+                    <div class="m-0 row justify-content-center">
+                        ${statesGraphic}
+                    </div>
+                </section>`;
+    }
+
     function updateOrders() {
         $.post("./apis/orders_api.php", { "action": "get_purchased" }, (result) => {
             if (result) {
@@ -29,21 +53,27 @@
                 }
                 for(let idx in orders) { 
                     const order = orders[idx];
-                    const orderItem = $(`<li class="card shadow m-3" id="book-${order["id"]}">
+                    const orderItem = $(`<li class="card shadow m-3 w-100" id="book-${order["id"]}">
                                             <header class="card-header">
                                                 <h3 class="card-title">${order["title"]}</h3>
                                             </header>
-                                            <img class="book-cover m-3" src="${order["image"]}" alt="${order["title"]} cover image"/>
-                                            <p class="card-text mx-3">Price: ${order["price"]}€</p>
-                                            <p class="card-text mx-3">${orderTexts[order["advancement"]]}</p>
-                                            <p class="card-text mx-3">Purchased from: ${order["owner"]}</p>
-                                            <button id="book-${order["id"]}-delete-button" class="btn btn-danger mx-3 mb-3" onclick="onDeleteRequest(${order["id"]})">Cancel order</button>
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-12 col-sm-3">
+                                                        <img class="img-fluid mx-auto" src="${order["image"]}" alt="${order["title"]} cover image"/>
+                                                    </div>
+                                                    <div class="col-12 col-sm-9 col-lg-3 text-center text-sm-start my-3 my-md-auto">
+                                                        <p class="card-text">Price: ${order["price"]}€</p>
+                                                        <p class="card-text">Purchased from: ${order["owner"]}</p>
+                                                    </div>
+                                                    <div class="col-12 col-lg-6 my-3 my-md-auto">
+                                                        ${getOrderStateGraphic(order["advancement"])}
+                                                    </div>
+                                                    ${order["advancement"] != "RECEIVED" ? `<button class="btn btn-danger mb-3 float-end" onclick="onDeleteRequest(${order["id"]})">Cancel order</button>` : ""}
+                                                </div>
+                                            </div>
                                         </li>`);
                     ordersList.append(orderItem);
-
-                    if (order["advancement"] == "RECEIVED") {
-                        $(`#book-${order["id"]}-delete-button`).addClass("disabled");
-                    }
                 }
                 const urlParts = window.location.href.split("#");
                 if (urlParts.length > 1) {
