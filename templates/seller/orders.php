@@ -20,12 +20,17 @@
     function updateOrders() {
         $.post("./apis/orders_api.php", { "action": "get" }, (result) => {
             if (result) {
+                $("#error-internal").slideUp();
                 const ordersList = $("#orders-list");
                 const orders = JSON.parse(result);
                 ordersList.children().remove();
+                if (orders.length < 1) {
+                    ordersList.after($(`<p class="text-center h5">You don't have any orders</p>`));
+                    return;
+                }
                 for(let idx in orders) { 
                     const order = orders[idx];
-                    const orderItem = $(`<li class="card shadow m-3" id="${order["id"]}">
+                    const orderItem = $(`<li class="card card-no-hover shadow m-3" id="${order["id"]}">
                                             <header class="card-header">
                                                 <h3 class="card-title">${order["title"]}</h3>
                                             </header>
@@ -36,6 +41,8 @@
                                         </li>`);
                     ordersList.append(orderItem);
                 }
+            } else {
+                $("#error-internal").slideDown();
             }
         });
     }

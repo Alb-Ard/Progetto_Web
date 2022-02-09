@@ -29,13 +29,19 @@
 </aside>
 
 <section>
+    <header>
+        <h2 class="text-center">Your active listings:</h2>
+    </header>
     <ul class="d-flex flex-wrap justify-content-center m-3 p-0">
         <?php
         
         $listings = $db_conn->get_books()->get_user_books($user_info["email"]);
+        $active_count = 0;
 
         foreach($listings as $listing) { 
-            if ($listing->available != BOOK_SOLD) { ?>
+            if ($listing->available != BOOK_SOLD) {
+                $active_count++;
+                ?>
                 <li class="card shadow m-3" id="<?php echo $listing->id; ?>">
                     <header class="card-header">
                         <h3 class="card-title"><?php echo $listing->title; ?></h3>
@@ -46,7 +52,7 @@
                             <a class="w-100 black-link stretched-link" href="./seller_edit.php?id=<?php echo $listing->id; ?>">Edit listing</a>
                         </li>
                         <li class="btn btn-danger">
-                            <a class="w-100 black-link stretched-link" href="#" data-bs-toggle="modal" data-bs-target="#delete-modal" data-bs-id="<?php echo $listing->id; ?>">Delete listing</a>
+                            <a class="w-100 black-link" href="#" data-bs-toggle="modal" data-bs-target="#delete-modal" data-bs-id="<?php echo $listing->id; ?>">Delete listing</a>
                         </li>
                     </ul>
                 </li>
@@ -55,4 +61,11 @@
 
         ?>
     </ul>
+    <?php 
+    
+    if ($active_count < 1) { ?>
+        <p class="text-center h5">You don't have any active listing</p>
+    <?php }
+    
+    ?>
 </section>

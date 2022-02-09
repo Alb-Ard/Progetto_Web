@@ -16,7 +16,7 @@
         $other_category;
 
         foreach ($categories as $category) { 
-            if ($category["id"] != 0) { ?>
+            if (strtolower($category["name"]) != "other") { ?>
                 <li class="card shadow home-category flex-fill">
                     <a class="black-link stretched-link" href='./category.php?id=<?php echo $category["id"]; ?>&name=<?php echo $category["name"]; ?>&order=0&page=0'><?php echo $category["name"]; ?></a>
                 </li>

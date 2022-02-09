@@ -172,6 +172,10 @@ html, body, main {
     transform: scale(1.02);
 }
 
+.card-no-hover:hover {
+    transform: scale(1) !important;
+}
+
 .card-disabled {
     opacity: 0.75;
 }

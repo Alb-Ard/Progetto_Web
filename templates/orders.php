@@ -53,12 +53,12 @@
                 }
                 for(let idx in orders) { 
                     const order = orders[idx];
-                    const orderItem = $(`<li class="card shadow m-3 w-100" id="book-${order["id"]}">
+                    const orderItem = $(`<li class="card card-no-hover shadow m-3 w-100" id="book-${order["id"]}">
                                             <header class="card-header">
                                                 <h3 class="card-title">${order["title"]}</h3>
                                             </header>
                                             <div class="card-body">
-                                                <div class="row">
+                                                <div class="row mb-3">
                                                     <div class="col-12 col-sm-3">
                                                         <img class="img-fluid mx-auto" src="${order["image"]}" alt="${order["title"]} cover image"/>
                                                     </div>
@@ -71,11 +71,11 @@
                                                             <p class="m-0 mb-1 p-0">Purchased from: ${order["owner"]}</p>
                                                         </div>
                                                     </section>
-                                                    <div class="col-12 col-lg-6 my-3 my-md-auto">
+                                                    <div class="col-12 col-lg-6 mt-3 my-md-auto">
                                                         ${getOrderStateGraphic(order["advancement"])}
                                                     </div>
-                                                    ${order["advancement"] != "RECEIVED" ? `<button class="btn btn-danger mb-3 float-end" onclick="onDeleteRequest(${order["id"]})">Cancel order</button>` : ""}
                                                 </div>
+                                                ${order["advancement"] != "RECEIVED" ? `<button class="btn btn-danger align-bottom w-100" onclick="onDeleteRequest(${order["id"]})">Cancel order</button>` : ""}
                                             </div>
                                         </li>`);
                     ordersList.append(orderItem);

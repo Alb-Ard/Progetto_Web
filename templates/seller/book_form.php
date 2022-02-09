@@ -9,7 +9,6 @@
     </label>
     <label class="col-12 col-md-6 justify-content-center form-label px-2 mb-4" for="category">Category:
         <select class="form-select mt-1" aria-label="category" id="category" name="category">
-            <option value="NULL"<?php if($book->category == NULL) echo " selected"; ?>>Other</option>
             <?php
             
             $categories = $db_conn->get_categories()->get_categories();
