@@ -63,12 +63,17 @@ try {
                 return;
             }
             $payment_id = $_POST["card"];
-            $order = $db_conn->get_orders()->add_order(get_client_info()["email"], $payment_id, 1);
+            $card = $db_conn->get_payment_methods->get_card($payment_id);
+            if($card->$user_id!=get_client_info()["email"]){
+                echo false;
+                return;
+            }
+            echo json_encode($order = $db_conn->get_orders()->add_order(get_client_info()["email"], $payment_id, 1));
             $books = $db_conn->get_carted_books()->get_carted_books(get_client_info()["email"]);
             if($order>-1){
                 foreach($books as $book){
-                    $db_conn->get_orders()->add_ordered_book($order, $book->id, "waiting");
-                    //TODO PAGAMENTI E DATA
+                    echo json_encode($db_conn->get_orders()->add_ordered_book($order, $book->id, "waiting"));
+                    //TODO DATA
                     //$db_conn->get_carted_books()->remove_book_to_cart(get_client_info()["email"], $book->id);
                     $owner = $book->user_email;
                     $db_conn->get_notifications()->add(get_client_info()["email"], $owner, $order, $book->id, "WAITING");
