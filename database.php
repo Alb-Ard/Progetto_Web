@@ -452,7 +452,7 @@ class orders_table{
         return $query->execute() && $query->affected_rows > 0;
     }
     public function add_order(string $user_email, int $payment_id, int $address_id) : int {
-        $query = create_statement($this->conn, "INSERT INTO orders (user_id, payment_id, address_id, date) VALUES (?, ?, 1, 0)");
+        $query = create_statement($this->conn, "INSERT INTO orders (user_id, payment_id, address_id) VALUES (?, ?, 1)");
         $query->bind_param("si", $user_email, $payment_id);
         return $query->execute() && $query->affected_rows > 0 ? $this->conn->insert_id : -1;
     }
