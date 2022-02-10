@@ -52,6 +52,8 @@
             <div class="m-3">
                 <?php include_once($template_args[PAGE_BODY]); ?>
             </div>
+            
+            <?php include_once("./templates/cookies_alert.php"); ?>
 
             <?php include_once("./templates/page_footer.php"); ?>
         </main>

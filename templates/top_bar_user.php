@@ -15,6 +15,25 @@ function print_user_avatar() {
     <?php } 
 }
 
+function get_encoded_request_uri() {
+    return urlencode($_SERVER["REQUEST_URI"]);
+}
+
+function print_menu_item(string $href, string $text, string $onclick = null, string $img_src = null) { ?>
+    <li class="top-bar-user-menu-item">
+        <div class="row m-0 g-0">
+            <?php
+            
+            if ($img_src != null) { ?>
+                <img class="col-3 img-fluid my-auto" src="<?php echo $img_src; ?>" alt=""/>
+            <?php }
+
+            ?>
+            <a class="col black-link stretched-link" href="<?php echo $href ?>" <?php if ($onclick != null) { ?> onclick="<?php echo $onclick; ?>" <?php } ?>><?php echo $text; ?></a>
+        </div>
+    </li>
+<?php }
+
 if ($show_user_info) { ?>
     <div class="col position-relative">
         <img class="top-bar-icon mb-1" src="./imgs/notifications.png" alt="unread notifications: <?php echo $unseen_notifications_count; ?>"/>
@@ -34,16 +53,19 @@ if ($show_user_info) { ?>
                 <?php print_user_avatar(); ?>
             </div>
             <ul class="dropdown-menu top-bar-user-menu" id="user-menu"><?php
-                if (!is_user_logged()) { ?>
-                    <li class="top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="./login.php?from=<?php echo $_SERVER["REQUEST_URI"]; ?>">Login</a></li>
-                    <li class="top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="./register.php?from=<?php echo $_SERVER["REQUEST_URI"]; ?>">Register</a></li>
-                <?php } else { ?> 
-                    <li class="top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="./cart.php">Cart</a></li>
-                    <li class="top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="./orders.php">Orders</a></li>
-                    <li class="top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="./user.php">Profile</a></li>
-                    <li class="top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="#" onclick="onLogout();">Logout</a></li>
-                    <li><hr class="dropdown-divider"/></li>
-                    <li class="top-bar-user-menu-item"><a class="black-link text-nowrap stretched-link" href="./seller_dashboard.php">Seller's dashboard</a></li>
+                if (!is_user_logged()) { 
+                    print_menu_item("./login.php?from=" . get_encoded_request_uri(), "Login", null, null);
+                    print_menu_item("./register.php?from=" . get_encoded_request_uri(), "Register", null, null);
+                } else { 
+                    print_menu_item("./cart.php", "Cart", null, "./imgs/shopping-cart.png");
+                    print_menu_item("./orders.php", "Orders", null, "./imgs/archive.png");
+                    print_menu_item("./user.php", "Profile", null, "./imgs/user_icon.png");
+                    print_menu_item("#", "Logout", "onLogout();", "./imgs/return.png");
+                    ?>
+                    <li><hr class="dropdown-divider my-0"/></li>
+                    <?php 
+                    print_menu_item("./seller_dashboard.php", "Seller's dashboard", null, "./imgs/seller_icon.png");
+                    ?>
                 <?php }
             ?></ul>
         </div>

@@ -52,6 +52,7 @@ $user_info = get_client_info();
             </div>
 
             <?php include_once("./templates/page_footer.php"); ?>
+            <?php include_once("./templates/cookies_alert.php"); ?>
         </main>
 
         <aside class="modal fade" id="completed-modal" tabindex="-1">
