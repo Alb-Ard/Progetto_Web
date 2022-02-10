@@ -2,7 +2,7 @@
     function onAddOrder() {
         const data = {
             "action": "add",
-            "card": $_GET["card"],
+            "card": <?php echo $_GET["card"]; ?>,
         };
         $("#confirm-button").attr("disabled");
         $.post("./apis/orders_api.php", data, (result) => {
