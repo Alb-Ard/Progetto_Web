@@ -64,7 +64,7 @@
     <header class="row">
         <h2 class="col text-center">Your cart</h2>
     </header>
-    <ul id="book-list" class="m-0 p-0 d-flex flex-wrap justify-content-between">
+    <ul id="book-list" class="m-0 p-0 d-flex flex-wrap justify-content-center">
     </ul>
 </section>
 <aside id="advance-section" class="row m-0 p-0 justify-content-center">

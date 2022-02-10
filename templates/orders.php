@@ -55,7 +55,10 @@
                     const order = orders[idx];
                     const orderItem = $(`<li class="card card-no-hover shadow m-3 w-100" id="book-${order["id"]}">
                                             <header class="card-header">
-                                                <h3 class="card-title">${order["title"]}</h3>
+                                                <div class="row">
+                                                    <h3 class="card-title col-lg">${order["title"]}</h3>
+                                                    <p class="col-12 col-lg-auto my-auto">${getReadableTimestamp(order["date"])}</p>
+                                                </div>
                                             </header>
                                             <div class="card-body">
                                                 <div class="row mb-3">

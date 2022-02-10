@@ -5,7 +5,7 @@
             $("#cks-banner").fadeOut("fast");
         }
     </script>
-    <aside id="cks-banner" class="fixed-bottom rounded shadow m-3 p-3 border">
+    <aside id="cks-banner" class="fixed-bottom rounded shadow m-3 p-3 border bg-light">
         <p>This website uses cookies for technical purposes only, and no personal data is collected or stored for use.</p>
         <p>By closing this panel or continuing on the site you agree to the use of cookies.</p>
         <nav>

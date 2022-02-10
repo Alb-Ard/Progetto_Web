@@ -464,7 +464,7 @@ class orders_table{
     }
 
     public function get_orders(string $user_id) : array{
-        $query = create_statement($this->conn, "SELECT * FROM books, ordered_books, orders WHERE orders.user_id = ? AND books.id = ordered_books.book_id AND ordered_books.order_id = orders.order_id ORDER BY orders.date ASC, orders.order_id");
+        $query = create_statement($this->conn, "SELECT * FROM books, ordered_books, orders WHERE orders.user_id = ? AND books.id = ordered_books.book_id AND ordered_books.order_id = orders.order_id ORDER BY orders.date DESC, orders.order_id DESC");
         $query->bind_param("s", $user_id);
         if(!$query->execute())
             return [];
