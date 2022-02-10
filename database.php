@@ -483,12 +483,17 @@ class orders_table{
     }
 
     public function get_book_order(int $book_id) : array {
-        $query = create_statement($this->conn, "SELECT * FROM order, ordered_books WHERE  ordered_books.book_id = ? AND orders.order_id = ordered_books.order_id");
+        $query = create_statement($this->conn, "SELECT * FROM orders, ordered_books WHERE  ordered_books.book_id = ? AND orders.order_id = ordered_books.order_id");
         $query->bind_param("i", $book_id);
-        if(!$query->execute())
+        if(!$query->execute()) {
             return [];
+        }
+        $orders = $query->get_result()->fetch_all(MYSQLI_ASSOC);
+        if(count($orders) == 0) {
+            return [];
+        }
         
-        return $query->get_result()->fetch_all(MYSQLI_ASSOC);
+        return $orders[0];
     }
 
     public function cancel_order(int $order_id, int $book_id) : bool {
@@ -500,7 +505,7 @@ class orders_table{
 
         $query = create_statement($this->conn, "SELECT COUNT(*) FROM ordered_books WHERE order_id = ?");
         $query->bind_param("i", $order_id);
-        if ($query->execute() && $query->get_result()->fetch_all(MYSQLI_NUM)[0] == 0) {
+        if ($query->execute() && $query->get_result()->fetch_all(MYSQLI_NUM)[0][0] < 1) {
             $query = create_statement($this->conn, "DELETE FROM orders WHERE order_id = ?");
             $query->bind_param("i", $order_id);
             $query->execute();

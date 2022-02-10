@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Feb 10, 2022 alle 21:47
+-- Creato il: Feb 10, 2022 alle 23:48
 -- Versione del server: 10.4.14-MariaDB
 -- Versione PHP: 7.4.11
 
@@ -150,6 +150,11 @@ DELIMITER $$
 CREATE TRIGGER `remove_soldbooksfromcart` AFTER INSERT ON `ordered_books` FOR EACH ROW DELETE FROM carted_books WHERE book_id = NEW.book_id
 $$
 DELIMITER ;
+DROP TRIGGER IF EXISTS `set_book_available_after_order_cancel`;
+DELIMITER $$
+CREATE TRIGGER `set_book_available_after_order_cancel` AFTER DELETE ON `ordered_books` FOR EACH ROW UPDATE books SET books.available = 'FREE' WHERE books.id = OLD.book_id
+$$
+DELIMITER ;
 DROP TRIGGER IF EXISTS `set_book_sold`;
 DELIMITER $$
 CREATE TRIGGER `set_book_sold` AFTER INSERT ON `ordered_books` FOR EACH ROW UPDATE books SET available = 'SOLD' WHERE id = NEW.book_id
@@ -183,7 +188,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
 
 DROP TABLE IF EXISTS `payment_methods`;
 CREATE TABLE IF NOT EXISTS `payment_methods` (
-  `payment_id` int(11) NOT NULL AUTO_INCREMENT,
+  `payment_id` int(11) NOT NULL,
   `user_id` varchar(64) NOT NULL,
   `type` varchar(32) NOT NULL,
   `number` int(11) NOT NULL,

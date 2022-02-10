@@ -44,18 +44,20 @@ try {
                 return;
             }
             $book = $_POST["book_id"];
-            $order = $db_conn->get_orders()->get_book_order($book);
-            $client = $db_conn->get_orders()->get_order_client($order, $book);
-            if (count($order) < 1) {
+            $order_info = $db_conn->get_orders()->get_book_order($book);
+            if (count($order_info) < 1) {
                 echo false;
                 return;
             }
-            if ($db_conn->get_orders()->cancel_order($order, $book)) {
+            $order = $order_info["order_id"];
+            $client = $db_conn->get_orders()->get_order_client($order, $book);
+            if (!$db_conn->get_orders()->cancel_order($order, $book)) {
                 echo false;
                 return;
             }
             $db_conn->get_notifications()->add($client, get_client_info()["email"], $order, $book, "CANCELED");
             $db_conn->get_notifications()->add(get_client_info()["email"], $client, $order, $book, "CANCELED");
+            echo true;
             break;
         case "add":
             if (!isset($_POST["card"])) {
@@ -80,7 +82,7 @@ try {
                     //TODO DATA
                     //$db_conn->get_carted_books()->remove_book_to_cart(get_client_info()["email"], $book->id);
                     $owner = $book->user_email;
-                    $db_conn->get_notifications()->add(get_client_info()["email"], $owner, $order, $book->id, "WAITING");
+                    $db_conn->get_notifications()->add($owner, get_client_info()["email"], $order, $book->id, "WAITING");
                 }
             }
             break;

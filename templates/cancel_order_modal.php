@@ -6,14 +6,17 @@
             "book_id": book,
         };
 
+        $("error-internal").hide();
         $.post("./apis/orders_api.php", data, (result) => {
             if (result) {
-                $("#book-" + book).fadeOut("fast", () => { $("#book-" + id).remove(); });
+                $("#book-" + book).fadeOut("fast", () => { $("#book-" + book).remove(); });
+            } else {
+                $("error-internal").slideDown("fast");
             }
         });
     }
 </script>
-<div class="modal fade" id="delete-modal" tabindex="-1">
+<aside class="modal fade" id="delete-modal" tabindex="-1">
     <div class="modal-dialog">
         <section class="modal-content">
             <header class="modal-header">
@@ -25,8 +28,8 @@
             </div>
             <footer class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger" onclick="onDelete(currentDeletingOrderBook);" data-bs-dismiss="modal">Delete</button>
+                <button type="button" class="btn btn-danger" onclick="onDelete(currentDeletingOrder);" data-bs-dismiss="modal">Delete</button>
             </footer>
         </section>
     </div>
-</div>
+</aside>
