@@ -351,7 +351,8 @@ class payment_methods_table{
     }
     public function add_card(payment_data $card) : bool {
         $query = create_statement($this->conn, "INSERT INTO payment_methods (user_id, type, number, cvv, date) VALUES (?, ?, ?, ?, ?)");
-        $query->bind_param("ssiis", $card->user_id, $card->type, $card->number, $card->cvv, $card->date);
+        $insertdate = date("Y-m-d", strtotime($card->date . "-01"));
+        $query->bind_param("ssiis", $card->user_id, $card->type, $card->number, $card->cvv, $insertdate);
         return $query->execute() && $query->affected_rows > 0;
     }
 
