@@ -36,7 +36,7 @@
                                             </header>
                                             <p class="card-text mx-3 mt-3">Price: ${order["price"]}€</p>
                                             <p class="card-text mx-3">Purchased by: ${order["user_id"]}</p>
-                                            <p class="card-text mx-3">${getReadableTimestamp(order["date"])}</p>
+                                            <p class="card-text mx-3">Date of purchase: ${getReadableTimestamp(order["date"])}</p>
                                             <p class="card-text mx-3">Current state: ${order["advancement"]}</p>
                                             <button class="btn button-secondary mx-3 mb-3" onclick="onChangeState(${order["id"]}, ${order["order_id"]}, '${order["advancement"]}');" ${order["advancement"] == "RECEIVED" ? " disabled" : ""}>Advance state</button>
                                         </li>`);
