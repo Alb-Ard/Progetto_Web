@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Feb 09, 2022 alle 00:19
+-- Creato il: Feb 09, 2022 alle 20:37
 -- Versione del server: 10.4.14-MariaDB
 -- Versione PHP: 7.4.11
 
@@ -168,7 +168,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `order_id` int(11) NOT NULL AUTO_INCREMENT,
   `payment_id` int(11) NOT NULL,
   `address_id` int(11) NOT NULL,
-  `date` date NOT NULL,
+  `date` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`order_id`),
   KEY `payment_id` (`payment_id`),
   KEY `address_id` (`address_id`),
