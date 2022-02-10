@@ -356,9 +356,9 @@ class payment_methods_table{
         return $query->execute() && $query->affected_rows > 0;
     }
 
-    public function remove_card(string $user_email, payment_data $card) : bool {
+    public function remove_card(string $user_email, int $card) : bool {
         $query = create_statement($this->conn, "DELETE FROM payment_methods WHERE user_id = ? AND payment_id = ?");
-        $query->bind_param("si", $user_email, $card->$payment_id);
+        $query->bind_param("si", $user_email, $card);
         return $query->execute() && $query->affected_rows > 0;
     }
 
