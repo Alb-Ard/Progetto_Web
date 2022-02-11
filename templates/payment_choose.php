@@ -28,18 +28,17 @@ function onRemoveCard(id) {
         <?php } else {
             foreach($payment_methods as $card) { ?>
                 <li class="col-5 col-md-1 row position-relative category-list-book">
-                    <header>
-                        <h3 class="col-12">
-                            <a class="stretched-link black-link" href="./order.php?card=<?php echo $card->payment_id; ?>"><?php echo $card->type; ?></a>
+                    <header class="card-header">
+                        <h3 class="card-title">
+                            <a class="black-link" href="./order.php?card=<?php echo $card->payment_id; ?>"><?php echo $card->type; ?></a>
                         </h3>
                         <img class="col-12" src="./imgs/credit-card.png" alt="<?php echo $card->number; ?> image">
-                    </header>
-
+                    
                     <p class="col-12"><?php echo $card->number ?></p>
+                    </header>
+                <button class="btn btn-danger" onclick=onRemoveCard(<?php echo $card->payment_id?>)>Remove</button>
                 </li>
-                <li class="col-5 col-md-1 row position-relative category-list-book">
-                <button onclick=onRemoveCard(<?php echo $card->payment_id?>)>Remove</button>
-                </li>
+                
             <?php }
         }
         
@@ -52,7 +51,7 @@ function onRemoveCard(id) {
             "type": $("#type").val(),
             "number": $("#number").val(),
             "cvv": $("#cvv").val(),
-            "date": $("#date").val(),
+            "date": $("#year").val()+'-'+$("#month").val(),
         };
         $("#confirm-button").attr("disabled");
         $.post("./apis/cards_api.php", data, (result) => {

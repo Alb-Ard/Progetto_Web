@@ -8,6 +8,8 @@ function create_card_from_data(array $data): ?payment_data {
         return NULL;
     if (!is_numeric($data["number"]) || !is_numeric($data["cvv"]))
         return NULL;
+    if (strlen((string)$data["number"])!=16 || strlen((string)$data["cvv"])!=3)
+        return NULL;
 
     $card = new payment_data();
     $card->user_id = get_client_info()["email"];
