@@ -88,6 +88,7 @@ try {
                     }
                 }
             }
+            echo true;
             break;
     }
 } catch(exception $e) {
