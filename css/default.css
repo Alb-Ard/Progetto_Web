@@ -14,6 +14,14 @@ html, body, main {
     padding: 0 !important;
 }
 
+html {
+    height: 100vh;
+}
+
+body, main {
+    min-height: 100vh;
+}
+
 .home-category {
     list-style-type: none;
     list-style-position: inside;
@@ -108,6 +116,7 @@ html, body, main {
 .bottom-bar {
     background-color: var(--color-primary-alt);
     padding: 1em;
+    margin: auto 0 0 0;
 }
 
 .bottom-bar-link-section {

@@ -26,7 +26,7 @@ $user_info = get_client_info();
         <link rel="stylesheet" type="text/css" href="./css/default.css" />
     </head>
     <body class="container-fluid">
-        <main>
+        <main class="d-flex flex-column">
             <!-- MAIN HEADER -->
             <header class="top-bar shadow">
                 <section class="m-0 p-0 mb-3">
@@ -35,14 +35,25 @@ $user_info = get_client_info();
                     <p class="h5 mx-2 mx-sm-3"><?php echo $user_info["email"]?></p>
                 </section>
                 <!-- NAVBAR -->
+                <?php
+                
+                $unseen_notifications_count = $db_conn->get_notifications()->get_user_unseen_count(get_client_info()["email"]);
+                
+                ?>
                 <nav class="navbar navbar-expand-sm">
                     <div class="container-fluid">
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#seller-top-bar" aria-controls="seller-top-bar" aria-expanded="false" aria-label="Toggle menu">Menu</button>
+                        <button class="navbar-toggler w-100" type="button" data-bs-toggle="collapse" data-bs-target="#seller-top-bar" aria-controls="seller-top-bar" aria-expanded="false" aria-label="Toggle menu">
+                            Menu
+                            <?php if ($unseen_notifications_count > 0) { ?>
+                                <span class="rounded-pill top-bar-notification-badge-unseen px-3 mx-2"><?php echo $unseen_notifications_count; ?></span>
+                            <?php } ?>
+                        </button>
                         <ul id="seller-top-bar" class="navbar-nav collapse navbar-collapse top-bar-seller-menu">
                             <li class="top-bar-seller-menu-item"><a class="black-link stretched-link" href="./">Back to home</a></li>
                             <li class="top-bar-seller-menu-item"><a class="black-link stretched-link" href="./seller_dashboard.php">Current listings</a></li>
                             <li class="top-bar-seller-menu-item"><a class="black-link stretched-link" href="./seller_orders.php">Current orders</a></li>
                             <li class="top-bar-seller-menu-item"><a class="black-link stretched-link" href="./seller_add_book.php">List new book</a></li>
+                            <li class="top-bar-seller-menu-item"><a class="black-link stretched-link" href="./seller_notifications.php">Notifications (<?php echo $unseen_notifications_count; ?>)</a>
                         </ul>
                     </div>
                 </nav>

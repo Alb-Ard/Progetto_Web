@@ -1,4 +1,5 @@
-<footer class="bottom-bar text-center text-sm-start">
+<div class="flex-grow-1 flex-shrink-1 align-self-stretch"></div>
+<footer class="bottom-bar text-center text-sm-start justify-content-start">
     <section class="bottom-bar-link-section">
         <header>
             <h2 class="h5">Client links</h2>
@@ -24,7 +25,7 @@
             </ul>
         </nav>
     </section>
-    <section class="bottom-bar-link-section float-end">
+    <section class="bottom-bar-link-section">
         <header>
             <h2 class="h5">Legal</h2>
         </header>

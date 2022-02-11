@@ -22,7 +22,7 @@
         </script>
     </head>
     <body class="container-fluid">
-        <main>
+        <main class="d-flex flex-column">
             <header class="top-bar shadow m-0 p-3">
                 <nav>
                     <div class="row align-items-center justify-content-around mb-3">
@@ -34,7 +34,7 @@
                         <div class="col-12 col-sm-auto">
                             <div class="row justify-content-end">
                                 <?php include_once("./templates/top_bar_user.php"); ?>
-                           </div>
+                            </div>
                         </div>
                     </div>
                     <div class="row top-bar-search">
