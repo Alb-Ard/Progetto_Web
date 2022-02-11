@@ -6,6 +6,8 @@ if (!is_user_logged()) {
     return;
 }
 
+$user_info = get_client_info();
+
 
 ?>
 <!DOCTYPE html>
