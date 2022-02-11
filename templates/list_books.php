@@ -25,14 +25,21 @@ if (isset($show_order) && $show_order && $books_count > 0) { ?>
 ?>
 <section class="row">
     <?php
-        
-    if (count($books) == 0) { ?>
+    
+		$available_books = [];
+		foreach($books as $book) {
+			if ($book->available != BOOK_SOLD) {
+				array_push($available_books, $book);
+			}
+		}
+		
+    if (count($available_books) == 0) { ?>
         <header class="col text-center">
             <h3>No books found!</h3>
         </header>
     <?php } else { ?>
         <ul class="p-3 d-flex flex-wrap justify-content-center" id="book-list"> <?php
-            foreach($books as $book) { 
+            foreach($available_books as $book) { 
                 if ($book->available != BOOK_SOLD) { ?>
                     <li class="card shadow m-3">
                         <header class="card-header">
