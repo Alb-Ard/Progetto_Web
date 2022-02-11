@@ -1,10 +1,11 @@
 <?php 
 
 if (!is_user_logged()) {
-    die("Error loggin in, please go back to the home page and retry.");
+    $template_args[PAGE_REQUIRE_LOGIN] = true;
+    include_once("./login.php");
+    return;
 }
 
-$user_info = get_client_info();
 
 ?>
 <!DOCTYPE html>
@@ -60,7 +61,11 @@ $user_info = get_client_info();
             </header>    
 
             <div class="m-3">
-                <?php include_once($template_args[PAGE_BODY]); ?>
+                <?php
+                
+                include_once($template_args[PAGE_BODY]);
+
+                ?>
             </div>
 
             <?php include_once("./templates/page_footer.php"); ?>

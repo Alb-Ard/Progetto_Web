@@ -1,6 +1,7 @@
 <?php 
 
 include_once("./users_consts.php"); 
+$require_login = isset($template_args[PAGE_REQUIRE_LOGIN]) && $template_args[PAGE_REQUIRE_LOGIN] && !is_user_logged();
 
 ?>
 <script type="text/javascript">
@@ -8,6 +9,7 @@ include_once("./users_consts.php");
         $("#error-ko").hide();
         $("#error-internal").hide();
         $("#error-missing-fields").hide();
+        $("#error-needs_login").hide();
 
         const email = $("input#email").val();
         const password = $("input#psw").val();
@@ -21,9 +23,8 @@ include_once("./users_consts.php");
         button.attr("disabled");
         tryLogin(email, password, (result) => {
             if (result == Result.Ok){
-                window.location.href = "<?php echo $_GET["from"]; ?>";
-                }
-            else {
+                window.location.href = "<?php echo isset($_GET["from"]) ? $_GET["from"] : "./index.php"; ?>";
+            } else {
                 button.removeAttr("disabled");
                 switch(result) {
                     case Result.Ko:
@@ -42,6 +43,7 @@ include_once("./users_consts.php");
 </script>
 
 <aside>
+    <p id="error-require-login" class="row col-12 col-md-6 offset-md-3 alert alert-danger <?php if (!$require_login) { echo "login-alert"; } ?>" role="alert">This page requires you to login or register.</p>
     <p id="error-missing-fields" class="row col-12 col-md-6 offset-md-3 alert alert-danger login-alert" role="alert">Some of the required fields are invalid. Please check them and try again.</p>
     <p id="error-internal" class="row col-12 col-md-6 offset-md-3 alert alert-danger login-alert" role="alert">Something went wrong! Please try again.</p>
     <p id="error-ko" class="row col-12 col-md-6 offset-md-3 alert alert-danger login-alert" role="alert">Error! Please make sure you're registered and that your credentials are valid.</p>

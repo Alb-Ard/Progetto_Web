@@ -1,12 +1,3 @@
-<?php
-
-$user_info = get_client_info();
-
-if (count($user_info) == 0)
-    die ("Error getting user info");
-
-?>
-
 <script type="text/javascript">
     $(document).ready(() => {
         $.post("./apis/books_api.php", { "action": "list", "email": "<?php echo $user_info['email']; ?>" }, (result) => {
