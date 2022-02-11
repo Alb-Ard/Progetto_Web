@@ -11,7 +11,7 @@
         <nav>
             <ul class="p-0">
                 <li class="bottom-bar-item d-inline-block me-3"><button class="btn button-primary" onclick="setAcceptedCookies();">I understand, close this panel</button></li>
-                <li class="bottom-bar-item d-inline-block"><a class="btn button-secondary black-link" href="#">Learn more</a></li>
+                <li class="bottom-bar-item d-inline-block"><a class="btn button-secondary black-link" href="./policy/cookies.html">Learn more</a></li>
             </ul>
         </nav>
     </aside>

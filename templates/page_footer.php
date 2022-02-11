@@ -24,4 +24,13 @@
             </ul>
         </nav>
     </section>
+    <section class="bottom-bar-link-section float-end">
+        <header>
+            <h2 class="h5">Legal</h2>
+        </header>
+        <nav>
+            <ul class="p-0">
+                <li class="bottom-bar-item"><a class="bottom-bar-link" href="./policy/cookies.html">Cookies policy</a></li>
+            </ul>
+        </nav>
 </footer>
