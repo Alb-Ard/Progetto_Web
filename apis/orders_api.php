@@ -78,11 +78,14 @@ try {
             $order = $db_conn->get_orders()->add_order(get_client_info()["email"], $payment_id, 1);
             if($order>-1){
                 foreach($books as $book){
-                    echo json_encode($db_conn->get_orders()->add_ordered_book($order, $book->id, "waiting"));
-                    //TODO DATA
-                    //$db_conn->get_carted_books()->remove_book_to_cart(get_client_info()["email"], $book->id);
+                    if ($db_conn->get_orders()->add_ordered_book($order, $book->id, "waiting")){
                     $owner = $book->user_email;
                     $db_conn->get_notifications()->add($owner, get_client_info()["email"], $order, $book->id, "WAITING");
+                    }
+                    else {
+                        echo false;
+                        return;
+                    }
                 }
             }
             break;
