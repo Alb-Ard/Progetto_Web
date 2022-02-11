@@ -36,6 +36,7 @@ function onRemoveCard(id) {
                     </header>
 
                     <p class="col-12"><?php echo $card->number ?></p>
+                    
                 </li>
                 <li class="col-5 col-md-1 row position-relative category-list-book">
                 <button onclick=onRemoveCard(<?php echo $card->payment_id?>)>Remove</button>
@@ -52,7 +53,7 @@ function onRemoveCard(id) {
             "type": $("#type").val(),
             "number": $("#number").val(),
             "cvv": $("#cvv").val(),
-            "date": $("#date").val(),
+            "date": $("#year").val()+'-'+$("#month").val(),
         };
         $("#confirm-button").attr("disabled");
         $.post("./apis/cards_api.php", data, (result) => {
