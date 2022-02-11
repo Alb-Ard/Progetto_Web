@@ -51,7 +51,15 @@
             </header>
             
             <div class="m-3">
-                <?php include_once($template_args[PAGE_BODY]); ?>
+                <?php
+                
+                if (isset($template_args[PAGE_REQUIRE_LOGIN]) && $template_args[PAGE_REQUIRE_LOGIN] && !is_user_logged()) {
+                    include_once("./templates/login.php");
+                } else {
+                    include_once($template_args[PAGE_BODY]);
+                }
+
+                ?>
             </div>
             
             <?php include_once("./templates/cookies_alert.php"); ?>

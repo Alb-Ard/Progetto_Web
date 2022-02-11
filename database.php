@@ -149,7 +149,7 @@ class books_table {
     public function add_book(book_data $book) : int {
         $query = create_statement($this->conn, "INSERT INTO books (title, author, category, state, price, image, owner) VALUES (?, ?, ?, ?, ?, ?, ?)");
         $query->bind_param("ssissss", $book->title, $book->author, $book->category, $book->state, $book->price, $book->image, $book->user_email);
-        return $query->execute() && $query->affected_rows > 0 ? $conn->insert_id : -1;
+        return $query->execute() && $query->affected_rows > 0 ? $this->conn->insert_id : -1;
     }
 
     public function get_user_books(string $user_email) : array {
