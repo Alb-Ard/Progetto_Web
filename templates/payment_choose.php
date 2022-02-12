@@ -32,7 +32,7 @@ function onRemoveCard(id) {
                         <h3 class="card-title">
                             <h2 class="col-12 text-center"><?php echo $card->type; ?></a>
                         </h3>
-                        <img class="col-12 text-center" src="./imgs/credit-card.png" alt="<?php echo $card->number; ?> image">
+                        <img class="col-12 text-center" src="./imgs/credit-card.png" alt="credit card logo">
                     
                     <p class="text-center"><?php echo "** ". substr($card->number, 12) ?></p>
                     </header>
