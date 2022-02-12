@@ -42,7 +42,7 @@
                             <label class="visually-hidden" for="key">Search query</label>
                             <label class="visually-hidden" for="search_confirm">Execute Search</label>
                             <div class="input-group h-100">
-                                <input class="col form-control h-100" type="text" id="key" name="key"/>
+                                <input class="col form-control h-100" type="text" id="key" name="key" placeholder="Search a book title or author..."/>
                                 <input class="col-2 col-md-1 btn button-secondary top-bar-search-icon" type="image" id="search_confirm" src="./imgs/search.png" alt="search book"/>
                             </div>
                         </form>
