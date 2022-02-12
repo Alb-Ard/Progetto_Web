@@ -1,3 +1,9 @@
+<?php
+
+$user_info = get_client_info();
+
+?>
+
 <script type="text/javascript">
     $(document).ready(() => {
         $.post("./apis/books_api.php", { "action": "list", "email": "<?php echo $user_info['email']; ?>" }, (result) => {
