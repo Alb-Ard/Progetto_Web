@@ -41,13 +41,15 @@ if (isset($show_order) && $show_order && $books_count > 0) { ?>
         <ul class="p-3 d-flex flex-wrap justify-content-center" id="book-list"> <?php
             foreach($available_books as $book) { 
                 if ($book->available != BOOK_SOLD) { ?>
-                    <li class="card shadow m-3">
+                    <li class="card shadow m-3 category-book-card">
                         <header class="card-header">
                             <h3 class="text-truncate card-title">
                                 <a class="stretched-link black-link" href="./book.php?id=<?php echo $book->id; ?>"><?php echo $book->title; ?></a>
                             </h3>
                         </header>
-                        <img class="book-cover m-2" src="<?php echo $book->image ?>" alt="<?php echo $book->title; ?> image">
+                        <div class="mx-auto">
+                            <img class="book-cover m-2" src="<?php echo $book->image ?>" alt="<?php echo $book->title; ?> image">
+                        </div>
                         <p class="text-center"><strong><?php echo $book->price ?>€</strong></p>
                     </li>
                 <?php } 

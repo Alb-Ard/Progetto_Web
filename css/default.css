@@ -37,6 +37,10 @@ body, main {
     padding: 0;
 }
 
+.category-book-card {
+    min-width: 20rem;
+}
+
 .book-cover {
     display: block;
     box-sizing: border-box;
@@ -50,7 +54,7 @@ body, main {
 }
 
 .top-bar-icon {
-    max-width: 4em;
+    max-width: 4rem;
     width: 100%;
     height: auto;
     display: block;
@@ -90,7 +94,7 @@ body, main {
     list-style-type: none;
     list-style-position: inside;
     position: relative;
-    padding: 1em;
+    padding: 1rem;
 }
 
 .top-bar-user-menu-item:hover {
@@ -115,12 +119,12 @@ body, main {
 
 .bottom-bar {
     background-color: var(--color-primary-alt);
-    padding: 1em;
+    padding: 1rem;
     margin: auto 0 0 0;
 }
 
 .bottom-bar-link-section {
-    padding: 1em;
+    padding: 1rem;
     display: inline-block;
     vertical-align: top;
 }
@@ -194,8 +198,8 @@ body, main {
 }
 
 .order-state {
-    width: 2em;
-    height: 2em;
+    width: 2rem;
+    height: 2rem;
 }
 
 .order-state-incompleted {
