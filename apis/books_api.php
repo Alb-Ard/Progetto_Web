@@ -119,9 +119,10 @@ try {
                 echo json_encode(false);
                 break;
             }
-            
-            if (file_exists($book->image)) {
-                unlink($book->image);
+
+            $relative_img_path = "." . $book->image;
+            if (file_exists($relative_img_path)) {
+                unlink($relative_img_path);
             }
             echo json_encode($db_conn->get_books()->delete_book($book->id));
             break;
