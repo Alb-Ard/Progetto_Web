@@ -119,8 +119,10 @@ try {
                 echo json_encode(false);
                 break;
             }
-
-            unlink($book->image);
+            
+            if (file_exists($book->image)) {
+                unlink($book->image);
+            }
             echo json_encode($db_conn->get_books()->delete_book($book->id));
             break;
     }
