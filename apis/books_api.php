@@ -84,7 +84,9 @@ try {
                 echo json_encode(false);
                 break;
             }
-            if ($db_conn->get_books()->get_book($_POST["id"])->user_email != get_client_info()["email"]) {
+
+            $old_book = $db_conn->get_books()->get_book($_POST["id"]);
+            if ($old_book->user_email != get_client_info()["email"]) {
                 echo json_encode(false);
                 break;
             }
@@ -101,6 +103,8 @@ try {
                     echo json_encode(false);
                     break;
                 }
+            } else {
+                $book->image = $old_book->image;
             }
 
             echo json_encode($db_conn->get_books()->edit_book($book));
