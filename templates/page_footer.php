@@ -31,7 +31,7 @@
         </header>
         <nav>
             <ul class="p-0">
-                <li class="bottom-bar-item"><a class="bottom-bar-link" href="./policy/cookies.html">Cookies policy</a></li>
+                <li class="bottom-bar-item"><a class="bottom-bar-link" href="./cookies_policy.php">Cookies policy</a></li>
             </ul>
         </nav>
 </footer>
