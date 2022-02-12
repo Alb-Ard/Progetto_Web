@@ -30,12 +30,13 @@ function onRemoveCard(id) {
                 <li class="col-5 col-md-1 row position-relative category-list-book">
                     <header class="card-header">
                         <h3 class="card-title">
-                            <a class="black-link" href="./order.php?card=<?php echo $card->payment_id; ?>"><?php echo $card->type; ?></a>
+                            <h2 class="col-12"><?php echo $card->type; ?></a>
                         </h3>
                         <img class="col-12" src="./imgs/credit-card.png" alt="<?php echo $card->number; ?> image">
                     
                     <p class="col-12"><?php echo $card->number ?></p>
                     </header>
+                <button class="btn button-primary m-0" onclick="window.location.href='./order.php?card=<?php echo $card->payment_id; ?>'">Select</button>
                 <button class="btn btn-danger" onclick=onRemoveCard(<?php echo $card->payment_id?>)>Remove</button>
                 </li>
                 
@@ -65,6 +66,7 @@ function onRemoveCard(id) {
 </script>
 <section>
     <header class="row col text-center">
+        <h2>OR</h2>
         <h2>Add new card</h2>
     </header>
     <section>
