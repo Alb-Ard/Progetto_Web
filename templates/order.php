@@ -1,5 +1,6 @@
 <script type="text/javascript">
     function onAddOrder() {
+        event.preventDefault();
         const data = {
             "action": "add",
             "card": <?php echo $_GET["card"]; ?>,
@@ -73,7 +74,7 @@
             </section>
             <form class="p-0 text-center" method="post" action="#">
                 <p>Total: <strong><?php echo $total; ?>€</strong></p>
-                <input class="w-100 btn button-primary m-0" type="submit" id="confirm-button" onclick="onAddOrder();" value="Confirm"/>
+                <input class="w-100 btn button-primary m-0" type="submit" id="confirm-button" onclick="onAddOrder(event);" value="Confirm"/>
             </form>
         </aside>
     </div>
