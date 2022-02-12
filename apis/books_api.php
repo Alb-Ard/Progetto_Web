@@ -50,8 +50,7 @@ try {
 
     switch($_POST["action"]) {
         case "list":
-            $result = $db_conn->get_books()->get_user_books($_POST["email"]);
-            echo json_encode($result);
+            echo json_encode($db_conn->get_books()->get_user_books($_POST["email"]));
             break;
         case "add":
             if (!is_user_logged() || !isset($_FILES["image"])) {
@@ -114,12 +113,15 @@ try {
                 echo json_encode(false);
                 break;
             }
-            if ($db_conn->get_books()->get_book($_POST["id"])->user_email != get_client_info()["email"]) {
+            
+            $book = $db_conn->get_books()->get_book($_POST["id"]);
+            if ($book->user_email != get_client_info()["email"]) {
                 echo json_encode(false);
                 break;
             }
 
-            echo json_encode($db_conn->get_books()->delete_book($_POST["id"]));
+            unlink($book->image);
+            echo json_encode($db_conn->get_books()->delete_book($book->id));
             break;
     }
 } catch(exception $e) {
