@@ -66,6 +66,9 @@
                         <p><?php echo $card->type; ?></p>
                         <p><?php echo $censored_card_number ?></p>
                     </div>
+                    <div class="col-12">
+                        <a class="btn button-secondary w-100 mb-3" href="./payment_choose.php">Change</a>
+                    </div>
                 </div>
             </section>
             <form class="p-0 text-center" method="post" action="#">
