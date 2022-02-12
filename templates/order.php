@@ -38,11 +38,13 @@
                 foreach($books as $book) { 
                     $total += floatval($book->price);
                     ?>
-                    <li class="card card-no-hover shadow m-3">
+                    <li class="category-book-card card card-no-hover shadow m-3">
                         <header class="card-header">
                             <h3 class="text-truncate card-title"><?php echo $book->title; ?></h3>
                         </header>
+                        <div class="mx-auto">
                         <img class="book-cover m-2" src="<?php echo $book->image ?>" alt="<?php echo $book->title; ?> image"/>
+                        </div>
                         <p class="text-center"><strong><?php echo $book->price ?>€</strong></p>
                     </li>
                     <?php } ?>

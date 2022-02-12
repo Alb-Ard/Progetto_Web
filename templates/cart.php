@@ -26,15 +26,17 @@
                 if (cartedBooks && cartedBooks.length > 0) {
                     for (let idx in cartedBooks) {
                         const book = cartedBooks[idx];
-                        const bookItem = $(`<li id="book-${book["id"]}" class="card shadow m-3">
+                        const bookItem = $(`<li id="book-${book["id"]}" class="category-book-card card shadow m-3">
                                                 <header class="card-header">
                                                     <h3 class="card-title d-inline-block">
                                                         <a class="black-link" href="./book.php?id=${book["id"]}">${book["title"]}</a>
                                                     </h3>
                                                     <button class="p-3 btn btn-close float-end" type="button" onclick="onRemoveBook(${book["id"]});" aria-label="remove book form cart"></button>
                                                 </header>
+                                                <div class="mx-auto">
                                                 <img class="p-3 book-cover" src="${book["image"]}" alt="${book["title"]} cover image"/>
-                                                <p class="p-3">${book["price"]}€</p>
+                                                </div>
+                                                <p class="p-3 text-center">${book["price"]}€</p>
                                             </li>`);
                         booksList.append(bookItem);
                     }
