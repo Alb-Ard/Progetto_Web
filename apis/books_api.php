@@ -20,11 +20,16 @@ function create_book_from_data(array $data): ?book_data {
     return $book;
 }
 
-function add_image_data(book_data $book, string $name) : book_data {
-    $image_type = explode("/", $_FILES[$name]["type"])[1];
+function add_image_data(book_data $book, string $name) : bool {
+    $types = explode("/", $_FILES[$name]["type"]);
+    if (count($types) < 2) {
+        return false;
+    }
 
-    if (!in_array($image_type, [ "jpg", "jpeg", "png", "gif" ]))
-        return NULL;
+    $image_type = $types[1];
+    if (!in_array($image_type, [ "jpg", "jpeg", "png", "gif" ])) {
+        return false;
+    }
 
     if (!file_exists("../imgs/uploads/")) {
         mkdir("../imgs/uploads/");
@@ -33,7 +38,7 @@ function add_image_data(book_data $book, string $name) : book_data {
     $path = "./imgs/uploads/{$book->id}.$image_type";
     file_put_contents(".$path", file_get_contents($_FILES[$name]["tmp_name"]));
     $book->image = $path;
-    return $book;
+    return true;
 }
 
 try {
@@ -67,8 +72,7 @@ try {
             }
 
             $book->id = $new_id;
-            $book = add_image_data($book, "image");
-            if ($book == NULL) {
+            if (!add_image_data($book, "image")) {
                 echo json_encode(false);
                 break;
             }
@@ -80,7 +84,6 @@ try {
                 echo json_encode(false);
                 break;
             }
-
             if ($db_conn->get_books()->get_book($_POST["id"])->user_email != get_client_info()["email"]) {
                 echo json_encode(false);
                 break;
@@ -93,10 +96,8 @@ try {
             }
 
             $book->id = $_POST["id"];
-            if (isset($_FILES["image"]))
-            {
-                $book = add_image_data($book, "image");
-                if ($book == NULL) {
+            if (isset($_FILES["image"]) && $_FILES["image"]["name"] != "") {
+                if (!add_image_data($book, "image")) {
                     echo json_encode(false);
                     break;
                 }

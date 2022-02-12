@@ -1,5 +1,9 @@
 <script type="text/javascript">
-    function onAddBook() {
+    function onAddBook(event) {
+        event.preventDefault();
+        if (!validateBookForm()) {
+            return;
+        }
         $("#confirm-button").attr("disabled");
         $.ajax({
             url: "./apis/books_api.php", 
@@ -17,21 +21,23 @@
         });
     }
 </script>
+
+<aside>
+    <p id="error-internal" class="alert alert-danger login-alert" role="alert">Something went wrong! Check the values and try again.</p>
+</aside>
+
 <section>
-    <header class="row col text-center">
+    <header class="text-center">
         <h2>Add new book</h2>
     </header>
-    <section>
-        <p id="error-internal" class="row col-12 alert alert-danger login-alert" role="alert">Something went wrong! Check the values and try again.</p>
-        <?php 
-        
-        $book = new book_data(); 
-        $on_confirm_value = "Add";
-        $on_confirm_func = "onAddBook();";
-        $action = "add";
-        $image_required = true;
-        include_once("./templates/seller/book_form.php");
-        
-        ?>
-    </section>
+    <?php 
+    
+    $book = new book_data(); 
+    $on_confirm_value = "Add";
+    $on_confirm_func = "onAddBook(event);";
+    $action = "add";
+    $image_required = true;
+    include_once("./templates/seller/book_form.php");
+    
+    ?>
 </section>
