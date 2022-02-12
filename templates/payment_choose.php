@@ -27,14 +27,14 @@ function onRemoveCard(id) {
             <h3>There are no credit cards!</h3>
         <?php } else {
             foreach($payment_methods as $card) { ?>
-                <li class="col-5 col-md-1 row position-relative category-list-book">
-                    <header class="card-header">
+                <li class="col-5 col-md-1 m-1 row position-relative category-list-book">
+                    <header class="card-header center">
                         <h3 class="card-title">
-                            <h2 class="col-12"><?php echo $card->type; ?></a>
+                            <h2 class="col-12 text-center"><?php echo $card->type; ?></a>
                         </h3>
-                        <img class="col-12" src="./imgs/credit-card.png" alt="<?php echo $card->number; ?> image">
+                        <img class="col-12 text-center" src="./imgs/credit-card.png" alt="<?php echo $card->number; ?> image">
                     
-                    <p class="col-12"><?php echo $card->number ?></p>
+                    <p class="text-center"><?php echo "** ". substr($card->number, 12) ?></p>
                     </header>
                 <button class="btn button-primary m-0" onclick="window.location.href='./order.php?card=<?php echo $card->payment_id; ?>'">Select</button>
                 <button class="btn btn-danger" onclick=onRemoveCard(<?php echo $card->payment_id?>)>Remove</button>
