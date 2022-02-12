@@ -53,7 +53,7 @@ try {
             echo json_encode($db_conn->get_books()->get_user_books($_POST["email"]));
             break;
         case "add":
-            if (!is_user_logged() || !isset($_FILES["image"])) {
+            if (!is_user_logged() || !isset($_FILES["image"]) || $_FILES["image"]["name"] != "") {
                 echo json_encode(false);
                 break;
             }
